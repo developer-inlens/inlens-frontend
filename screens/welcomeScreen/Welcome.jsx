@@ -1,7 +1,6 @@
 import React from 'react'
 import { View, Text, Image, TouchableOpacity } from 'react-native'
 import styles from './style';
-
 const Welcome = () => {
     return (
         <View style={styles.container}>
@@ -23,6 +22,7 @@ const Welcome = () => {
                     <Text style={[styles.btnText,styles.btnTwoText]}>Join existing Shared Album</Text>
                 </TouchableOpacity>
             </View>
+
             </View>
     )
 }

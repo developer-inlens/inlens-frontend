@@ -1,20 +1,23 @@
-import React from "react";
-import { Text } from "react-native";
-import { ScaledSheet } from "react-native-size-matters";
-import { colors } from "../../constants/theme";
-const SubTitle = ({ title }) => {
-  return <Text style={styles.text}>{title}</Text>;
-};
+import React from 'react'
+import {Heading} from 'native-base'
+import {colors} from '../../constants/theme'
+const SubTitle = ({title, mt}) => {
+  return (
+    <Heading size="sm" mt={mt} color={colors.TITLE}>
+      {title}
+    </Heading>
+  )
+}
 
-export default SubTitle;
+export default SubTitle
 
-const styles = ScaledSheet.create({
-  text: {
-    fontSize: "16@s",
-    fontWeight: "normal",
-    fontStyle: "normal",
-    lineHeight: "24@s",
-    letterSpacing: "0.15@s",
-    color: colors.TITLE,
-  },
-});
+// const styles = ScaledSheet.create({
+//   text: {
+//     fontSize: '16@s',
+//     fontWeight: 'normal',
+//     fontStyle: 'normal',
+//     lineHeight: '24@s',
+//     letterSpacing: '0.15@s',
+//     color: colors.TITLE,
+//   },
+// })

@@ -1,40 +1,30 @@
-import React from "react";
-import { TouchableOpacity, Text } from "react-native";
-import { ScaledSheet } from "react-native-size-matters";
-// import { MaterialIcons } from "@expo/vector-icons";
-import { Icon as MaterialIcons  } from 'react-native-elements';
+import React from 'react'
+import {Pressable, Text} from 'native-base'
+import {colors} from '../../constants/theme'
+import Icon from 'react-native-vector-icons/MaterialIcons'
 
-import { colors } from "../../constants/theme";
-const TypeOne = ({ onPress, title }) => {
+const TypeOne = ({onPress, title}) => {
   return (
-    <TouchableOpacity style={styles.button} onPress={onPress}>
-      <Text style={styles.text}>{title}</Text>
-      <MaterialIcons name={"done"} color={colors.LIGHT_GREEN} size={20} />
-    </TouchableOpacity>
-  );
-};
+    <Pressable
+      backgroundColor={colors.BLACK}
+      flexDir="row"
+      justifyContent="center"
+      alignItems="center"
+      height="52"
+      borderRadius="16"
+      paddingRight="31"
+      onPress={onPress}>
+      <Text
+        color={colors.BUTTON_TEXT_WHITE}
+        flex={1}
+        textAlign="center"
+        fontWeight={500}
+        textTransform="uppercase">
+        {title}
+      </Text>
+      <Icon name={'done'} color={colors.LIGHT_GREEN} size={20} />
+    </Pressable>
+  )
+}
 
-export default TypeOne;
-
-const styles = ScaledSheet.create({
-  button: {
-    width: "333@s",
-    height: "52@s",
-    backgroundColor: colors.BLACK,
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-    borderRadius: "16@s",
-    paddingRight: "31@s",
-  },
-  text: {
-    flex: 1,
-    textAlign: "center",
-    fontSize: "14@s",
-    fontWeight: "500",
-    lineHeight: "16@s",
-    letterSpacing: "1.25@s",
-    textTransform: "uppercase",
-    color: colors.BUTTON_TEXT_WHITE,
-  },
-});
+export default TypeOne

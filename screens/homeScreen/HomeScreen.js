@@ -1,336 +1,351 @@
-import React, { useState } from "react";
-import { Animated, View, SafeAreaView, FlatList } from "react-native";
-import ParallaxScrollView from "./ParallelaxScrollView";
-// import { MaterialIcons } from "@expo/vector-icons";
-import { Icon as MaterialIcons , } from 'react-native-elements';
+import React, {useState} from 'react'
+import {
+  HStack,
+  Stack,
+  IconButton,
+  Heading,
+  Menu,
+  Pressable,
+  Box,
+  Input,
+  Spacer,
+  FlatList,
+  Text,
+} from 'native-base'
 
-import styles from "./style";
-import Album from "../../components/Album";
-import Participant from "../../components/Participant";
-import Photo from "../../components/Photo";
-import DropDown from "../../components/dropDown/DropDown";
-import TextField from "../../components/TextField";
-import SubTitle from "../../components/texts/SubTitle";
-import { scale } from "react-native-size-matters";
-import Button from "../../components/button/Index";
-
-const numColumns = 3;
+import Icon from 'react-native-vector-icons/MaterialIcons'
+import {colors} from '../../constants/theme'
+import AlbumCard from '../../components/albumCard/AlbumCard'
+import Participant from '../../components/paricipants/Participant'
+import NewAlbum from '../../components/bottomSheet/NewAlbum'
+import Photo from '../../components/photo/Photo'
+const numColumns = 3
 
 const PHOTOS = [
   {
     id: 1,
     photo:
-      "https://reactnativecode.com/wp-content/uploads/2017/05/react_thumb_install.png",
+      'https://reactnativecode.com/wp-content/uploads/2017/05/react_thumb_install.png',
   },
   {
     id: 2,
-    photo: "https://i.ibb.co/BsQ6Q1q/pexels-designecologist-1779487.jpg",
+    photo: 'https://i.ibb.co/BsQ6Q1q/pexels-designecologist-1779487.jpg',
   },
   {
     id: 3,
-    photo: "https://i.ibb.co/McV5BBY/pexels-luis-gomes-546819.jpg",
+    photo: 'https://i.ibb.co/McV5BBY/pexels-luis-gomes-546819.jpg',
   },
   {
     id: 4,
-    photo: "https://i.ibb.co/YQ7hfGn/pexels-kevin-ku-577585.jpg",
+    photo: 'https://i.ibb.co/YQ7hfGn/pexels-kevin-ku-577585.jpg',
   },
   {
     id: 5,
-    photo: "https://i.ibb.co/g9BqyjQ/pexels-junior-teixeira-2047905.jpg",
+    photo: 'https://i.ibb.co/g9BqyjQ/pexels-junior-teixeira-2047905.jpg',
   },
   {
     id: 6,
-    photo: "https://i.ibb.co/LZhy0xw/1634143707923.jpg",
+    photo: 'https://i.ibb.co/LZhy0xw/1634143707923.jpg',
   },
   {
     id: 7,
-    photo: "https://i.ibb.co/s2mBY8Q/cosmetic.png",
+    photo: 'https://i.ibb.co/s2mBY8Q/cosmetic.png',
   },
   {
     id: 8,
-    photo: "https://i.ibb.co/LZhy0xw/1634143707923.jpg",
+    photo: 'https://i.ibb.co/LZhy0xw/1634143707923.jpg',
   },
   {
     id: 9,
-    photo: "https://i.ibb.co/JmL64c6/Cosmetic-Industry.jpg",
+    photo: 'https://i.ibb.co/JmL64c6/Cosmetic-Industry.jpg',
   },
   {
     id: 10,
     photo:
-      "https://reactnativecode.com/wp-content/uploads/2017/05/react_thumb_install.png",
+      'https://reactnativecode.com/wp-content/uploads/2017/05/react_thumb_install.png',
   },
   {
     id: 11,
     photo:
-      "https://reactnativecode.com/wp-content/uploads/2017/05/react_thumb_install.png",
+      'https://reactnativecode.com/wp-content/uploads/2017/05/react_thumb_install.png',
   },
   {
     id: 12,
     photo:
-      "https://reactnativecode.com/wp-content/uploads/2017/05/react_thumb_install.png",
+      'https://reactnativecode.com/wp-content/uploads/2017/05/react_thumb_install.png',
   },
   {
     id: 13,
     photo:
-      "https://reactnativecode.com/wp-content/uploads/2017/05/react_thumb_install.png",
+      'https://reactnativecode.com/wp-content/uploads/2017/05/react_thumb_install.png',
   },
   {
     id: 1,
     photo:
-      "https://reactnativecode.com/wp-content/uploads/2017/05/react_thumb_install.png",
+      'https://reactnativecode.com/wp-content/uploads/2017/05/react_thumb_install.png',
   },
   {
     id: 2,
     photo:
-      "https://reactnativecode.com/wp-content/uploads/2017/05/react_thumb_install.png",
+      'https://reactnativecode.com/wp-content/uploads/2017/05/react_thumb_install.png',
   },
   {
     id: 3,
     photo:
-      "https://reactnativecode.com/wp-content/uploads/2017/05/react_thumb_install.png",
+      'https://reactnativecode.com/wp-content/uploads/2017/05/react_thumb_install.png',
   },
   {
     id: 4,
     photo:
-      "https://reactnativecode.com/wp-content/uploads/2017/05/react_thumb_install.png",
+      'https://reactnativecode.com/wp-content/uploads/2017/05/react_thumb_install.png',
   },
   {
     id: 5,
     photo:
-      "https://reactnativecode.com/wp-content/uploads/2017/05/react_thumb_install.png",
+      'https://reactnativecode.com/wp-content/uploads/2017/05/react_thumb_install.png',
   },
   {
     id: 6,
     photo:
-      "https://reactnativecode.com/wp-content/uploads/2017/05/react_thumb_install.png",
+      'https://reactnativecode.com/wp-content/uploads/2017/05/react_thumb_install.png',
   },
   {
     id: 7,
     photo:
-      "https://reactnativecode.com/wp-content/uploads/2017/05/react_thumb_install.png",
+      'https://reactnativecode.com/wp-content/uploads/2017/05/react_thumb_install.png',
   },
   {
     id: 8,
     photo:
-      "https://reactnativecode.com/wp-content/uploads/2017/05/react_thumb_install.png",
+      'https://reactnativecode.com/wp-content/uploads/2017/05/react_thumb_install.png',
   },
   {
     id: 9,
     photo:
-      "https://reactnativecode.com/wp-content/uploads/2017/05/react_thumb_install.png",
+      'https://reactnativecode.com/wp-content/uploads/2017/05/react_thumb_install.png',
   },
   {
     id: 10,
     photo:
-      "https://reactnativecode.com/wp-content/uploads/2017/05/react_thumb_install.png",
+      'https://reactnativecode.com/wp-content/uploads/2017/05/react_thumb_install.png',
   },
   {
     id: 11,
     photo:
-      "https://reactnativecode.com/wp-content/uploads/2017/05/react_thumb_install.png",
+      'https://reactnativecode.com/wp-content/uploads/2017/05/react_thumb_install.png',
   },
   {
     id: 12,
     photo:
-      "https://reactnativecode.com/wp-content/uploads/2017/05/react_thumb_install.png",
+      'https://reactnativecode.com/wp-content/uploads/2017/05/react_thumb_install.png',
   },
   {
     id: 13,
     photo:
-      "https://reactnativecode.com/wp-content/uploads/2017/05/react_thumb_install.png",
+      'https://reactnativecode.com/wp-content/uploads/2017/05/react_thumb_install.png',
   },
-];
+]
 
 const formatData = (data, numColumns) => {
-  const numberOfFullRows = Math.floor(data.length / numColumns);
+  const numberOfFullRows = Math.floor(data.length / numColumns)
 
-  let numberOfElementsLastRow = data.length - numberOfFullRows * numColumns;
+  let numberOfElementsLastRow = data.length - numberOfFullRows * numColumns
   while (
     numberOfElementsLastRow !== numColumns &&
     numberOfElementsLastRow !== 0
   ) {
-    data.push({ key: `blank-${numberOfElementsLastRow}`, empty: true });
-    numberOfElementsLastRow++;
+    data.push({key: `blank-${numberOfElementsLastRow}`, empty: true})
+    numberOfElementsLastRow++
   }
 
-  return data;
-};
+  return data
+}
 
 const DATA = [
   {
-    id: "bd7acbea-c1b1-46c2-aed5-3ad53abb28ba",
-    title: "Album",
-    color: "#A5D6A7",
+    id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
+    title: 'Album',
+    color: '#A5D6A7',
     isSelected: true,
   },
   {
-    id: "3ac68afc-c605-48d3-a4f8-fbd91aa97f63",
-    title: "Album",
-    color: "#EF9A9A",
+    id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
+    title: 'Album',
+    color: '#EF9A9A',
     isSelected: false,
   },
   {
-    id: "58694a0f-3da1-471f-bd96-145571e29d72",
-    title: "Album",
-    color: "#FFCC80",
+    id: '58694a0f-3da1-471f-bd96-145571e29d72',
+    title: 'Album',
+    color: '#FFCC80',
     isSelected: false,
   },
   {
-    id: "58694a0f-3d1-471f-bd96-145571e29d72",
-    title: "Album",
-    color: "#80DEEA",
+    id: '58694a0f-3d1-471f-bd96-145571e29d72',
+    title: 'Album',
+    color: '#80DEEA',
     isSelected: false,
   },
-];
+]
+
 const PR = [
-  { id: 0 },
+  {id: 0},
   {
     id: 1,
     photo:
-      "https://reactnativecode.com/wp-content/uploads/2017/05/react_thumb_install.png",
-    name: "Fahad",
+      'https://reactnativecode.com/wp-content/uploads/2017/05/react_thumb_install.png',
+    name: 'Fahad',
   },
-  { id: 2, photo: "", name: "Adhul" },
-  { id: 3, photo: "", name: "Elson" },
+  {id: 2, photo: '', name: 'Adhul'},
+  {id: 3, photo: '', name: 'Elson'},
   {
     id: 4,
     photo:
-      "https://reactnativecode.com/wp-content/uploads/2017/05/react_thumb_install.png",
-    name: "Vinay",
+      'https://reactnativecode.com/wp-content/uploads/2017/05/react_thumb_install.png',
+    name: 'Vinay',
   },
   {
     id: 5,
     photo:
-      "https://reactnativecode.com/wp-content/uploads/2017/05/react_thumb_install.png",
-    name: "John",
+      'https://reactnativecode.com/wp-content/uploads/2017/05/react_thumb_install.png',
+    name: 'John',
   },
   {
     id: 6,
     photo:
-      "https://reactnativecode.com/wp-content/uploads/2017/05/react_thumb_install.png",
-    name: "Amal",
+      'https://reactnativecode.com/wp-content/uploads/2017/05/react_thumb_install.png',
+    name: 'Amal',
   },
-];
-const renderAlbum = ({ item }) => (
-  <Album
+]
+
+const renderAvatar = ({item}) => (
+  <Participant id={item.id} photo={item.photo} name={item.name} />
+)
+
+const renderAlbum = ({item}) => (
+  <AlbumCard
     name={item.title}
     color={item.color}
     // isSelected={item.id === currentAlbum}
     isSelected={item.isSelected}
   />
-);
-const renderAvatar = ({ item }) => (
-  <Participant id={item.id} photo={item.photo} name={item.name} />
-);
-const renderPhotos = ({ item }) => {
-  return <Photo empty={item.empty} uri={item.photo} />;
-};
+)
 
-const Home = () => {
-  const [filter, setFilter] = useState("Recent");
-  const [showDropdown, setShowDropdown] = useState(false);
-  const [searching, setSearching] = useState(false);
-  const [search, setSearch] = useState("");
+const renderPhotos = ({item}) => {
+  return <Photo empty={item.empty} uri={item.photo} />
+}
 
-  const onTextChange = (value) => setSearch(value);
+const HomeScreen = () => {
+  const [selectSearch, setSelectSearch] = useState(false)
 
-  const onSearch = () => {
-    console.log("###", search);
-  };
-
-  const onFilter = (e) => {
-    setFilter(e);
-    console.log(e);
-  };
-
-  const renderParallaxHeader = (value) => {
+  const getHeader = () => {
     return (
-      <View style={styles.subContainer}>
-        <View style={styles.menu}>
-          <View style={styles.filterText}>
-            <SubTitle title={filter} />
-          </View>
-          {searching ? (
-            <TextField type={2} onChange={onTextChange} onSubmit={onSearch} />
-          ) : (
-            <MaterialIcons
-              name="search"
-              color="#fff"
-          type="material"
-              size={20}
-              style={styles.icon}
-              onPress={() => setSearching(true)}
-            />
-          )}
-          <DropDown
-            visible={showDropdown}
-            setVisible={setShowDropdown}
-            onSelect={onFilter}
-            filter={filter}
-          />
-        </View>
+      <Stack px="2">
+        <HStack
+          justifyContent="space-between"
+          space={10}
+          // background="green.500"
+          // width={'10'}
+          mb="2"
+          // px="2"
+          alignItems="center">
+          <Heading size="sm" color={colors.TITLE}>
+            Recent
+          </Heading>
+          <Box flexDirection="row" alignItems="center">
+            {selectSearch ? (
+              <Input
+                variant="unstyled"
+                placeholder="Search.."
+                color={colors.WHITE}
+                maxWidth="80"
+                mr="10"
+              />
+            ) : (
+              <IconButton
+                icon={<Icon name="search" />}
+                // borderRadius="full"
+                onPress={() => setSelectSearch(true)}
+                mr="10"
+                _icon={{
+                  color: colors.WHITE,
+                  size: 20,
+                }}
+              />
+            )}
+            <Menu
+              w="150"
+              background="#121212"
+              borderColor={colors.PRIMARY}
+              trigger={triggerProps => {
+                return (
+                  <Pressable
+                    accessibilityLabel="More options menu"
+                    {...triggerProps}>
+                    <Icon name="filter-list" color={colors.WHITE} size={20} />
+                  </Pressable>
+                )
+              }}>
+              <Menu.Item
+                _text={{
+                  color: 'white',
+                }}>
+                Recent
+              </Menu.Item>
+              <Menu.Item
+                _text={{
+                  color: 'white',
+                }}>
+                Created
+              </Menu.Item>
+              <Menu.Item
+                _text={{
+                  color: 'white',
+                }}>
+                Joined
+              </Menu.Item>
+            </Menu>
+          </Box>
+        </HStack>
         <FlatList
           data={DATA}
           renderItem={renderAlbum}
-          keyExtractor={(item) => item.id.toString()}
+          keyExtractor={item => item.id.toString()}
           horizontal={true}
         />
-        <View style={styles.participants}>
-          <SubTitle title="Participants" />
-          <FlatList
-            data={
-              // data.filter((item) => item.id === currentAlbum)[0].participants
-              PR
-            }
-            renderItem={renderAvatar}
-            keyExtractor={(item) => item.id.toString()}
-            horizontal={true}
-            style={styles.participantsList}
-          />
-        </View>
-      </View>
-    );
-  };
-
-  const renderStickyHeader = (value) => {
-    const opacity = value.interpolate({
-      inputRange: [0, 150, 200],
-      outputRange: [0, 0, 1],
-      extrapolate: "clamp",
-    });
-    return (
-      <View style={styles.stickyHeader}>
-        {/* <Animated.View style={[styles.stickyHeaderBackground, { opacity }]} /> */}
-      </View>
-    );
-  };
-
+        <Heading size="sm" color={colors.TITLE} mt="4" mb="3">
+          Participants
+        </Heading>
+        <FlatList
+          data={
+            // data.filter((item) => item.id === currentAlbum)[0].participants
+            PR
+          }
+          renderItem={renderAvatar}
+          keyExtractor={item => item.id.toString()}
+          horizontal={true}
+          // style={styles.participantsList}
+        />
+        <Heading size="sm" color={colors.TITLE} mt="4" mb="3">
+          Photots
+        </Heading>
+      </Stack>
+    )
+  }
   return (
-    <SafeAreaView style={styles.container}>
-      <ParallaxScrollView
-        style={{ flex: 1 }}
-        parallaxHeaderHeight={scale(240)}
-        stickyHeaderHeight={scale(100)}
-        parallaxHeader={renderParallaxHeader}
-        stickyHeader={renderStickyHeader}
-      >
-        <View style={[styles.participants, styles.photosList]}>
-          <View style={styles.photosHead}>
-            <SubTitle title="Photos" />
-          </View>
-          <FlatList
-            data={formatData(PHOTOS, numColumns)}
-            renderItem={renderPhotos}
-            keyExtractor={(item) => item.id}
-            style={styles.photos}
-            numColumns={3}
-            contentContainerStyle={{ paddingBottom: 0 }}
-          />
-        </View>
-      </ParallaxScrollView>
-      <Button type={6} />
-    </SafeAreaView>
-  );
-};
+    <FlatList
+      data={formatData(PHOTOS, numColumns)}
+      renderItem={renderPhotos}
+      keyExtractor={item => item.id}
+      // style={styles.photos}
+      numColumns={3}
+      contentContainerStyle={{paddingBottom: 0}}
+      // style={{marginVertical: 10}}
+      ListHeaderComponent={getHeader}
+      // ListFooterComponent={<Text>Loading..</Text>}
+      ListEmptyComponent={<Text>No photos added</Text>}
+    />
+  )
+}
 
-export default Home;
+export default HomeScreen

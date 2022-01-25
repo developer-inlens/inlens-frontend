@@ -1,41 +1,16 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow strict-local
- */
+import React from 'react'
+import {NativeBaseProvider} from 'native-base'
+import {StatusBar, StyleSheet} from 'react-native'
+import {NavigationContainer, extendTheme} from '@react-navigation/native'
+import {createNativeStackNavigator} from '@react-navigation/native-stack'
+import {colors} from './constants/theme'
+import {Provider} from 'react-redux'
+import {store} from './redux/store'
+import HomeScreen from './screens/homeScreen/HomeScreen'
+import Header from './components/header/Header'
+import AuthScreen from './screens/authScreen/EnterPhoneScreen'
 
-import React from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
-
-import {
-  Colors,
-  DebugInstructions,
-  // Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import WelcomeScreen from "./screens/welcomeScreen/WelcomeScreen.js"
-import HomeScreen from "./screens/homeScreen/HomeScreen"
-import AuthScreen from "./screens/authScreen/EnterPhoneScreen";
-import ProfileScreen from "./screens/authScreen/ProfileScreen";
-import { colors } from "./constants/theme";
-import Header from "./components/header";
-import { Provider } from "react-redux";
-import { store } from "./redux/store";
-
-const Stack = createNativeStackNavigator();
+const Stack = createNativeStackNavigator()
 
 const AppTheme = {
   dark: true,
@@ -47,28 +22,37 @@ const AppTheme = {
     // border: 'rgb(199, 199, 204)',
     // notification: 'rgb(255, 69, 58)',
   },
-};
+}
 
-const App=() => {
-  return <Provider store={store}>
-  <NavigationContainer theme={AppTheme}>
-     <Stack.Navigator>
-        <Stack.Screen name="Auth" component={AuthScreen} />
-        <Stack.Screen name="Profile" component={ProfileScreen} />
-        <Stack.Screen name="Home" component={HomeScreen} options={{
-              headerTitle: () => <Header title="Shared Albums" />,
-              headerTintColor: "#444",
-              headerStyle: {
-                backgroundColor: colors.PRIMARY,
-                padding: 0,
-                margin: 0,
-              },
-            }}/>
-      </Stack.Navigator>
-      <StatusBar barStyle={'light-content'} backgroundColor={colors.PRIMARY} />
-  </NavigationContainer>
-  </Provider>
-};
+const App = () => {
+  return (
+    <Provider store={store}>
+      <NavigationContainer theme={AppTheme}>
+        <NativeBaseProvider>
+          <Stack.Navigator>
+            <Stack.Screen name="Auth" component={AuthScreen} />
+            <Stack.Screen
+              name="Home"
+              component={HomeScreen}
+              options={{
+                headerTitle: () => <Header title="Shared Albums" />,
+                headerTintColor: '#444',
+                headerStyle: {
+                  backgroundColor: colors.PRIMARY,
+                  padding: 0,
+                  margin: 0,
+                },
+              }}
+            />
+          </Stack.Navigator>
+          <StatusBar
+            barStyle={'light-content'}
+            backgroundColor={colors.PRIMARY}
+          />
+        </NativeBaseProvider>
+      </NavigationContainer>
+    </Provider>
+  )
+}
 
-
-export default App;
+export default App

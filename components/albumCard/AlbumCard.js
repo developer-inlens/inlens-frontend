@@ -1,5 +1,5 @@
 import React from 'react'
-import {Pressable, Text, Box} from 'native-base'
+import {Pressable, Text, Box, Heading} from 'native-base'
 
 const AlbumCard = ({name, color, isSelected}) => {
   return (
@@ -10,12 +10,17 @@ const AlbumCard = ({name, color, isSelected}) => {
         minWidth="120"
         // minHeight="30"
         mr="2"
-        padding={isSelected ? '2.5' : '3'}
+        padding={isSelected ? '3' : '3'}
         borderBottomColor={isSelected && 'white'}
-        borderBottomWidth={'3'}>
-        <Text backgroundColor="blue.900" fontWeight="bold" color="black">
+        borderBottomWidth={'2'}>
+        <Heading
+          size="sm"
+          alignSelf={{
+            base: 'flex-start',
+            md: 'flex-start',
+          }}>
           {name}
-        </Text>
+        </Heading>
       </Box>
     </Pressable>
   )

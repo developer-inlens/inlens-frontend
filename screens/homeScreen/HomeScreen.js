@@ -164,25 +164,25 @@ const formatData = (data, numColumns) => {
 const DATA = [
   {
     id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-    title: 'Album',
+    title: 'Munnar Trip',
     color: '#A5D6A7',
     isSelected: true,
   },
   {
     id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
-    title: 'Album',
+    title: 'Fahad Wedding',
     color: '#EF9A9A',
     isSelected: false,
   },
   {
     id: '58694a0f-3da1-471f-bd96-145571e29d72',
-    title: 'Album',
+    title: 'Elson Engagement',
     color: '#FFCC80',
     isSelected: false,
   },
   {
     id: '58694a0f-3d1-471f-bd96-145571e29d72',
-    title: 'Album',
+    title: 'InLens release',
     color: '#80DEEA',
     isSelected: false,
   },
@@ -241,14 +241,7 @@ const HomeScreen = () => {
   const getHeader = () => {
     return (
       <Stack px="2">
-        <HStack
-          justifyContent="space-between"
-          space={10}
-          // background="green.500"
-          // width={'10'}
-          mb="2"
-          // px="2"
-          alignItems="center">
+        <HStack justifyContent="space-between" space={8} alignItems="center">
           <Heading size="sm" color={colors.TITLE}>
             Recent
           </Heading>
@@ -258,23 +251,22 @@ const HomeScreen = () => {
                 variant="unstyled"
                 placeholder="Search.."
                 color={colors.WHITE}
-                maxWidth="80"
-                mr="10"
+                maxWidth="96"
+                mr={16}
               />
             ) : (
               <IconButton
                 icon={<Icon name="search" />}
                 // borderRadius="full"
                 onPress={() => setSelectSearch(true)}
-                mr="10"
                 _icon={{
                   color: colors.WHITE,
-                  size: 20,
+                  size: 24,
                 }}
               />
             )}
             <Menu
-              w="150"
+              w="160"
               background="#121212"
               borderColor={colors.PRIMARY}
               trigger={triggerProps => {
@@ -282,7 +274,7 @@ const HomeScreen = () => {
                   <Pressable
                     accessibilityLabel="More options menu"
                     {...triggerProps}>
-                    <Icon name="filter-list" color={colors.WHITE} size={20} />
+                    <Icon name="filter-list" color={colors.WHITE} size={24} />
                   </Pressable>
                 )
               }}>
@@ -313,7 +305,7 @@ const HomeScreen = () => {
           keyExtractor={item => item.id.toString()}
           horizontal={true}
         />
-        <Heading size="sm" color={colors.TITLE} mt="4" mb="3">
+        <Heading size="sm" color={colors.TITLE} mt="4" mb="4">
           Participants
         </Heading>
         <FlatList
@@ -326,8 +318,8 @@ const HomeScreen = () => {
           horizontal={true}
           // style={styles.participantsList}
         />
-        <Heading size="sm" color={colors.TITLE} mt="4" mb="3">
-          Photots
+        <Heading size="sm" color={colors.TITLE} mt={4} mb={4}>
+          Photos
         </Heading>
       </Stack>
     )

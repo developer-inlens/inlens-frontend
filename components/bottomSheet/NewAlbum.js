@@ -41,32 +41,33 @@ const NewAlum = () => {
   }
 
   return (
-    <VStack width="full" py="5">
+    <VStack width="full" py="4">
       <TextField />
-      <SubTitle title="Total Event Days" mt={5} />
+      <SubTitle title="Total Event Days" mt={4} />
       <HStack
         direction="row"
         mt="2"
         mr="2"
-        mb="5"
+        mb="4"
         justifyContent="space-around"
         width="full">
-        <Box flexDir="row" mr="3" alignItems="center">
+        <Box flexDir="row" mr="4" alignItems="center">
           <Button type={1} isIncrement={false} onPress={decrement} />
           <Box mx="2" justifyContent="center">
             <Title title={count} />
           </Box>
           <Button type={1} isIncrement={true} onPress={increment} />
         </Box>
-        <Box flexDirection="row" width="150">
+        <Box flexDirection="row" width="156">
           <Message
-            title={`Photos taken till ${date.date()} ${
+             title={`Photos taken till ${date.date()} ${
               months[date.month()]
             } can be uploaded to your album`}
+            
           />
         </Box>
       </HStack>
-      <Button type={4} title="Create album" />
+      <Button type={4} title="CREATE ALBUM" />
     </VStack>
   )
 }

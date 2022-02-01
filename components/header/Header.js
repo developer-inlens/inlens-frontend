@@ -8,11 +8,15 @@ import {
   IconButton,
   // Icon,
   HStack,
+  Stack,
+  Button,
 } from 'native-base'
 import {colors} from '../../constants/theme'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import BottomModelSheet from '../bottomSheet/BottomSheet'
 import NewAlbum from '../bottomSheet/NewAlbum'
+import {Colors} from 'react-native/Libraries/NewAppScreen'
+import {color} from 'native-base/lib/typescript/theme/styled-system'
 const Header = () => {
   const [visible, setVisible] = useState(false)
   const toggleBottomNavigationView = () => {
@@ -42,23 +46,21 @@ const Header = () => {
       <Heading size="lg" color={colors.TITLE}>
         Shared Albums
       </Heading>
+
       <IconButton
         icon={<Icon name="add-circle-outline" />}
         borderRadius="full"
+        _pressed={{bg: colors.BUTTON_TEXT_WHITE}}
         onPress={toggleBottomNavigationView}
         _icon={{
           color: colors.BLUE,
-          size: 20,
+          size: 24,
         }}
       />
-      <Pressable
-        onPress={() => {
-          console.log('Hello world')
-        }}>
-        <Text fontSize="lg" color={colors.BLUE}>
-          Join
-        </Text>
-      </Pressable>
+      <Button size="lg" variant="ghost">
+        JOIN
+      </Button>
+
       <BottomModelSheet
         visible={visible}
         setVisible={toggleBottomNavigationView}

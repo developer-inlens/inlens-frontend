@@ -19,13 +19,14 @@ const BottomSheet = ({visible, setVisible, onDelete, title, Body}) => {
       {/* <VStack background="red.100" height="30"> */}
       <Actionsheet.Content background="#121212">
         <HStack
-          px="2"
+          pl="4"
           justifyContent="space-between"
           alignItems="center"
           width="full">
-          <Heading size="sm" color={colors.WHITE}>
+          <Heading size="md" color={colors.WHITE} opacity={0.6}>
             {title}
           </Heading>
+
           <Box>
             {onDelete && (
               <IconButton
@@ -37,16 +38,14 @@ const BottomSheet = ({visible, setVisible, onDelete, title, Body}) => {
                 }}
               />
             )}
-            <Box backgroundColor="#EF9A9A" borderRadius="full">
-              <IconButton
-                icon={<Icon name="close" />}
-                borderRadius="full"
-                _icon={{
-                  color: colors.BLACK,
-                  size: 15,
-                }}
-              />
-            </Box>
+            <IconButton
+              icon={<Icon name="close" />}
+              borderRadius="full"
+              _icon={{
+                color: colors.RED,
+                size: 24,
+              }}
+            />
           </Box>
         </HStack>
         <Body />

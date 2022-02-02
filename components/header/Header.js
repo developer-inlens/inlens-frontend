@@ -27,7 +27,7 @@ const Header = () => {
       alignItems="center"
       width="full"
       // px={2}
-      paddingRight={6}
+      paddingRight={4}
       // py={2}
       direction="row"
       justifyContent="space-between">
@@ -43,14 +43,13 @@ const Header = () => {
           A
         </Text>
       </Avatar>
-      <Heading size="lg" color={colors.TITLE}>
+      <Heading size="md" color={colors.TITLE}>
         Shared Albums
       </Heading>
 
       <IconButton
         icon={<Icon name="add-circle-outline" />}
         borderRadius="full"
-        _pressed={{bg: colors.BUTTON_TEXT_WHITE}}
         onPress={toggleBottomNavigationView}
         _icon={{
           color: colors.BLUE,
@@ -64,8 +63,8 @@ const Header = () => {
       <BottomModelSheet
         visible={visible}
         setVisible={toggleBottomNavigationView}
-        title={'New Album'}
         Body={NewAlbum}
+        title={'New Album'}
       />
     </HStack>
   )

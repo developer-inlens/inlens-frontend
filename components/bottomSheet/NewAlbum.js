@@ -2,7 +2,7 @@ import React, {useState} from 'react'
 import {
   Heading,
   Box,
-  Center,
+  Toast,
   Text,
   HStack,
   VStack,
@@ -63,7 +63,9 @@ const NewAlum = () => {
         mb={4}
         ml={4}
         mr={4}
+        // backgroundColor="#121212"
         placeholder="Name your album..."
+        maxLength={32}
       />
       <Text fontSize="xl" mt={2} ml={4} opacity={0.6} color={colors.WHITE}>
         Total days
@@ -95,15 +97,18 @@ const NewAlum = () => {
         </Box>
       </HStack>
       {/* <Button type={4} title="CREATE ALBUM" /> */}
-      <Button
-        backgroundColor={'#272727'}
+      {/* <Button
+        // backgroundColor={'#272727'}
+        tintColor="#272727"
+        tint
         bu
         ml={4}
         mr={4}
         endIcon={<Icon name="check" size={24} color={colors.LIGHT_GREEN} />}
         p={4}>
         CREATE
-      </Button>
+      </Button> */}
+      <Button1 type={4} title="Create" />
     </VStack>
   )
 }

@@ -3,12 +3,14 @@ import {Pressable, Text, Box, Heading} from 'native-base'
 
 const AlbumCard = ({name, color, isSelected}) => {
   return (
+    //remove pressable and use onTouch for box
     <Pressable>
       <Box
         backgroundColor={color}
         borderRadius="4"
         minWidth="120"
         // minHeight="30"
+        onT
         mr="2"
         padding={isSelected ? '3' : '3'}
         borderBottomColor={isSelected && 'white'}

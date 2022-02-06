@@ -19,6 +19,7 @@ import AlbumCard from '../../components/albumCard/AlbumCard'
 import Participant from '../../components/paricipants/Participant'
 import NewAlbum from '../../components/bottomSheet/NewAlbum'
 import Photo from '../../components/photo/Photo'
+import {TouchableOpacity} from 'react-native'
 const numColumns = 3
 
 const PHOTOS = [
@@ -245,29 +246,20 @@ const HomeScreen = () => {
           <Heading size="sm" color={colors.TITLE}>
             Recent
           </Heading>
-          <Box flexDirection="row" alignItems="center">
-            {selectSearch ? (
-              <Input
-                variant="unstyled"
-                placeholder="Search.."
-                color={colors.WHITE}
-                maxWidth="96"
-                mr={16}
-              />
-            ) : (
-              <IconButton
-                icon={<Icon name="search" />}
-                // borderRadius="full"
-                onPress={() => setSelectSearch(true)}
-                _icon={{
-                  color: colors.WHITE,
-                  size: 24,
-                }}
-              />
-            )}
+          <Box flexDirection="row" alignItems="center" mb={4}>
+            {/* <IconButton
+              android_ripple={{color: 'red', borderless: false, radius: 10}}
+              icon={<Icon name="search" />}
+              // borderRadius="full"
+              onPress={() => setSelectSearch(true)}
+              _icon={{
+                color: colors.WHITE,
+                size: 24,
+              }}
+            /> */}
             <Menu
               w="160"
-              background="#121212"
+              background="#272727"
               borderColor={colors.PRIMARY}
               trigger={triggerProps => {
                 return (
@@ -281,7 +273,9 @@ const HomeScreen = () => {
               <Menu.Item
                 _text={{
                   color: 'white',
-                }}>
+                }}
+                // androidRippleColor={{color: '#', borderless: false}}
+                android_ripple={true}>
                 Recent
               </Menu.Item>
               <Menu.Item
@@ -304,6 +298,7 @@ const HomeScreen = () => {
           renderItem={renderAlbum}
           keyExtractor={item => item.id.toString()}
           horizontal={true}
+          showsHorizontalScrollIndicator={false}
         />
         <Heading size="sm" color={colors.TITLE} mt="4" mb="4">
           Participants
@@ -316,6 +311,7 @@ const HomeScreen = () => {
           renderItem={renderAvatar}
           keyExtractor={item => item.id.toString()}
           horizontal={true}
+          showsHorizontalScrollIndicator={false}
           // style={styles.participantsList}
         />
         <Heading size="sm" color={colors.TITLE} mt={4} mb={4}>

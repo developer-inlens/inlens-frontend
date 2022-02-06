@@ -1,38 +1,52 @@
 import React from 'react'
-import {Pressable, Text, Avatar, IconButton, Box} from 'native-base'
-import {colors} from '../../constants/theme'
+import {TouchableOpacity, Text, View, Image} from 'react-native'
+import {ScaledSheet} from 'react-native-size-matters'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 
 const Participant = ({id, photo, name}) => {
   let Image_Http_URL = {uri: photo}
 
   return (
-    <Pressable mr="2">
+    <TouchableOpacity>
       {photo && photo.length > 0 ? (
-        <Avatar size="sm" bg="#272727" source={Image_Http_URL} />
+        <Image source={Image_Http_URL} style={styles.logo} />
       ) : (
-        <Box>
+        <View style={styles.avatar}>
           {id === 0 ? (
-            <IconButton
-              icon={<Icon name="add" />}
-              borderRadius="full"
-              bgColor="#272727"
-              _icon={{
-                color: colors.LIGHT_GREEN,
-                size: 20,
-              }}
-            />
+            <Icon name="add" color="#64B5F6" size={24} style={styles.icon} />
           ) : (
-            <Avatar size="sm" bg="#272727">
-              <Text fontSize="sm" color={colors.LIGHT_GREEN}>
-                {name && name[0]}
-              </Text>
-            </Avatar>
+            <Text style={styles.name}>{name && name[0]}</Text>
           )}
-        </Box>
+        </View>
       )}
-    </Pressable>
+    </TouchableOpacity>
   )
 }
 
 export default Participant
+
+const styles = ScaledSheet.create({
+  logo: {
+    height: '30@s',
+    width: '30@s',
+    borderRadius: 50,
+    marginRight: '6@s',
+  },
+  avatar: {
+    height: '30@s',
+    width: '30@s',
+    backgroundColor: '#272727',
+    borderRadius: 50,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: '6@s',
+  },
+  name: {
+    color: '#A5D6A7',
+    fontWeight: '500',
+    fontSize: '14@s',
+    letterSpacing: '1.25@s',
+    textTransform: 'uppercase',
+    lineHeight: '16@s',
+  },
+})

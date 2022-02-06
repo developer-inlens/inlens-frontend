@@ -1,4 +1,5 @@
 import React, {useState} from 'react'
+import {TouchableOpacity, View} from 'react-native'
 import {
   Spacer,
   Heading,
@@ -15,8 +16,9 @@ import {colors} from '../../constants/theme'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import BottomModelSheet from '../bottomSheet/BottomSheet'
 import NewAlbum from '../bottomSheet/NewAlbum'
-import {Colors} from 'react-native/Libraries/NewAppScreen'
-import {color} from 'native-base/lib/typescript/theme/styled-system'
+import {ScaledSheet} from 'react-native-size-matters'
+import Participant from '../paricipants/Participant'
+
 const Header = () => {
   const [visible, setVisible] = useState(false)
   const toggleBottomNavigationView = () => {
@@ -31,7 +33,8 @@ const Header = () => {
       // py={2}
       direction="row"
       justifyContent="space-between">
-      <Avatar
+      <Participant photo="https://i.ibb.co/LZhy0xw/1634143707923.jpg" />
+      {/* <Avatar
         size="sm"
         bg={colors.BLUE}
         source={
@@ -42,12 +45,22 @@ const Header = () => {
         <Text fontSize="sm" color={colors.TITLE}>
           A
         </Text>
-      </Avatar>
+      </Avatar> */}
       <Heading size="md" color={colors.TITLE}>
         Shared Albums
       </Heading>
+      <TouchableOpacity onPress={toggleBottomNavigationView}>
+        <View>
+          <Icon
+            name="add-circle-outline"
+            color="#64B5F6"
+            size={24}
+            style={styles.icon}
+          />
+        </View>
+      </TouchableOpacity>
 
-      <IconButton
+      {/* <IconButton
         icon={<Icon name="add-circle-outline" />}
         borderRadius="full"
         onPress={toggleBottomNavigationView}
@@ -55,10 +68,13 @@ const Header = () => {
           color: colors.BLUE,
           size: 24,
         }}
-      />
-      <Button size="lg" variant="ghost">
+      /> */}
+      {/* <Button size="lg" variant="ghost">
         JOIN
-      </Button>
+      </Button> */}
+      <TouchableOpacity>
+        <Text style={styles.join}>Join</Text>
+      </TouchableOpacity>
 
       <BottomModelSheet
         visible={visible}
@@ -71,3 +87,14 @@ const Header = () => {
 }
 
 export default Header
+
+const styles = ScaledSheet.create({
+  join: {
+    fontSize: '16@s',
+    lineHeight: '24@s',
+    fontWeight: '500',
+    color: '#64B5F6',
+    // marginRight: '24@s',
+    // marginLeft: '24@s',
+  },
+})

@@ -29,7 +29,6 @@ const Header = () => {
       alignItems="center"
       width="full"
       // px={2}
-      paddingRight={4}
       // py={2}
       direction="row"
       justifyContent="space-between">
@@ -73,7 +72,7 @@ const Header = () => {
         JOIN
       </Button> */}
       <TouchableOpacity>
-        <Text style={styles.join}>Join</Text>
+        <Text style={styles.join}>JOIN</Text>
       </TouchableOpacity>
 
       <BottomModelSheet
@@ -94,7 +93,7 @@ const styles = ScaledSheet.create({
     lineHeight: '24@s',
     fontWeight: '500',
     color: '#64B5F6',
-    // marginRight: '24@s',
+    marginRight: '16@s',
     // marginLeft: '24@s',
   },
 })

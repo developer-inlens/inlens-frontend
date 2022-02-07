@@ -52,33 +52,29 @@ const NewAlum = () => {
   }
 
   return (
-    <VStack width="full" py="4">
+    <VStack width="full">
       <Input
         size="2xl"
         color={'white'}
         variant={'underlined'}
         borderWidth={0}
-        pt={4}
-        pb={4}
+        pt={6}
         mb={4}
         ml={4}
         mr={4}
-        // backgroundColor="#121212"
         placeholder="Name your album..."
         maxLength={32}
       />
-      <Text fontSize="xl" mt={2} ml={4} opacity={0.6} color={colors.WHITE}>
+      <Text fontSize="lg" opacity={0.6} color={colors.WHITE} ml={4} mt={4}>
         Total days
       </Text>
       <HStack
         direction="row"
-        mt="2"
-        mr="2"
+        mt="4"
         mb="4"
-        ml="4"
         justifyContent="space-around"
         width="full">
-        <Box flexDir="row" mr="4" alignItems="center">
+        <Box flexDir="row" alignItems="center">
           <Button1 type={1} isIncrement={false} onPress={decrement} />
           <Box mx="4" justifyContent="center">
             <Title title={count} />
@@ -90,9 +86,13 @@ const NewAlum = () => {
             title={`Photos taken till ${date.date()} ${
               months[date.month()]
             } can be uploaded to your album`}></Message> */}
-          <Text fontSize="sm" color={colors.WHITE} opacity={0.4} mr={4}>
+          <Text
+            fontSize="sm"
+            marginRight={4}
+            color={colors.WHITE}
+            opacity={0.6}>
             Photos taken till {date.date()} {months[date.month()]} can be
-            uploaded to your album
+            uploaded to your album...
           </Text>
         </Box>
       </HStack>
@@ -108,7 +108,9 @@ const NewAlum = () => {
         p={4}>
         CREATE
       </Button> */}
-      <Button1 type={4} title="Create" />
+      <Box flexDirection="row" width={'full'} justifyContent={'flex-end'}>
+        <Button1 type={4} title="Create" />
+      </Box>
     </VStack>
   )
 }

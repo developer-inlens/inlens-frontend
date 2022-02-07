@@ -16,14 +16,16 @@ export default TypeOne
 
 const styles = ScaledSheet.create({
   button: {
-    width: '333@s',
-    height: '52@s',
-    backgroundColor: colors.BLACK,
+    width: '160@s',
+    height: '56@s',
+    backgroundColor: '#121212',
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: '16@s',
-    alignItems: 'center',
+    borderRadius: '24@s',
+    marginBottom: '8@s',
+    marginTop: '8@s',
+    marginRight: '16@s',
   },
   text: {
     // flex: 1,
@@ -34,6 +36,6 @@ const styles = ScaledSheet.create({
     letterSpacing: '1.25@s',
     textTransform: 'uppercase',
     color: colors.BUTTON_TEXT_WHITE,
-    marginRight: '3@s',
+    marginRight: '4@s',
   },
 })

@@ -20,10 +20,12 @@ const BottomSheet = ({visible, setVisible, onDelete, title, Body}) => {
       {/* <VStack background="red.100" height="30"> */}
       <Actionsheet.Content background="#272727">
         <HStack
-          pl="4"
           justifyContent="space-between"
           alignItems="center"
-          width="full">
+          width="full"
+          paddingLeft={4}
+          paddingRight={4}
+          marginBottom={4}>
           <Heading size="md" color={colors.WHITE} opacity={0.6}>
             {title}
           </Heading>
@@ -70,8 +72,8 @@ export default BottomSheet
 const styles = ScaledSheet.create({
   icon: {
     // backgroundColor: '#EF9A9A',
-    width: '20@s',
-    borderRadius: 50,
+    width: '24@s',
+    borderRadius: 40,
     textAlign: 'center',
   },
 })

@@ -19,7 +19,7 @@ import AlbumCard from '../../components/albumCard/AlbumCard'
 import Participant from '../../components/paricipants/Participant'
 import NewAlbum from '../../components/bottomSheet/NewAlbum'
 import Photo from '../../components/photo/Photo'
-import {TouchableOpacity} from 'react-native'
+import {TouchableOpacity, View} from 'react-native'
 const numColumns = 3
 
 const PHOTOS = [
@@ -263,11 +263,13 @@ const HomeScreen = () => {
               borderColor={colors.PRIMARY}
               trigger={triggerProps => {
                 return (
-                  <Pressable
+                  <TouchableOpacity
                     accessibilityLabel="More options menu"
                     {...triggerProps}>
-                    <Icon name="filter-list" color={colors.WHITE} size={24} />
-                  </Pressable>
+                    <View>
+                      <Icon name="filter-list" color="#fafafa" size={24} />
+                    </View>
+                  </TouchableOpacity>
                 )
               }}>
               <Menu.Item

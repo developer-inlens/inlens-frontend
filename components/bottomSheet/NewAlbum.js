@@ -1,22 +1,10 @@
 import React, {useState} from 'react'
-import {
-  Heading,
-  Box,
-  Toast,
-  Text,
-  HStack,
-  VStack,
-  Input,
-  Button,
-} from 'native-base'
-import TextField from '../textField/TextField'
+import {Box, Text, HStack, VStack, Input, Heading} from 'native-base'
 import dayjs from 'dayjs'
 import Button1 from '../button/Index'
-import {colors} from '../../constants/theme'
-import Message from '../texts/Message'
-import SubTitle from '../texts/SubTitle'
-import Title from '../texts/Title'
-import Icon from 'react-native-vector-icons/MaterialIcons'
+import {colors, margin} from '../../constants/theme'
+import {useSelector, useDispatch} from 'react-redux'
+import {createAlbum} from '../../redux/slices/albumSlice'
 
 const months = [
   'Jan',
@@ -33,9 +21,27 @@ const months = [
   'Dec',
 ]
 
-const NewAlum = () => {
+const NewAlum = ({setVisible}) => {
   const [count, setCount] = useState(1)
   const [date, setDate] = useState(dayjs().add(1, 'day'))
+  const [name, setName] = useState(`album_${dayjs().format('DD-MM-YY')}`)
+
+  const dispatch = useDispatch()
+
+  const onAlbumCreate = () => {
+    dispatch(
+      createAlbum({
+        id: Math.random().toString(),
+        title: name,
+        count,
+        color: colors.LIGHT_GREEN,
+        photos: [],
+      }),
+    )
+    setName('')
+    setCount(1)
+    setVisible(false)
+  }
 
   const increment = () => {
     setCount(c => c + 1)
@@ -59,36 +65,39 @@ const NewAlum = () => {
         variant={'underlined'}
         borderWidth={0}
         pt={6}
-        mb={4}
-        ml={4}
-        mr={4}
+        mb={margin.MD}
+        mx={margin.MD}
         placeholder="Name your album..."
         maxLength={32}
+        value={name}
+        onChangeText={setName}
       />
-      <Text fontSize="lg" opacity={0.6} color={colors.WHITE} ml={4} mt={4}>
+      <Text
+        fontSize="lg"
+        opacity={0.6}
+        color={colors.WHITE}
+        ml={margin.MD}
+        mt={margin.MD}>
         Total days
       </Text>
       <HStack
         direction="row"
-        mt="4"
-        mb="4"
+        my={margin.MD}
         justifyContent="space-around"
         width="full">
         <Box flexDir="row" alignItems="center">
           <Button1 type={1} isIncrement={false} onPress={decrement} />
-          <Box mx="4" justifyContent="center">
-            <Title title={count} />
+          <Box mx={margin.MD} justifyContent="center">
+            <Heading color={colors.TITLE} size="md">
+              {count}
+            </Heading>
           </Box>
           <Button1 type={1} isIncrement={true} onPress={increment} />
         </Box>
         <Box flexDirection="row" width="156">
-          {/* <Message
-            title={`Photos taken till ${date.date()} ${
-              months[date.month()]
-            } can be uploaded to your album`}></Message> */}
           <Text
             fontSize="sm"
-            marginRight={4}
+            marginRight={margin.MD}
             color={colors.WHITE}
             opacity={0.6}>
             Photos taken till {date.date()} {months[date.month()]} can be
@@ -96,20 +105,8 @@ const NewAlum = () => {
           </Text>
         </Box>
       </HStack>
-      {/* <Button type={4} title="CREATE ALBUM" /> */}
-      {/* <Button
-        // backgroundColor={'#272727'}
-        tintColor="#272727"
-        tint
-        bu
-        ml={4}
-        mr={4}
-        endIcon={<Icon name="check" size={24} color={colors.LIGHT_GREEN} />}
-        p={4}>
-        CREATE
-      </Button> */}
       <Box flexDirection="row" width={'full'} justifyContent={'flex-end'}>
-        <Button1 type={4} title="Create" />
+        <Button1 type={4} title="Create" onPress={onAlbumCreate} />
       </Box>
     </VStack>
   )

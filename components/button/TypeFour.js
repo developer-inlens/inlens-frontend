@@ -2,12 +2,12 @@ import React from 'react'
 import {TouchableOpacity, Text} from 'react-native'
 import {ScaledSheet} from 'react-native-size-matters'
 import Icon from 'react-native-vector-icons/MaterialIcons'
-import {colors} from '../../constants/theme'
+import {colors, size} from '../../constants/theme'
 const TypeOne = ({onPress, title}) => {
   return (
     <TouchableOpacity style={styles.button} onPress={onPress}>
       <Text style={styles.text}>{title}</Text>
-      <Icon name={'done'} color={colors.LIGHT_GREEN} size={24} />
+      <Icon name={'done'} color={colors.LIGHT_GREEN} size={size.ICON_SIZE} />
     </TouchableOpacity>
   )
 }
@@ -18,7 +18,7 @@ const styles = ScaledSheet.create({
   button: {
     width: '160@s',
     height: '56@s',
-    backgroundColor: '#121212',
+    backgroundColor: colors.BACKGROUND,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
@@ -35,7 +35,7 @@ const styles = ScaledSheet.create({
     lineHeight: '16@s',
     letterSpacing: '1.25@s',
     textTransform: 'uppercase',
-    color: colors.BUTTON_TEXT_WHITE,
+    color: colors.WHITE_PRIMARY,
     marginRight: '4@s',
   },
 })

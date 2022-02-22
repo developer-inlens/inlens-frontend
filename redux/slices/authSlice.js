@@ -1,20 +1,19 @@
-import { createSlice, } from "@reduxjs/toolkit";
-
+import {createSlice} from '@reduxjs/toolkit'
 
 const initialState = {
-  user: {name:"fahad"},
-};
+  user: {name: 'fahad'},
+}
 
 export const authSlice = createSlice({
-  name: "auth",
+  name: 'auth',
   initialState,
   reducers: {
     authenticate: (state, action) => {
-    //   state.value.user=action.payload;
-    console.log("@@@","yethy")
-  },}
-});
+      //   state.value.user=action.payload;
+    },
+  },
+})
 
-export const { authenticate} = authSlice.actions;
+export const {authenticate} = authSlice.actions
 
-export default authSlice.reducer;
+export default authSlice.reducer

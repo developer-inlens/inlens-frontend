@@ -1,5 +1,6 @@
-import React from 'react'
-import {StyleSheet, Text, View, Image, Dimensions} from 'react-native'
+import React, {useState} from 'react'
+import {StyleSheet, Image, View, Dimensions} from 'react-native'
+// import {Image} from 'native-base'
 //TODO: this library not works in expo, so change to native dev
 // import FastImage from "react-native-fast-image";
 
@@ -14,16 +15,29 @@ import {StyleSheet, Text, View, Image, Dimensions} from 'react-native'
 //  />;
 
 const numColumns = 3
-const Photo = ({empty, uri}) => {
+const Photo = ({empty, uri, placeHolder}) => {
+  const [showDefault, setShowDefault] = useState(true)
   let Image_Http_URL = {
     uri: uri,
+    cache: 'default',
   }
+  const image = showDefault ? require('./placeholder.webp') : Image_Http_URL
 
   if (empty) {
     return <View style={[styles.photo, styles.itemInvisible]} />
   }
   return (
-    <Image source={Image_Http_URL} style={styles.photo} resizeMode="stretch" />
+    <Image
+      source={image}
+      onLoadEnd={() => {
+        setShowDefault(false)
+      }}
+      onError={() => {
+        setShowDefault(true)
+      }}
+      style={styles.photo}
+      resizeMode="stretch"
+    />
   )
 }
 

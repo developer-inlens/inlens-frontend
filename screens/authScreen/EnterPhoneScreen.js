@@ -10,7 +10,6 @@ const EnterPhoneScreen = ({navigation}) => {
   const sendPhoneNumber = () => {
     dispatch(authenticate('9645508854'))
     navigation.replace('Home')
-    console.log('###', user)
   }
 
   return (

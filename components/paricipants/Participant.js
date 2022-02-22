@@ -9,21 +9,21 @@ const Participant = ({id, photo, name}) => {
   return (
     <Pressable mr="2">
       {photo && photo.length > 0 ? (
-        <Avatar size="sm" bg="#272727" source={Image_Http_URL} />
+        <Avatar size="sm" bg={colors.SECONDARY} source={Image_Http_URL} />
       ) : (
         <Box>
           {id === 0 ? (
             <IconButton
               icon={<Icon name="add" />}
               borderRadius="full"
-              bgColor="#272727"
+              bgColor={colors.SECONDARY}
               _icon={{
-                color: colors.BLUE,
+                color: colors.PRIMARY,
                 size: 20,
               }}
             />
           ) : (
-            <Avatar size="sm" bg="#272727">
+            <Avatar size="sm" bg={colors.SECONDARY}>
               <Text fontSize="md" color={colors.LIGHT_GREEN}>
                 {name && name[0]}
               </Text>

@@ -2,150 +2,24 @@ import React, {useState} from 'react'
 import {
   HStack,
   Stack,
-  IconButton,
   Heading,
   Menu,
-  Pressable,
   Box,
-  Input,
-  Spacer,
   FlatList,
   Text,
+  Fab,
 } from 'native-base'
-
+import {useSelector} from 'react-redux'
 import Icon from 'react-native-vector-icons/MaterialIcons'
-import {colors} from '../../constants/theme'
+import {colors, margin, size} from '../../constants/theme'
 import AlbumCard from '../../components/albumCard/AlbumCard'
 import Participant from '../../components/paricipants/Participant'
-import NewAlbum from '../../components/bottomSheet/NewAlbum'
 import Photo from '../../components/photo/Photo'
 import {TouchableOpacity, View} from 'react-native'
+import BottomModelSheet from '../../components/bottomSheet/BottomSheet'
+import UploadPhoto from '../../components/bottomSheet/PhotoUpload'
+import Header from '../../components/header/Header'
 const numColumns = 3
-
-const PHOTOS = [
-  {
-    id: 1,
-    photo:
-      'https://reactnativecode.com/wp-content/uploads/2017/05/react_thumb_install.png',
-  },
-  {
-    id: 2,
-    photo: 'https://i.ibb.co/BsQ6Q1q/pexels-designecologist-1779487.jpg',
-  },
-  {
-    id: 3,
-    photo: 'https://i.ibb.co/McV5BBY/pexels-luis-gomes-546819.jpg',
-  },
-  {
-    id: 4,
-    photo: 'https://i.ibb.co/YQ7hfGn/pexels-kevin-ku-577585.jpg',
-  },
-  {
-    id: 5,
-    photo: 'https://i.ibb.co/g9BqyjQ/pexels-junior-teixeira-2047905.jpg',
-  },
-  {
-    id: 6,
-    photo: 'https://i.ibb.co/LZhy0xw/1634143707923.jpg',
-  },
-  {
-    id: 7,
-    photo: 'https://i.ibb.co/s2mBY8Q/cosmetic.png',
-  },
-  {
-    id: 8,
-    photo: 'https://i.ibb.co/LZhy0xw/1634143707923.jpg',
-  },
-  {
-    id: 9,
-    photo: 'https://i.ibb.co/JmL64c6/Cosmetic-Industry.jpg',
-  },
-  {
-    id: 10,
-    photo:
-      'https://reactnativecode.com/wp-content/uploads/2017/05/react_thumb_install.png',
-  },
-  {
-    id: 11,
-    photo:
-      'https://reactnativecode.com/wp-content/uploads/2017/05/react_thumb_install.png',
-  },
-  {
-    id: 12,
-    photo:
-      'https://reactnativecode.com/wp-content/uploads/2017/05/react_thumb_install.png',
-  },
-  {
-    id: 13,
-    photo:
-      'https://reactnativecode.com/wp-content/uploads/2017/05/react_thumb_install.png',
-  },
-  {
-    id: 1,
-    photo:
-      'https://reactnativecode.com/wp-content/uploads/2017/05/react_thumb_install.png',
-  },
-  {
-    id: 2,
-    photo:
-      'https://reactnativecode.com/wp-content/uploads/2017/05/react_thumb_install.png',
-  },
-  {
-    id: 3,
-    photo:
-      'https://reactnativecode.com/wp-content/uploads/2017/05/react_thumb_install.png',
-  },
-  {
-    id: 4,
-    photo:
-      'https://reactnativecode.com/wp-content/uploads/2017/05/react_thumb_install.png',
-  },
-  {
-    id: 5,
-    photo:
-      'https://reactnativecode.com/wp-content/uploads/2017/05/react_thumb_install.png',
-  },
-  {
-    id: 6,
-    photo:
-      'https://reactnativecode.com/wp-content/uploads/2017/05/react_thumb_install.png',
-  },
-  {
-    id: 7,
-    photo:
-      'https://reactnativecode.com/wp-content/uploads/2017/05/react_thumb_install.png',
-  },
-  {
-    id: 8,
-    photo:
-      'https://reactnativecode.com/wp-content/uploads/2017/05/react_thumb_install.png',
-  },
-  {
-    id: 9,
-    photo:
-      'https://reactnativecode.com/wp-content/uploads/2017/05/react_thumb_install.png',
-  },
-  {
-    id: 10,
-    photo:
-      'https://reactnativecode.com/wp-content/uploads/2017/05/react_thumb_install.png',
-  },
-  {
-    id: 11,
-    photo:
-      'https://reactnativecode.com/wp-content/uploads/2017/05/react_thumb_install.png',
-  },
-  {
-    id: 12,
-    photo:
-      'https://reactnativecode.com/wp-content/uploads/2017/05/react_thumb_install.png',
-  },
-  {
-    id: 13,
-    photo:
-      'https://reactnativecode.com/wp-content/uploads/2017/05/react_thumb_install.png',
-  },
-]
 
 const formatData = (data, numColumns) => {
   const numberOfFullRows = Math.floor(data.length / numColumns)
@@ -223,21 +97,34 @@ const renderAvatar = ({item}) => (
   <Participant id={item.id} photo={item.photo} name={item.name} />
 )
 
-const renderAlbum = ({item}) => (
-  <AlbumCard
-    name={item.title}
-    color={item.color}
-    // isSelected={item.id === currentAlbum}
-    isSelected={item.isSelected}
-  />
-)
-
 const renderPhotos = ({item}) => {
   return <Photo empty={item.empty} uri={item.photo} />
 }
 
-const HomeScreen = () => {
-  const [selectSearch, setSelectSearch] = useState(false)
+const HomeScreen = ({navigation}) => {
+  const {albums} = useSelector(state => state.album)
+
+  const [yOffset, setYoffset] = useState(0)
+  const [currentAlbum, setCurrentAlbum] = useState(albums[0])
+  const [photo, setPhoto] = useState('')
+  const [chooseUpload, setChooseUpload] = useState(false)
+
+  const PHOTOS = [
+    ...albums.filter(item => item.id === currentAlbum.id)[0].photos,
+  ]
+
+  const toggleBottomNavigationView = () => {
+    setChooseUpload(!chooseUpload)
+  }
+
+  const renderAlbum = ({item}) => (
+    <AlbumCard
+      name={item.title}
+      color={item.color}
+      isSelected={item.id === currentAlbum?.id}
+      onPress={() => setCurrentAlbum(item)}
+    />
+  )
 
   const getHeader = () => {
     return (
@@ -246,49 +133,42 @@ const HomeScreen = () => {
           <Heading size="sm" color={colors.TITLE}>
             Recent
           </Heading>
-          <Box flexDirection="row" alignItems="center" mb={4}>
-            {/* <IconButton
-              android_ripple={{color: 'red', borderless: false, radius: 10}}
-              icon={<Icon name="search" />}
-              // borderRadius="full"
-              onPress={() => setSelectSearch(true)}
-              _icon={{
-                color: colors.WHITE,
-                size: 24,
-              }}
-            /> */}
+          <Box flexDirection="row" alignItems="center" mb={margin.MD}>
             <Menu
               w="160"
-              background="#272727"
-              borderColor={colors.PRIMARY}
+              background={colors.SECONDARY}
+              borderColor={colors.BACKGROUND}
               trigger={triggerProps => {
                 return (
                   <TouchableOpacity
-                    accessibilityLabel="More options menu"
+                    accessibilityLabel="Filter"
                     {...triggerProps}>
                     <View>
-                      <Icon name="filter-list" color="#fafafa" size={24} />
+                      <Icon
+                        name="filter-list"
+                        color={colors.WHITE_PRIMARY}
+                        size={size.ICON_SIZE}
+                      />
                     </View>
                   </TouchableOpacity>
                 )
               }}>
               <Menu.Item
                 _text={{
-                  color: 'white',
+                  color: colors.WHITE,
                 }}
-                // androidRippleColor={{color: '#', borderless: false}}
                 android_ripple={true}>
                 Recent
               </Menu.Item>
               <Menu.Item
                 _text={{
-                  color: 'white',
+                  color: colors.WHITE,
                 }}>
                 Created
               </Menu.Item>
               <Menu.Item
                 _text={{
-                  color: 'white',
+                  color: colors.WHITE,
                 }}>
                 Joined
               </Menu.Item>
@@ -296,13 +176,13 @@ const HomeScreen = () => {
           </Box>
         </HStack>
         <FlatList
-          data={DATA}
+          data={albums}
           renderItem={renderAlbum}
           keyExtractor={item => item.id.toString()}
           horizontal={true}
           showsHorizontalScrollIndicator={false}
         />
-        <Heading size="sm" color={colors.TITLE} mt="4" mb="4">
+        <Heading size="sm" color={colors.TITLE} my={margin.MD}>
           Participants
         </Heading>
         <FlatList
@@ -316,26 +196,64 @@ const HomeScreen = () => {
           showsHorizontalScrollIndicator={false}
           // style={styles.participantsList}
         />
-        <Heading size="sm" color={colors.TITLE} mt={4} mb={4}>
+        <Heading size="sm" color={colors.TITLE} my={margin.MD}>
           Photos
         </Heading>
       </Stack>
     )
   }
   return (
-    <FlatList
-      data={formatData(PHOTOS, numColumns)}
-      renderItem={renderPhotos}
-      keyExtractor={item => item.id}
-      // style={styles.photos}
-      numColumns={3}
-      contentContainerStyle={{paddingBottom: 0}}
-      // style={{marginVertical: 10}}
-      ListHeaderComponent={getHeader}
-      // ListFooterComponent={<Text>Loading..</Text>}
-      ListEmptyComponent={<Text>No photos added</Text>}
-    />
+    <>
+      <FlatList
+        data={formatData(PHOTOS, numColumns)}
+        renderItem={renderPhotos}
+        keyExtractor={item => item.id}
+        onScroll={e => {
+          if (yOffset <= 0 && e.nativeEvent.contentOffset.y > 0) {
+            navigation.setOptions({
+              headerTitle: currentAlbum?.title,
+              headerStyle: {
+                backgroundColor: currentAlbum?.color,
+              },
+            })
+          } else if (yOffset > 0 && e.nativeEvent.contentOffset.y <= 0) {
+            navigation.setOptions({
+              headerTitle: () => <Header title="Shared Albums" />,
+              headerStyle: {
+                backgroundColor: colors.BACKGROUND,
+              },
+            })
+          }
+          setYoffset(e.nativeEvent.contentOffset.y)
+        }}
+        // style={styles.photos}
+        numColumns={3}
+        contentContainerStyle={{paddingBottom: 0}}
+        // style={{marginVertical: 10}}
+        ListHeaderComponent={getHeader}
+        // ListFooterComponent={<Text>Loading..</Text>}
+        ListEmptyComponent={<Text color={colors.WHITE}>No photos added</Text>}
+      />
+      <Fab
+        position="absolute"
+        size="sm"
+        backgroundColor={colors.PRIMARY}
+        // label="Upload"
+        icon={<Icon name={'done'} color={colors.BLACK} size={size.ICON_SIZE} />}
+        onPress={toggleBottomNavigationView}
+      />
+      <BottomModelSheet
+        visible={chooseUpload}
+        setVisible={toggleBottomNavigationView}
+        Body={UploadPhoto}
+        title={'New Album'}
+        headerVisible={false}
+        albumId={currentAlbum.id}
+      />
+    </>
   )
 }
-
+HomeScreen.navigationOptions = {
+  headerTitle: 'Fahad',
+}
 export default HomeScreen

@@ -1,19 +1,14 @@
 // COLOR
 export const colors = {
-  PRIMARY: '#121212',
-  WHITE: '#fff',
-  BLACK: '#000',
-  BLUE: '#64B5F6',
+  BACKGROUND: '#121212',
+  PRIMARY: '#64B5F6',
+  SECONDARY: '#272727',
   TITLE: '#ffffffde',
-  LABEL: '#ffffff61',
-  BUTTON_TEXT_BLACK: '#000000cc',
-  BUTTON_TEXT_WHITE: '#FAFAFA',
   LIGHT_GREEN: '#A5D6A7',
   PINK: '#EF9A9A',
-  DARK_PINK: '#ef9a9a99',
-  TEXTFIELD_BACKGROUND: '#ffffff0a',
-  PLACEHOLDER: '#ffffff61',
-  RED: '#EF9A9A',
+  WHITE: '#fff',
+  WHITE_PRIMARY: '#FAFAFA',
+  BLACK: '#000',
 }
 
 // FONT SIZE
@@ -22,7 +17,18 @@ export const fontSize = {}
 // FONT WEIGHT
 export const fontWeight = {}
 
-//Paddings
-export const padding = {}
+// WIDTH,HEIGHT AND SIZE
+export const size = {
+  ICON_SIZE: 24,
+}
 
-export const margin = {}
+//Paddings
+export const padding = {
+  SM: 2,
+  MD: 4,
+}
+
+export const margin = {
+  SM: 2,
+  MD: 4,
+}

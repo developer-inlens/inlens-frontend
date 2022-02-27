@@ -3,9 +3,12 @@ import {TouchableOpacity, Text} from 'react-native'
 import {ScaledSheet} from 'react-native-size-matters'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import {colors, size} from '../../constants/theme'
-const TypeOne = ({onPress, title}) => {
+const TypeOne = ({onPress, title, disabled}) => {
   return (
-    <TouchableOpacity style={styles.button} onPress={onPress}>
+    <TouchableOpacity
+      style={styles.button}
+      onPress={onPress}
+      disabled={disabled}>
       <Text style={styles.text}>{title}</Text>
       <Icon name={'done'} color={colors.LIGHT_GREEN} size={size.ICON_SIZE} />
     </TouchableOpacity>

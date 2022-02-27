@@ -29,6 +29,7 @@ const NewAlum = ({setVisible}) => {
   const dispatch = useDispatch()
 
   const onAlbumCreate = () => {
+    if (name.length === 0) return
     dispatch(
       createAlbum({
         id: Math.random().toString(),
@@ -49,10 +50,6 @@ const NewAlum = ({setVisible}) => {
   }
 
   const decrement = async () => {
-    if (count < 2) {
-      alert('Minimum 1 day needed')
-      return
-    }
     setCount(c => c - 1)
     setDate(dayjs(date).subtract(1, 'day'))
   }
@@ -71,6 +68,8 @@ const NewAlum = ({setVisible}) => {
         maxLength={32}
         value={name}
         onChangeText={setName}
+        defaultValue={name}
+        selectTextOnFocus={true}
       />
       <Text
         fontSize="lg"
@@ -86,13 +85,23 @@ const NewAlum = ({setVisible}) => {
         justifyContent="space-around"
         width="full">
         <Box flexDir="row" alignItems="center">
-          <Button1 type={1} isIncrement={false} onPress={decrement} />
+          <Button1
+            type={1}
+            isIncrement={false}
+            onPress={decrement}
+            disabled={count === 1}
+          />
           <Box mx={margin.MD} justifyContent="center">
             <Heading color={colors.TITLE} size="md">
               {count}
             </Heading>
           </Box>
-          <Button1 type={1} isIncrement={true} onPress={increment} />
+          <Button1
+            type={1}
+            isIncrement={true}
+            onPress={increment}
+            disabled={count === 14}
+          />
         </Box>
         <Box flexDirection="row" width="156">
           <Text

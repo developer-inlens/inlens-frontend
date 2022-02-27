@@ -13,12 +13,18 @@ import ButtonFour from './TypeFour'
 
 // <Button type={5} name="qr-code" title="Scan Participants QR CODE" />;
 
-const Index = ({type, onPress, isIncrement, title, name}) => {
+const Index = ({type, onPress, isIncrement, title, name, disabled}) => {
   switch (type) {
     case 1:
-      return <ButtonOne isIncrement={isIncrement} onPress={onPress} />
+      return (
+        <ButtonOne
+          isIncrement={isIncrement}
+          onPress={onPress}
+          disabled={disabled}
+        />
+      )
     case 4:
-      return <ButtonFour title={title} onPress={onPress} />
+      return <ButtonFour title={title} onPress={onPress} disabled={disabled} />
     // case 5:
     //   return <ButtonFive title={title} onPress={onPress} name={name} />
     // case 6:

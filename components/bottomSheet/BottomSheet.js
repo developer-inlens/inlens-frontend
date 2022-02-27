@@ -22,8 +22,7 @@ const BottomSheet = ({
             justifyContent="space-between"
             alignItems="center"
             width="full"
-            paddingLeft={padding.MD}
-            paddingRight={padding.MD}
+            paddingX={padding.MD}
             marginBottom={padding.MD}>
             <Heading size="md" color={colors.WHITE} opacity={0.6}>
               {title}

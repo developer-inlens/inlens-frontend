@@ -1,5 +1,11 @@
 import React, {useState} from 'react'
-import {StyleSheet, Image, View, Dimensions} from 'react-native'
+import {
+  StyleSheet,
+  Image,
+  View,
+  Dimensions,
+  ImageBackground,
+} from 'react-native'
 // import {Image} from 'native-base'
 //TODO: this library not works in expo, so change to native dev
 // import FastImage from "react-native-fast-image";
@@ -14,30 +20,25 @@ import {StyleSheet, Image, View, Dimensions} from 'react-native'
 //    resizeMode={FastImage.resizeMode.contain}
 //  />;
 
-const numColumns = 3
-const Photo = ({empty, uri, placeHolder}) => {
-  const [showDefault, setShowDefault] = useState(true)
-  let Image_Http_URL = {
-    uri: uri,
-    cache: 'default',
-  }
-  const image = showDefault ? require('./placeholder.webp') : Image_Http_URL
-
+const Photo = ({empty, photo}) => {
   if (empty) {
     return <View style={[styles.photo, styles.itemInvisible]} />
   }
   return (
-    <Image
-      source={image}
-      onLoadEnd={() => {
-        setShowDefault(false)
-      }}
-      onError={() => {
-        setShowDefault(true)
-      }}
-      style={styles.photo}
-      resizeMode="stretch"
-    />
+    <ImageBackground
+      source={{
+        uri: `data:image/png;base64,${photo.photo_thumb_base64}`,
+        cache: 'default',
+      }}>
+      <Image
+        source={{
+          uri: photo.photo_semi_quality,
+          cache: 'default',
+        }}
+        style={styles.photo}
+        resizeMode="stretch"
+      />
+    </ImageBackground>
   )
 }
 
@@ -45,12 +46,12 @@ export default Photo
 
 const styles = StyleSheet.create({
   photo: {
-    width: 50,
+    width: Dimensions.get('window').width / 2,
     alignItems: 'center',
     justifyContent: 'center',
     flex: 1,
     margin: 1,
-    height: Dimensions.get('window').width / numColumns,
+    height: Dimensions.get('window').width / 3,
   },
   itemInvisible: {
     backgroundColor: 'transparent',

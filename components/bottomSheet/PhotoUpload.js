@@ -15,7 +15,7 @@ const PhotoUpload = ({setVisible, albumId}) => {
         id: albumId,
         photo: {
           id: Math.random().toString(),
-          photo: result.assets[0].uri,
+          photo_semi_quality: result.assets[0].uri,
         },
       }),
     )
@@ -28,7 +28,7 @@ const PhotoUpload = ({setVisible, albumId}) => {
         id: albumId,
         photo: {
           id: Math.random().toString(),
-          photo: result.assets[0].uri,
+          photo_semi_quality: result.assets[0].uri,
         },
       }),
     )

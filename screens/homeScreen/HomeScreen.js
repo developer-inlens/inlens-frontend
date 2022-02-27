@@ -19,7 +19,7 @@ import {TouchableOpacity, View} from 'react-native'
 import BottomModelSheet from '../../components/bottomSheet/BottomSheet'
 import UploadPhoto from '../../components/bottomSheet/PhotoUpload'
 import Header from '../../components/header/Header'
-const numColumns = 3
+const numColumns = 2
 
 const formatData = (data, numColumns) => {
   const numberOfFullRows = Math.floor(data.length / numColumns)
@@ -98,7 +98,7 @@ const renderAvatar = ({item}) => (
 )
 
 const renderPhotos = ({item}) => {
-  return <Photo empty={item.empty} uri={item.photo} />
+  return <Photo empty={item.empty} photo={item} />
 }
 
 const HomeScreen = ({navigation}) => {
@@ -227,7 +227,7 @@ const HomeScreen = ({navigation}) => {
           setYoffset(e.nativeEvent.contentOffset.y)
         }}
         // style={styles.photos}
-        numColumns={3}
+        numColumns={numColumns}
         contentContainerStyle={{paddingBottom: 0}}
         // style={{marginVertical: 10}}
         ListHeaderComponent={getHeader}

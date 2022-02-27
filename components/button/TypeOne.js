@@ -4,12 +4,15 @@ import {ScaledSheet} from 'react-native-size-matters'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import {colors, size} from '../../constants/theme'
 
-const TypeOne = ({onPress, isIncrement}) => {
+const TypeOne = ({onPress, isIncrement, disabled}) => {
   return (
-    <TouchableOpacity style={styles(isIncrement).button} onPress={onPress}>
+    <TouchableOpacity
+      style={styles(disabled).button}
+      onPress={onPress}
+      disabled={disabled}>
       <Icon
         name={isIncrement ? 'add' : 'remove'}
-        color={isIncrement ? colors.PRIMARY : colors.PINK}
+        color={disabled ? 'grey' : isIncrement ? colors.PRIMARY : colors.PINK}
         size={size.ICON_SIZE}
       />
     </TouchableOpacity>

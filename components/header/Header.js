@@ -53,6 +53,6 @@ const styles = ScaledSheet.create({
     lineHeight: '24@s',
     fontWeight: '500',
     color: colors.PRIMARY,
-    marginRight: '16@s',
+    marginRight: '5@s',
   },
 })

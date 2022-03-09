@@ -3,11 +3,11 @@ import {Pressable, Text, Avatar, IconButton, Box} from 'native-base'
 import {colors} from '../../constants/theme'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 
-const Participant = ({id, photo, name}) => {
+const Participant = ({id, photo, name, color, onPress}) => {
   let Image_Http_URL = {uri: photo}
 
   return (
-    <Pressable mr="2">
+    <Pressable mr="2" onPress={onPress}>
       {photo && photo.length > 0 ? (
         <Avatar size="sm" bg={colors.SECONDARY} source={Image_Http_URL} />
       ) : (
@@ -24,7 +24,7 @@ const Participant = ({id, photo, name}) => {
             />
           ) : (
             <Avatar size="sm" bg={colors.SECONDARY}>
-              <Text fontSize="md" color={colors.LIGHT_GREEN}>
+              <Text fontSize="md" color={color}>
                 {name && name[0]}
               </Text>
             </Avatar>

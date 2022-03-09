@@ -1,5 +1,5 @@
 import React from 'react'
-import {Box, Heading} from 'native-base'
+import {Box, Heading, Pressable} from 'native-base'
 import {colors} from '../../constants/theme'
 
 const AlbumCard = ({name, color, isSelected, onPress}) => {
@@ -10,9 +10,9 @@ const AlbumCard = ({name, color, isSelected, onPress}) => {
       minWidth="120"
       mr="2"
       padding={isSelected ? '3' : '3'}
-      borderBottomColor={isSelected && colors.WHITE}
+      borderBottomColor={isSelected ? colors.WHITE : null}
       borderBottomWidth={'2'}
-      onTouchStart={onPress}>
+      onTouchEndCapture={onPress}>
       <Heading
         size="sm"
         alignSelf={{

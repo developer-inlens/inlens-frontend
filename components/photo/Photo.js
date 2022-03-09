@@ -1,3 +1,5 @@
+// use Extended FAB
+
 import React, {useState} from 'react'
 import {
   StyleSheet,
@@ -22,20 +24,22 @@ import {
 
 const Photo = ({empty, photo}) => {
   if (empty) {
-    return <View style={[styles.photo, styles.itemInvisible]} />
+    return <View style={[styles(photo).photo, styles(photo).itemInvisible]} />
   }
   return (
     <ImageBackground
       source={{
         uri: `data:image/png;base64,${photo.photo_thumb_base64}`,
         cache: 'default',
-      }}>
+      }}
+      style={styles(photo).photo}
+      resizeMode="stretch">
       <Image
         source={{
           uri: photo.photo_semi_quality,
           cache: 'default',
         }}
-        style={styles.photo}
+        style={styles(photo).photo}
         resizeMode="stretch"
       />
     </ImageBackground>
@@ -44,16 +48,21 @@ const Photo = ({empty, photo}) => {
 
 export default Photo
 
-const styles = StyleSheet.create({
-  photo: {
-    width: Dimensions.get('window').width / 2,
-    alignItems: 'center',
-    justifyContent: 'center',
-    flex: 1,
-    margin: 1,
-    height: Dimensions.get('window').width / 3,
-  },
-  itemInvisible: {
-    backgroundColor: 'transparent',
-  },
-})
+const styles = photo => {
+  return StyleSheet.create({
+    photo: {
+      width: Dimensions.get('window').width / 2,
+      alignItems: 'center',
+      justifyContent: 'center',
+      flex: 1,
+      margin: 1,
+      // marginBottom: 16,
+      height: photo.aspectRatio
+        ? (Dimensions.get('window').width / 2) * photo.aspectRatio
+        : Dimensions.get('window').width / 2,
+    },
+    itemInvisible: {
+      backgroundColor: 'transparent',
+    },
+  })
+}

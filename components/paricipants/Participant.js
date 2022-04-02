@@ -13,15 +13,9 @@ const Participant = ({id, photo, name, color, onPress}) => {
       ) : (
         <Box>
           {id === 0 ? (
-            <IconButton
-              icon={<Icon name="add" />}
-              borderRadius="full"
-              bgColor={colors.SECONDARY}
-              _icon={{
-                color: colors.PRIMARY,
-                size: 20,
-              }}
-            />
+            <Avatar size="sm" bg={colors.SECONDARY}>
+              <Icon name="add" color={colors.PRIMARY} size={20} />
+            </Avatar>
           ) : (
             <Avatar size="sm" bg={colors.SECONDARY}>
               <Text fontSize="md" color={color}>

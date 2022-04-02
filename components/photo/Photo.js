@@ -1,5 +1,3 @@
-// use Extended FAB
-
 import React, {useState} from 'react'
 import {
   StyleSheet,
@@ -7,6 +5,7 @@ import {
   View,
   Dimensions,
   ImageBackground,
+  TouchableOpacity,
 } from 'react-native'
 // import {Image} from 'native-base'
 //TODO: this library not works in expo, so change to native dev
@@ -22,31 +21,32 @@ import {
 //    resizeMode={FastImage.resizeMode.contain}
 //  />;
 
-const Photo = ({empty, photo}) => {
-  if (empty) {
-    return <View style={[styles(photo).photo, styles(photo).itemInvisible]} />
-  }
+const {width} = Dimensions.get('window')
+
+const Photo = ({photo, onTouchPhoto}) => {
   return (
-    <ImageBackground
-      source={{
-        uri: `data:image/png;base64,${photo.photo_thumb_base64}`,
-        cache: 'default',
-      }}
-      style={styles(photo).photo}
-      resizeMode="stretch">
-      <Image
+    <TouchableOpacity onPress={() => onTouchPhoto(photo.id)}>
+      <ImageBackground
         source={{
-          uri: photo.photo_semi_quality,
+          uri: `data:image/png;base64,${photo.photo_thumb_base64}`,
           cache: 'default',
         }}
         style={styles(photo).photo}
-        resizeMode="stretch"
-      />
-    </ImageBackground>
+        resizeMode="stretch">
+        <Image
+          source={{
+            uri: photo.photo_semi_quality,
+            cache: 'default',
+          }}
+          style={styles(photo).photo}
+          resizeMode="stretch"
+        />
+      </ImageBackground>
+    </TouchableOpacity>
   )
 }
 
-export default Photo
+export default React.memo(Photo)
 
 const styles = photo => {
   return StyleSheet.create({
@@ -54,12 +54,14 @@ const styles = photo => {
       width: Dimensions.get('window').width / 2,
       alignItems: 'center',
       justifyContent: 'center',
-      flex: 1,
+      // flex: 1,
+      width: width / 2,
+      height: width / 2,
       margin: 1,
       // marginBottom: 16,
-      height: photo.aspectRatio
-        ? (Dimensions.get('window').width / 2) * photo.aspectRatio
-        : Dimensions.get('window').width / 2,
+      // height: photo.aspectRatio
+      //   ? (Dimensions.get('window').width / 2) * photo.aspectRatio
+      //   : Dimensions.get('window').width / 2,
     },
     itemInvisible: {
       backgroundColor: 'transparent',

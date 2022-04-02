@@ -9,7 +9,7 @@ import {store} from './redux/store'
 import HomeScreen from './screens/homeScreen/HomeScreen'
 import Header from './components/header/Header'
 import AuthScreen from './screens/authScreen/EnterPhoneScreen'
-
+import PhotoView from './screens/imageView/ImageView'
 const Stack = createNativeStackNavigator()
 
 const AppTheme = {
@@ -35,6 +35,7 @@ const App = () => {
               name="Home"
               component={HomeScreen}
               options={{
+                // headerShown: false,
                 headerTitle: () => <Header title="Shared Albums" />,
                 headerTintColor: '#444',
                 headerStyle: {
@@ -42,6 +43,13 @@ const App = () => {
                   padding: 0,
                   margin: 0,
                 },
+              }}
+            />
+            <Stack.Screen
+              name="PhotoView"
+              component={PhotoView}
+              options={{
+                headerShown: false,
               }}
             />
           </Stack.Navigator>

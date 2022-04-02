@@ -1,6 +1,12 @@
 import React, {useCallback, useState} from 'react'
-import {Stack, Heading, Text, Spinner} from 'native-base'
-import {FlatList, Dimensions, TouchableOpacity} from 'react-native'
+import {Stack, Heading, Fab, Spinner} from 'native-base'
+import {
+  FlatList,
+  ScrollView,
+  Dimensions,
+  Text,
+  RefreshControl,
+} from 'react-native'
 import {useSelector, useDispatch} from 'react-redux'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import {colors, margin, size} from '../../constants/theme'
@@ -8,11 +14,11 @@ import AlbumCard from '../../components/albumCard/AlbumCard'
 import Participant from '../../components/paricipants/Participant'
 import BottomModelSheet from '../../components/bottomSheet/BottomSheet'
 import UploadPhoto from '../../components/bottomSheet/PhotoUpload'
+import Photos from './Photos'
 import Albums from './Album'
 import Participants from './Participants'
 import {fetchMorePhotos} from '../../redux/slices/albumSlice'
-import {ScaledSheet} from 'react-native-size-matters'
-import Photo from '../../components/photo/Photo'
+
 const HomeScreen = ({navigation}) => {
   const dispatch = useDispatch()
 
@@ -73,7 +79,6 @@ const HomeScreen = ({navigation}) => {
       albumId: currentAlbum.id,
     })
   }
-
   // for infinite scrolling
 
   const dummy_db = [
@@ -84,7 +89,6 @@ const HomeScreen = ({navigation}) => {
         'UklGRswAAABXRUJQVlA4TL8AAAAvCcABAE1kRP9jEYMf/Q/hNrZtVVnvR+6fTBulRlp4IUP0IHMvgm0k201OwnsyCH//3dDBL0FDJC+mkW07OTwayGB/KVg6ZlCUgWKuRuWcIndfqfFq/wN74oHAz5AZXtaqagDwBwAAIAgzdf3AP3R8bLnPAACqKEBRgO7Xf3hbEBHY0kAg3kUPed73U03cVpWgdwMgjiqf7W79ZXnTHSCgIq6/SY4t0OpyJUPug/Efc3Se8mI+F8U7/V3duNdNNQA=',
       photo_semi_quality:
         'https://firebasestorage.googleapis.com/v0/b/fir-5c768.appspot.com/o/Recycler_view%2F1_5.3MB.webp?alt=media&token=68eeb919-f6d9-45cc-a937-23a28cfbfe78',
-      url: 'https://firebasestorage.googleapis.com/v0/b/fir-5c768.appspot.com/o/Recycler_view%2F1_5.3MB.webp?alt=media&token=68eeb919-f6d9-45cc-a937-23a28cfbfe78',
     },
     {
       id: 542,
@@ -93,7 +97,6 @@ const HomeScreen = ({navigation}) => {
         'UklGRqoAAABXRUJQVlA4TJ4AAAAvCQABAE1kRP9jEYMR/Q/BNrJtJRd3iH6G/I9kFEBM/0W4O2TWB6NIkhT17jHzv/2r6jgFzMQ6kmxT82wncPNP6Rn/NiPyC/2XpHNJ/Lmxofn+nP2cYBTD71x/ITopoQCgAFRVASgFBU+vZTalFFQUBIKiKiigAeCPNLd0AAoJABAIigocAP50ra25npY6JPevjR/z/6ddR8L+e03y/Q==',
       photo_semi_quality:
         'https://firebasestorage.googleapis.com/v0/b/fir-5c768.appspot.com/o/Recycler_view%2F2_3.3MB.webp?alt=media&token=5c266ebd-50fb-4b5c-ad06-adb1439d947d',
-      url: 'https://firebasestorage.googleapis.com/v0/b/fir-5c768.appspot.com/o/Recycler_view%2F2_3.3MB.webp?alt=media&token=5c266ebd-50fb-4b5c-ad06-adb1439d947d',
     },
     {
       id: 3453,
@@ -103,7 +106,6 @@ const HomeScreen = ({navigation}) => {
 
       photo_semi_quality:
         'https://firebasestorage.googleapis.com/v0/b/fir-5c768.appspot.com/o/Recycler_view%2F3_4.75MB_.webp?alt=media&token=63881f76-ce27-412a-8371-638015a0aaf5',
-      url: 'https://firebasestorage.googleapis.com/v0/b/fir-5c768.appspot.com/o/Recycler_view%2F3_4.75MB_.webp?alt=media&token=63881f76-ce27-412a-8371-638015a0aaf5',
     },
     {
       id: 45345,
@@ -113,7 +115,6 @@ const HomeScreen = ({navigation}) => {
 
       photo_semi_quality:
         'https://firebasestorage.googleapis.com/v0/b/fir-5c768.appspot.com/o/Recycler_view%2F4_4.74MB.webp?alt=media&token=1f2cab3d-d41c-4ffc-b18f-88c880bb05b1',
-      url: 'https://firebasestorage.googleapis.com/v0/b/fir-5c768.appspot.com/o/Recycler_view%2F4_4.74MB.webp?alt=media&token=1f2cab3d-d41c-4ffc-b18f-88c880bb05b1',
     },
     {
       id: 5543,
@@ -123,7 +124,6 @@ const HomeScreen = ({navigation}) => {
 
       photo_semi_quality:
         'https://firebasestorage.googleapis.com/v0/b/fir-5c768.appspot.com/o/Recycler_view%2F5_4.96MB.webp?alt=media&token=b07c7de8-1a49-436e-80de-e6ffc146571f',
-      url: 'https://firebasestorage.googleapis.com/v0/b/fir-5c768.appspot.com/o/Recycler_view%2F5_4.96MB.webp?alt=media&token=b07c7de8-1a49-436e-80de-e6ffc146571f',
     },
     {
       id: 2346,
@@ -133,7 +133,6 @@ const HomeScreen = ({navigation}) => {
 
       photo_semi_quality:
         'https://firebasestorage.googleapis.com/v0/b/fir-5c768.appspot.com/o/Recycler_view%2F6_4.83MB.webp?alt=media&token=e80dae2b-1ec7-4960-9a73-391fce65fc6b',
-      url: 'https://firebasestorage.googleapis.com/v0/b/fir-5c768.appspot.com/o/Recycler_view%2F6_4.83MB.webp?alt=media&token=e80dae2b-1ec7-4960-9a73-391fce65fc6b',
     },
     {
       id: 2347,
@@ -350,7 +349,8 @@ const HomeScreen = ({navigation}) => {
   ]
 
   const [loading, setLoading] = useState(false)
-  let total = 32
+  // const [total,setTotal]=useState
+  let total = 33
   const fetchMoreImages = async () => {
     if (loading) return
     if (PHOTOS.length === total) return
@@ -386,10 +386,33 @@ const HomeScreen = ({navigation}) => {
       current: y,
     })
   }
+  const logScrollViewSize = (width, height) => {
+    // scrollViewHeight = height;
+    setScrollViewHeight(height)
+  }
 
   return (
     <>
-      <FlatList
+      <ScrollView
+        refreshControl={
+          <RefreshControl refreshing={refresh} onRefresh={handleRefresh} />
+        }
+        onScroll={handleScroll}
+        onContentSizeChange={logScrollViewSize}>
+        <Stack px="2">
+          <Albums albums={albums} renderAlbum={renderAlbum} />
+          <Participants
+            participants={PARTICIPANTS}
+            renderAvatar={renderAvatar}
+          />
+          <Heading size="sm" color={colors.TITLE} my={margin.MD}>
+            Photos
+          </Heading>
+          <Photos photos={PHOTOS} onTouchPhoto={onTouchPhoto} />
+        </Stack>
+        {loading && <Spinner color={colors.PRIMARY} size="lg" />}
+      </ScrollView>
+      {/* <FlatList
         contentContainerStyle={{paddingBottom: 0}}
         ListHeaderComponent={
           <Stack px="2">
@@ -401,16 +424,10 @@ const HomeScreen = ({navigation}) => {
             <Heading size="sm" color={colors.TITLE} my={margin.MD}>
               Photos
             </Heading>
+            <Photos photos={PHOTOS} />
           </Stack>
         }
-        data={PHOTOS}
-        numColumns={2}
-        keyExtractor={item => item.id.toString()}
-        renderItem={({item}) => (
-          <Photo photo={item} onTouchPhoto={onTouchPhoto} />
-        )}
         onScroll={e => {
-          handleScroll(e)
           if (yOffset.current < yOffset.prev) {
             setShowLabel(true)
           } else {
@@ -421,19 +438,24 @@ const HomeScreen = ({navigation}) => {
             current: e.nativeEvent.contentOffset.y,
           })
         }}
-        ListFooterComponent={
-          loading && <Spinner color={colors.PRIMARY} size="lg" />
-        }
         onEndReached={() => console.log('*****reached')}
         refreshing={refresh}
         onRefresh={handleRefresh}
-      />
-      <TouchableOpacity
+      /> */}
+      <Fab
+        position="absolute"
+        size="sm"
+        backgroundColor={colors.PRIMARY}
+        label={showLabel ? 'Upload' : ''}
+        icon={
+          <Icon
+            name={'file-upload'}
+            color={colors.BLACK}
+            size={size.ICON_SIZE}
+          />
+        }
         // onPress={toggleBottomNavigationView}
-        style={styles.fab}>
-        <Icon name={'file-upload'} color={colors.BLACK} size={size.ICON_SIZE} />
-        {showLabel && <Text>Upload</Text>}
-      </TouchableOpacity>
+      />
       <BottomModelSheet
         visible={chooseUpload}
         setVisible={toggleBottomNavigationView}
@@ -447,21 +469,3 @@ const HomeScreen = ({navigation}) => {
 }
 
 export default HomeScreen
-
-const styles = ScaledSheet.create({
-  fab: {
-    borderWidth: 1,
-    borderColor: colors.PRIMARY,
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    // width: 100,
-    padding: 10,
-    position: 'absolute',
-    bottom: 10,
-    right: 10,
-    height: 50,
-    backgroundColor: colors.PRIMARY,
-    borderRadius: 100,
-    flexDirection: 'row',
-  },
-})

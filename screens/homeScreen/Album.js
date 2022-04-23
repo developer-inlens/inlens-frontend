@@ -1,10 +1,10 @@
 import React from 'react'
 import {TouchableOpacity, FlatList} from 'react-native'
-import {HStack, Heading, Menu, Box} from 'native-base'
+import {HStack, Heading, Menu, Box, Skeleton} from 'native-base'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import {colors, margin, size} from '../../constants/theme'
 
-const Album = ({albums, renderAlbum}) => {
+const Album = ({albums, renderAlbum, isLoaded}) => {
   return (
     <>
       <HStack
@@ -12,9 +12,11 @@ const Album = ({albums, renderAlbum}) => {
         space={8}
         alignItems="center"
         mb={margin.MD}>
-        <Heading size="sm" color={colors.TITLE}>
-          Recent
-        </Heading>
+        <Skeleton.Text lines={1} my={margin.MD} size="sm" isLoaded={isLoaded}>
+          <Heading size="sm" color={colors.TITLE}>
+            Recent
+          </Heading>
+        </Skeleton.Text>
         <Box flexDirection="row" alignItems="center" justifyContent="center">
           <TouchableOpacity style={{marginRight: 10}}>
             <Icon name="search" color={colors.WHITE} size={size.ICON_SIZE} />
@@ -56,13 +58,15 @@ const Album = ({albums, renderAlbum}) => {
           </Menu>
         </Box>
       </HStack>
-      <FlatList
-        data={albums}
-        renderItem={renderAlbum}
-        keyExtractor={item => item.id.toString()}
-        horizontal={true}
-        showsHorizontalScrollIndicator={false}
-      />
+      <Skeleton isLoaded={isLoaded}>
+        <FlatList
+          data={albums}
+          renderItem={renderAlbum}
+          keyExtractor={item => item.id.toString()}
+          horizontal={true}
+          showsHorizontalScrollIndicator={false}
+        />
+      </Skeleton>
     </>
   )
 }

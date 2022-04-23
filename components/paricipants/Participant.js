@@ -1,5 +1,5 @@
 import React from 'react'
-import {Pressable, Text, Avatar, IconButton, Box} from 'native-base'
+import {Pressable, Text, Avatar, Box, Popover} from 'native-base'
 import {colors} from '../../constants/theme'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 
@@ -18,9 +18,20 @@ const Participant = ({id, photo, name, color, onPress}) => {
             </Avatar>
           ) : (
             <Avatar size="sm" bg={colors.SECONDARY}>
-              <Text fontSize="md" color={color}>
-                {name && name[0]}
-              </Text>
+              <Popover
+                trigger={triggerProps => {
+                  return (
+                    <Text {...triggerProps} fontSize="md" color={color}>
+                      {name[0]}
+                    </Text>
+                  )
+                }}>
+                <Popover.Content w="56">
+                  <Popover.Arrow />
+                  <Popover.CloseButton />
+                  <Popover.Header>{name}</Popover.Header>
+                </Popover.Content>
+              </Popover>
             </Avatar>
           )}
         </Box>

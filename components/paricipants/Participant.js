@@ -1,10 +1,21 @@
-import React from 'react'
+import React, {useState, useEffect} from 'react'
+import {TouchableOpacity} from 'react-native'
 import {Pressable, Text, Avatar, Box, Popover} from 'native-base'
 import {colors} from '../../constants/theme'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 
 const Participant = ({id, photo, name, color, onPress}) => {
   let Image_Http_URL = {uri: photo}
+  const [isOpen, setIsOpen] = useState(false)
+
+  const openPopover = () => setIsOpen(true)
+  const closePopover = () => setIsOpen(false)
+
+  useEffect(() => {
+    setTimeout(() => {
+      setIsOpen(false)
+    }, 2000)
+  }, [isOpen])
 
   return (
     <Pressable mr="2" onPress={onPress}>
@@ -17,22 +28,29 @@ const Participant = ({id, photo, name, color, onPress}) => {
               <Icon name="add" color={colors.PRIMARY} size={20} />
             </Avatar>
           ) : (
-            <Avatar size="sm" bg={colors.SECONDARY}>
-              <Popover
-                trigger={triggerProps => {
-                  return (
-                    <Text {...triggerProps} fontSize="md" color={color}>
-                      {name[0]}
-                    </Text>
-                  )
-                }}>
-                <Popover.Content w="56">
-                  <Popover.Arrow />
-                  <Popover.CloseButton />
-                  <Popover.Header>{name}</Popover.Header>
-                </Popover.Content>
-              </Popover>
-            </Avatar>
+            <TouchableOpacity onPress={openPopover}>
+              <Avatar size="sm" bg={colors.SECONDARY}>
+                <Popover
+                  trigger={triggerProps => {
+                    return (
+                      <TouchableOpacity {...triggerProps} onPress={openPopover}>
+                        <Text fontSize="md" color={color}>
+                          {name[0]}
+                        </Text>
+                      </TouchableOpacity>
+                    )
+                  }}
+                  isOpen={isOpen}
+                  onClose={closePopover}>
+                  <Popover.Content w="56" borderColor={color}>
+                    <Popover.Arrow borderColor={color} color={color} />
+                    <Popover.Header backgroundColor={color} color="white">
+                      {name}
+                    </Popover.Header>
+                  </Popover.Content>
+                </Popover>
+              </Avatar>
+            </TouchableOpacity>
           )}
         </Box>
       )}

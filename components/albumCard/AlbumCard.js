@@ -6,12 +6,12 @@ const AlbumCard = ({name, color, isSelected, onPress}) => {
   return (
     <Box
       backgroundColor={color}
-      borderRadius="6"
+      borderRadius="50"
       minWidth="120"
       mr="2"
       padding={isSelected ? '3' : '3'}
-      borderBottomColor={isSelected ? colors.WHITE : null}
-      borderBottomWidth={'2'}
+      borderColor={isSelected ? colors.WHITE : null}
+      borderWidth={'3'}
       onTouchEndCapture={onPress}>
       <Heading
         size="sm"

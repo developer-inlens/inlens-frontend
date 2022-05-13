@@ -8,122 +8,7 @@ const initialState = {
       title: 'Munnar',
       color: '#ffcdd2',
       album_lifecycle: 'done',
-      photos: [
-        {
-          id: 1,
-          aspectRatio: 3 / 4,
-          height: 3,
-          width: 4,
-          photo_thumb_base64:
-            'UklGRswAAABXRUJQVlA4TL8AAAAvCcABAE1kRP9jEYMf/Q/hNrZtVVnvR+6fTBulRlp4IUP0IHMvgm0k201OwnsyCH//3dDBL0FDJC+mkW07OTwayGB/KVg6ZlCUgWKuRuWcIndfqfFq/wN74oHAz5AZXtaqagDwBwAAIAgzdf3AP3R8bLnPAACqKEBRgO7Xf3hbEBHY0kAg3kUPed73U03cVpWgdwMgjiqf7W79ZXnTHSCgIq6/SY4t0OpyJUPug/Efc3Se8mI+F8U7/V3duNdNNQA=',
-          photo_semi_quality:
-            'https://firebasestorage.googleapis.com/v0/b/fir-5c768.appspot.com/o/Recycler_view%2F1_5.3MB.webp?alt=media&token=68eeb919-f6d9-45cc-a937-23a28cfbfe78',
-          url: 'https://firebasestorage.googleapis.com/v0/b/fir-5c768.appspot.com/o/Recycler_view%2F1_5.3MB.webp?alt=media&token=68eeb919-f6d9-45cc-a937-23a28cfbfe78',
-        },
-        {
-          id: 2,
-          aspectRatio: 1824 / 4000,
-          height: 1824,
-          width: 4000,
-          photo_thumb_base64:
-            'UklGRqoAAABXRUJQVlA4TJ4AAAAvCQABAE1kRP9jEYMR/Q/BNrJtJRd3iH6G/I9kFEBM/0W4O2TWB6NIkhT17jHzv/2r6jgFzMQ6kmxT82wncPNP6Rn/NiPyC/2XpHNJ/Lmxofn+nP2cYBTD71x/ITopoQCgAFRVASgFBU+vZTalFFQUBIKiKiigAeCPNLd0AAoJABAIigocAP50ra25npY6JPevjR/z/6ddR8L+e03y/Q==',
-          photo_semi_quality:
-            'https://firebasestorage.googleapis.com/v0/b/fir-5c768.appspot.com/o/Recycler_view%2F2_3.3MB.webp?alt=media&token=5c266ebd-50fb-4b5c-ad06-adb1439d947d',
-          url: 'https://firebasestorage.googleapis.com/v0/b/fir-5c768.appspot.com/o/Recycler_view%2F2_3.3MB.webp?alt=media&token=5c266ebd-50fb-4b5c-ad06-adb1439d947d',
-        },
-        {
-          id: 3,
-          aspectRatio: 2560 / 1920,
-          height: 2560,
-          width: 1920,
-          photo_thumb_base64:
-            'UklGRiQBAABXRUJQVlA4TBcBAAAvCQADAAk1bRuw8OtuRP8D9BcxIAPS/3iB29i2VWX/jxM5sVsX9EEP1PhivIQzxPbdpQ3HtW21yjZnJTRACfZfDVNnOQvfVW3bqjLfw/1GOP1TEIEEjPOJu2sErDeXqtf/XqccVouGX62qRrKhPs9/LxzmNZxwGITD4MxB4v+vTpMKQOdCSAQOMHCYLS5Wr2EOCEHJuYRy6PRaEwDmwJF5JQdrOnr0rlBBBQZJSUf5tNGlNwVIGmnMhIDO5P02l8TUgASECmqJtgr7gZjXQDhnMBcA6afldg5OOOAAABwLlB6f0Qp4AxCSc+EEw/yvR7UTDM6FUJxw4HwA6IYH325/3Ekml2zfytqf9vdPx2b7toZ/cWta8woA',
-
-          photo_semi_quality:
-            'https://firebasestorage.googleapis.com/v0/b/fir-5c768.appspot.com/o/Recycler_view%2F3_4.75MB_.webp?alt=media&token=63881f76-ce27-412a-8371-638015a0aaf5',
-          url: 'https://firebasestorage.googleapis.com/v0/b/fir-5c768.appspot.com/o/Recycler_view%2F3_4.75MB_.webp?alt=media&token=63881f76-ce27-412a-8371-638015a0aaf5',
-        },
-        {
-          id: 4,
-          aspectRatio: 1824 / 1368,
-          height: 1824,
-          width: 1368,
-          photo_thumb_base64:
-            'UklGRsgAAABXRUJQVlA4TLwAAAAvBgACAIkbHET0P1oMSByEv//BcFTb1pId3H3E7M3oYrmoQRQykEAD6O+Sw1Uk22rUYQYJkRL/Engl8H4FmNi2reTg7mTWT0yAxGz/tGie+QmXiDJskn8Q3OF1Hm0lV0vzar8XPAACAEjiZ3qOz14gRK/vyE9yJ3EJgBACkJ91VpuC+JluPQAUSeVNK0T8VALQj334cYynzoOtVyPGod+eDEX3TP9YCgWFFGm+aqbNsP2vU71v87ipE/3eAA==',
-
-          photo_semi_quality:
-            'https://firebasestorage.googleapis.com/v0/b/fir-5c768.appspot.com/o/Recycler_view%2F4_4.74MB.webp?alt=media&token=1f2cab3d-d41c-4ffc-b18f-88c880bb05b1',
-          url: 'https://firebasestorage.googleapis.com/v0/b/fir-5c768.appspot.com/o/Recycler_view%2F4_4.74MB.webp?alt=media&token=1f2cab3d-d41c-4ffc-b18f-88c880bb05b1',
-        },
-        {
-          id: 5,
-          aspectRatio: 3648 / 2736,
-          height: 3648,
-          width: 2736,
-          photo_thumb_base64:
-            'UklGRrIAAABXRUJQVlA4TKUAAAAvBgACAE1kRP9jEQMf/Q/htrZtJboZLiW8mFZpihY8dnd3mOmCcSNJTgrvyT88QuB3HlhHtpXmAHG3Aui/Kv7j7klMgN7X9/AzTUzl0mrm9XLYNqmzfAAEog2m+/93fAAfoIkBzGY9A3/A/9tEM79/e/RYqIZ7k8m+qugNeLM9ekD3P1WOCT5UA+A/lF/VNwdQDZD99Xck1/Wdoyc4TBAD8Yz30d0A',
-
-          photo_semi_quality:
-            'https://firebasestorage.googleapis.com/v0/b/fir-5c768.appspot.com/o/Recycler_view%2F5_4.96MB.webp?alt=media&token=b07c7de8-1a49-436e-80de-e6ffc146571f',
-          url: 'https://firebasestorage.googleapis.com/v0/b/fir-5c768.appspot.com/o/Recycler_view%2F5_4.96MB.webp?alt=media&token=b07c7de8-1a49-436e-80de-e6ffc146571f',
-        },
-        {
-          id: 6,
-          aspectRatio: 3649 / 2736,
-          height: 3649,
-          width: 2736,
-          photo_thumb_base64:
-            'UklGRrwAAABXRUJQVlA4TK8AAAAvBgACAE1kRP9jETEC/Q/htrZtJTpI6BC65pTwC6MYSiGHIl6IZTY+dbiqbVupJs4nEU4W+ldwCGDPlXEk2UrmOw4hvPyT4t9x10NEt7ZrkZDZwG+831fqrtQ4qcUsGgAAiX0kCgiok6cERLdu/AUgG3mIZ8bsnO/VmhxqjAOEtNs850FdA1Bj7ANCBGZ3HbsSgBwEwNzu6QgASJCPAKvZmr8L38tJP8v879+Z3/cDAA==',
-
-          photo_semi_quality:
-            'https://firebasestorage.googleapis.com/v0/b/fir-5c768.appspot.com/o/Recycler_view%2F6_4.83MB.webp?alt=media&token=e80dae2b-1ec7-4960-9a73-391fce65fc6b',
-          url: 'https://firebasestorage.googleapis.com/v0/b/fir-5c768.appspot.com/o/Recycler_view%2F6_4.83MB.webp?alt=media&token=e80dae2b-1ec7-4960-9a73-391fce65fc6b',
-        },
-        {
-          id: 7,
-          aspectRatio: 3650 / 2736,
-          height: 3650,
-          width: 2736,
-          photo_thumb_base64:
-            'UklGRswAAABXRUJQVlA4TL8AAAAvBgACAIXjAACIaKfaoGcT9LNt62wbP9salWEAAGUyt/3/opEdA0mSDK3//7Lds23biOh/FHl3QlVLtDVU/OH2Ket8FrEuVjJvLHXCqwMa7q0dkyrc/L7yiiqSZN0H2XiWZZLw3ReCF2aHBMnS8o3TykbxjJM+5sTIQbbGv/T7RLIr8uujXx6bEJmsFzsi9CDGQBqgp4LfjKmPVgYgBE3w8mZw3WbEK81n0D8ffUY7g3TF5Uvq7/U36M8CfMUOAAA=',
-          photo_semi_quality:
-            'https://firebasestorage.googleapis.com/v0/b/fir-5c768.appspot.com/o/Recycler_view%2F7_4.15MB.webp?alt=media&token=f899f0c5-7528-499f-ac02-f1d2335e9b94',
-          url: 'https://firebasestorage.googleapis.com/v0/b/fir-5c768.appspot.com/o/Recycler_view%2F7_4.15MB.webp?alt=media&token=f899f0c5-7528-499f-ac02-f1d2335e9b94',
-        },
-        {
-          id: 8,
-          aspectRatio: 2752 / 5664,
-          height: 2752,
-          width: 5664,
-          photo_thumb_base64:
-            'UklGRvIAAABXRUJQVlA4TOUAAAAvDYABAIk2RPQ/FjEgBel/JHEb27aqnP8/Hr0htlsUVVEIdbh7ROru7tDGiW6EOIwk27Tm2bZP/km9m8LTN9zGtq0q+/sP3YVL6P2HdEABeinA3Sfi+Wemk/iatTWJjY+oa9x+Tkm7hj+D4Le8/r72z3pjPH6/m/43HAFJhQgCgA4qCKk828e4BoBACJQdpINSgXaYXXV6m0+KKBRJkY8SAg2AwP3YyW2xAXD8UUmqKDrC33yrtWaQ+iHZQTsABAo+i1M2brdfd6SnO6vc1//RlrfD4Fn9RZ+Gzn6rmd+CbeB6bvc7AA==',
-          photo_semi_quality:
-            'https://firebasestorage.googleapis.com/v0/b/fir-5c768.appspot.com/o/Recycler_view%2FIMG_8.webp?alt=media&token=244648ef-e20a-4bab-9622-6d30c3f41dc5',
-          url: 'https://firebasestorage.googleapis.com/v0/b/fir-5c768.appspot.com/o/Recycler_view%2FIMG_8.webp?alt=media&token=244648ef-e20a-4bab-9622-6d30c3f41dc5',
-        },
-        {
-          id: 9,
-          aspectRatio: 2753 / 5664,
-          height: 2753,
-          width: 5664,
-          photo_thumb_base64:
-            'UklGRtQAAABXRUJQVlA4TMcAAAAvDYABAE1kRP9jERH9D4ejSLZV53yGoAFWEuexgDu8DsLMUTFv9dhIkq1k/sedjPRx/yu55S/ChUEjSYr6npkUbN6/nBeweQHMHEWYE+k3LoLQ/BG/fgQf0E+IuWE+H5lhtiUCugCABjURA8L3GW1RF5UUTUUKgIGHTXnforPJ0AQQyr9oQAyPkL170kUxFJwGJGDIlqJ0/sBtQIP6Aeok4rFBpGwpLpk5sgdH18hppHdf29ftxXXVqpaT9YdNHawk4Zt///YHAA==',
-          photo_semi_quality:
-            'https://firebasestorage.googleapis.com/v0/b/fir-5c768.appspot.com/o/Recycler_view%2FIMG_9.webp?alt=media&token=658f6840-73d4-4205-a08f-bc85b22bce39',
-          url: 'https://firebasestorage.googleapis.com/v0/b/fir-5c768.appspot.com/o/Recycler_view%2FIMG_9.webp?alt=media&token=658f6840-73d4-4205-a08f-bc85b22bce39',
-        },
-        {
-          id: 10,
-          aspectRatio: 4248 / 5664,
-          height: 4248,
-          width: 5664,
-          photo_thumb_base64:
-            'UklGRjABAABXRUJQVlA4TCQBAAAvDYACAE2ISVPMfI3ofxyLiOh/AHZt26qahbvD/8b60MKohPFq4BeSnDFSQFrYcXf3NmBFtu0qanKGK2FX8Y1/E4g4Esh55rqNbVtVFu4SEt5SKJ1S7pB6+P1G7H8XH/8Gk+Hzt7oZTJs+H3etbjEfinyQIcuFOu2TS0JSnJB0cUQJAoBmt3o0JJKYlIcTJwCWiaQEgbkx6redFKQIVClAstkglgTr3n8s5oAAkLRACkBOCHZv3fm0BTPBQEgIIoLggcJq03tthRGBUaiATn8hmrzM1o/bQYJKx8MJuBiw6wM0TSqzfnC8kYfD7qoEgpOHhoZCSHSfz/z+TdICAIAGAAD/3G1xcHgxOBWGlZr0mV6Ypf5m/z9ZVf5NhYGM+uuz32EB',
-          photo_semi_quality:
-            'https://firebasestorage.googleapis.com/v0/b/fir-5c768.appspot.com/o/Recycler_view%2FIMG_10.webp?alt=media&token=c314a013-21ff-49a2-bcac-30a2a022e4fc',
-          url: 'https://firebasestorage.googleapis.com/v0/b/fir-5c768.appspot.com/o/Recycler_view%2FIMG_10.webp?alt=media&token=c314a013-21ff-49a2-bcac-30a2a022e4fc',
-        },
-      ],
+      photos: [],
       participants: [
         {
           id: '1',
@@ -338,9 +223,26 @@ export const albumSlice = createSlice({
     //   state.currentAlbumPhotos=
     // },
     fetchMorePhotos: (state, action) => {
+      // if (action.payload.offset > 0) {
+      //   // New method
+      //   console.log(
+      //     '***********************************',
+      //     action.payload.photo.length,
+      //     typeof action.payload.photo,
+      //   )
+      //   action.payload.photo.map((item, index) => {
+      //     console.log(item)
+      //     state.albums[
+      //       state.albums.findIndex(item => item.id === action.payload.id)
+      //     ].splice(action.payload.offset + index + 1, 1, item)
+      //   })
+
+      //   console.log('###')
+      // } else {
       state.albums[
         state.albums.findIndex(item => item.id === action.payload.id)
       ].photos.push(...action.payload.photo)
+      // }
     },
   },
 })

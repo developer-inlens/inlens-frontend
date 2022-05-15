@@ -12,11 +12,11 @@ const Album = ({albums, renderAlbum, isLoaded}) => {
         space={8}
         alignItems="center"
         mb={margin.MD}>
-        <Skeleton.Text lines={1} my={margin.MD} size="sm" isLoaded={isLoaded}>
-          <Heading size="sm" color={colors.TITLE}>
-            Recent
-          </Heading>
-        </Skeleton.Text>
+        {/* <Skeleton.Text lines={1} my={margin.MD} size="sm" isLoaded={isLoaded}> */}
+        <Heading size="sm" color={colors.TITLE}>
+          Recent
+        </Heading>
+        {/* </Skeleton.Text> */}
         <Box flexDirection="row" alignItems="center" justifyContent="center">
           <TouchableOpacity style={{marginRight: 10}}>
             <Icon name="search" color={colors.WHITE} size={size.ICON_SIZE} />
@@ -58,15 +58,15 @@ const Album = ({albums, renderAlbum, isLoaded}) => {
           </Menu>
         </Box>
       </HStack>
-      <Skeleton isLoaded={isLoaded}>
-        <FlatList
-          data={albums}
-          renderItem={renderAlbum}
-          keyExtractor={item => item.id.toString()}
-          horizontal={true}
-          showsHorizontalScrollIndicator={false}
-        />
-      </Skeleton>
+      {/* <Skeleton isLoaded={isLoaded}> */}
+      <FlatList
+        data={albums}
+        renderItem={renderAlbum}
+        keyExtractor={item => item.id.toString()}
+        horizontal={true}
+        showsHorizontalScrollIndicator={false}
+      />
+      {/* </Skeleton> */}
     </>
   )
 }

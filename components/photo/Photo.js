@@ -31,30 +31,30 @@ const Photo = ({photo, onTouchPhoto, isLoaded}) => {
     return <View style={styles.dummyImage} />
   }
   return (
-    <Skeleton
-      h={width / 2}
-      isLoaded={isLoaded}
-      width={width / 2}
-      borderWidth={1}>
-      <TouchableOpacity onPress={() => onTouchPhoto(photo.id)}>
-        <ImageBackground
+    // <Skeleton
+    //   h={width / 2}
+    //   isLoaded={isLoaded}
+    //   width={width / 2}
+    //   borderWidth={1}>
+    <TouchableOpacity onPress={() => onTouchPhoto(photo.id)}>
+      <ImageBackground
+        source={{
+          uri: `data:image/png;base64,${photo.photo_thumb_base64}`,
+          // cache: 'default',
+        }}
+        style={styles.photo}
+        resizeMode="cover">
+        <Image
           source={{
-            uri: `data:image/png;base64,${photo.photo_thumb_base64}`,
+            uri: photo.photo_semi_quality,
             // cache: 'default',
           }}
           style={styles.photo}
-          resizeMode="cover">
-          <Image
-            source={{
-              uri: photo.photo_semi_quality,
-              // cache: 'default',
-            }}
-            style={styles.photo}
-            resizeMode="cover"
-          />
-        </ImageBackground>
-      </TouchableOpacity>
-    </Skeleton>
+          resizeMode="cover"
+        />
+      </ImageBackground>
+    </TouchableOpacity>
+    // </Skeleton>
   )
 }
 

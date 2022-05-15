@@ -8,8 +8,15 @@ import {
   useToast,
   View,
   ScrollView,
+  Center,
+  Box,
 } from 'native-base'
-import {FlatList, Dimensions, TouchableOpacity} from 'react-native'
+import {
+  FlatList,
+  Dimensions,
+  TouchableOpacity,
+  ActivityIndicator,
+} from 'react-native'
 import {useSelector, useDispatch} from 'react-redux'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import {colors, margin, size} from '../../constants/theme'
@@ -25,7 +32,7 @@ import Photo from '../../components/photo/Photo'
 import axios from 'axios'
 import uuid from 'react-native-uuid'
 
-const {width} = Dimensions.get('window')
+const {width, height} = Dimensions.get('window')
 
 const HomeScreen = ({navigation}) => {
   const dispatch = useDispatch()
@@ -94,16 +101,16 @@ const HomeScreen = ({navigation}) => {
   )
 
   const renderPhotos = ({item}) => {
-    if (!isLoaded) {
-      return (
-        <Skeleton
-          h={width / 2}
-          isLoaded={isLoaded}
-          width={width / 2}
-          borderWidth={1}
-        />
-      )
-    }
+    // if (!isLoaded) {
+    //   return (
+    //     <Skeleton
+    //       h={width / 2}
+    //       isLoaded={isLoaded}
+    //       width={width / 2}
+    //       borderWidth={1}
+    //     />
+    //   )
+    // }
     return (
       <Photo photo={item} onTouchPhoto={onTouchPhoto} isLoaded={isLoaded} />
     )
@@ -122,7 +129,7 @@ const HomeScreen = ({navigation}) => {
     try {
       console.log('##', totalPhotosCount, totalPhotosCount - PHOTOS.length)
       const baseUrl =
-        'https://fa92-2405-201-f003-9870-d407-ba23-5631-2eec.in.ngrok.io'
+        'https://5ab4-2405-201-f003-9220-4803-de67-def9-4673.in.ngrok.io'
       if (PHOTOS.length === totalPhotosCount) return
       if (loading) return
       setLoading(true)
@@ -163,6 +170,17 @@ const HomeScreen = ({navigation}) => {
   const dummy = Array.from({length: 6}, () => ({
     id: '0' + Math.floor(Math.random() * 9),
   }))
+  if (loading) {
+    return (
+      <Box
+        height={height}
+        backgroundColor="red"
+        alignItems="center"
+        justifyContent="center">
+        <Spinner />
+      </Box>
+    )
+  }
   return (
     <>
       <FlatList
@@ -179,15 +197,15 @@ const HomeScreen = ({navigation}) => {
               renderAvatar={renderAvatar}
               isLoaded={isLoaded}
             />
-            <Skeleton.Text
+            {/* <Skeleton.Text
               lines={1}
               my={margin.MD}
               size="sm"
-              isLoaded={isLoaded}>
-              <Heading size="sm" color={colors.TITLE} my={margin.MD}>
-                Photos
-              </Heading>
-            </Skeleton.Text>
+              isLoaded={isLoaded}> */}
+            <Heading size="sm" color={colors.TITLE} my={margin.MD}>
+              Photos
+            </Heading>
+            {/* </Skeleton.Text> */}
           </Stack>
         }
         // data={isLoaded ? PHOTOS : skl}

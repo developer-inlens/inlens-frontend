@@ -19,7 +19,8 @@ const Header = ({title}) => {
       alignItems="center"
       width="full"
       direction="row"
-      justifyContent="space-between">
+      justifyContent="space-between"
+      paddingRight="4">
       <Participant photo="https://i.ibb.co/LZhy0xw/1634143707923.jpg" />
       <Heading size="md" color={colors.TITLE}>
         {title}

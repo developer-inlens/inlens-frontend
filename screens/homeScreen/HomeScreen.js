@@ -122,7 +122,7 @@ const HomeScreen = ({navigation}) => {
     try {
       console.log('##', totalPhotosCount, totalPhotosCount - PHOTOS.length)
       const baseUrl =
-        'https://6677-2405-201-f003-9870-dd0-fa83-8c4e-9f0c.in.ngrok.io'
+        'https://fa92-2405-201-f003-9870-d407-ba23-5631-2eec.in.ngrok.io'
       if (PHOTOS.length === totalPhotosCount) return
       if (loading) return
       setLoading(true)
@@ -168,7 +168,7 @@ const HomeScreen = ({navigation}) => {
       <FlatList
         contentContainerStyle={{paddingBottom: 0}}
         ListHeaderComponent={
-          <Stack px="2">
+          <Stack px="4">
             <Albums
               albums={albums}
               renderAlbum={renderAlbum}
@@ -199,12 +199,33 @@ const HomeScreen = ({navigation}) => {
           <View style={{height: isLoaded ? 5 : 0}} />
         )}
         columnWrapperStyle={{justifyContent: 'space-between'}}
-        onScroll={e => {
-          if (yOffset.current < yOffset.prev) {
+        onScrollBeginDrag={e => {
+          // if (yOffset.current < yOffset.prev) {
+          //   setShowLabel(true)
+          // } else {
+          //   setShowLabel(false)
+          // }
+          // setYoffset({
+          //   prev: yOffset.current,
+          //   current: e.nativeEvent.contentOffset.y,
+          // })
+          setShowLabel(false)
+        }}
+        onScrollToTop={e => {
+          if (!showLabel) {
             setShowLabel(true)
-          } else {
-            setShowLabel(false)
           }
+        }}
+        onScroll={e => {
+          // if (yOffset.current < yOffset.prev) {
+          //   setShowLabel(true)
+          // } else {
+          //   setShowLabel(false)
+          // }
+          // setYoffset({
+          //   prev: yOffset.current,
+          //   current: e.nativeEvent.contentOffset.y,
+          // })
         }}
         onEndReachedThreshold={0.5}
         ListFooterComponent={
@@ -235,7 +256,11 @@ const HomeScreen = ({navigation}) => {
         // onPress={toggleBottomNavigationView}
         style={styles.fab}>
         <Icon name={'file-upload'} color={colors.BLACK} size={size.ICON_SIZE} />
-        {showLabel && <Text>Upload</Text>}
+        {showLabel && (
+          <Heading mx={2} size="sm" color="black">
+            Upload
+          </Heading>
+        )}
       </TouchableOpacity>
       <BottomModelSheet
         visible={chooseUpload}
@@ -273,15 +298,17 @@ const styles = ScaledSheet.create({
     borderWidth: 1,
     borderColor: colors.PRIMARY,
     alignItems: 'center',
-    justifyContent: 'space-between',
+    justifyContent: 'center',
     // width: 100,
     padding: 10,
     position: 'absolute',
     bottom: 10,
-    right: 10,
-    height: 50,
+    right: 16,
+    height: 56,
+    minWidth: 56,
     backgroundColor: colors.PRIMARY,
-    borderRadius: 100,
+    borderRadius: 28,
     flexDirection: 'row',
   },
+  fab_text: {},
 })

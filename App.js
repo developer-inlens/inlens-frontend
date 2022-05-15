@@ -37,6 +37,7 @@ const App = () => {
               options={{
                 // headerShown: false,
                 headerTitle: () => <Header title="Shared Albums" />,
+
                 headerTintColor: '#444',
                 headerStyle: {
                   backgroundColor: colors.BACKGROUND,

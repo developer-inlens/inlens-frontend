@@ -42,11 +42,11 @@ const Participant = ({id, photo, name, color, onPress}) => {
                   }}
                   isOpen={isOpen}
                   onClose={closePopover}>
-                  <Popover.Content w="56" borderColor={color}>
+                  <Popover.Content borderColor={color} borderWidth={0}>
                     <Popover.Arrow borderColor={color} color={color} />
-                    <Popover.Header backgroundColor={color} color="white">
+                    <Popover.Body backgroundColor={color} color="white">
                       {name}
-                    </Popover.Header>
+                    </Popover.Body>
                   </Popover.Content>
                 </Popover>
               </Avatar>

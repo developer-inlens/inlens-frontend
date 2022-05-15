@@ -66,8 +66,8 @@ const styles = ScaledSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     flex: 1,
-    width: width / 2 - 3,
-    height: width / 2 - 3,
+    width: width / 2 - 1,
+    height: width / 2 - 1,
     // margin: 1,
     // marginBottom: 16,
     // height: photo.aspectRatio

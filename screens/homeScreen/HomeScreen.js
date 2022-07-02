@@ -1,22 +1,6 @@
 import React, {useCallback, useState, useEffect} from 'react'
-import {
-  Stack,
-  Heading,
-  Text,
-  Spinner,
-  Skeleton,
-  useToast,
-  View,
-  ScrollView,
-  Center,
-  Box,
-} from 'native-base'
-import {
-  FlatList,
-  Dimensions,
-  TouchableOpacity,
-  ActivityIndicator,
-} from 'react-native'
+import {Stack, Heading, Spinner, useToast, ScrollView, Box} from 'native-base'
+import {Dimensions, TouchableOpacity, View} from 'react-native'
 import {useSelector, useDispatch} from 'react-redux'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import {colors, margin, size} from '../../constants/theme'
@@ -26,36 +10,24 @@ import BottomModelSheet from '../../components/bottomSheet/BottomSheet'
 import UploadPhoto from '../../components/bottomSheet/PhotoUpload'
 import Albums from './Album'
 import Participants from './Participants'
-import {fetchMorePhotos} from '../../redux/slices/albumSlice'
 import {ScaledSheet} from 'react-native-size-matters'
-import Photo from '../../components/photo/Photo'
-import axios from 'axios'
-import uuid from 'react-native-uuid'
+// import PhotosView from './recyclerView/Index'
+import {RecyclerListView} from 'recyclerlistview'
+import PropTypes from 'prop-types'
+import {fetchMorePhotos} from '../../redux/slices/albumSlice'
 
-const {width, height} = Dimensions.get('window')
+const {height} = Dimensions.get('window')
 
-const HomeScreen = ({navigation}) => {
-  const dispatch = useDispatch()
+const HomeScreen = React.forwardRef(({children, ...props}, ref) => {
   const toast = useToast()
-
+  const dispatch = useDispatch()
   const {albums} = useSelector(state => state.album)
 
   const [currentAlbum, setCurrentAlbum] = useState(albums[0])
   const [chooseUpload, setChooseUpload] = useState(false)
   const [showLabel, setShowLabel] = useState(true)
-  const [yOffset, setYoffset] = useState({prev: 0, current: 0})
-  const [refresh, setRefresh] = useState(false)
   const [isLoaded, setIsLoaded] = useState(false)
-  const [albumPhotos, setAlbumPhotos] = useState([])
-  const [totalPhotosCount, seTotalPhotosCount] = useState(10)
   const [loading, setLoading] = useState(false)
-
-  const [limit, setLimit] = useState(10)
-  const [offset, setOffset] = useState(0)
-
-  const PHOTOS = [
-    ...(albums.filter(item => item.id === currentAlbum.id)[0].photos ?? []),
-  ]
 
   const PARTICIPANTS = [
     {id: 0},
@@ -63,17 +35,8 @@ const HomeScreen = ({navigation}) => {
       []),
   ]
 
-  useEffect(() => {
-    fetchMoreData()
-  }, [])
-
   const toggleBottomNavigationView = () => {
     setChooseUpload(!chooseUpload)
-  }
-
-  const handleRefresh = () => {
-    setRefresh(true)
-    setTimeout(() => setRefresh(false), 3000)
   }
 
   const renderAvatar = useCallback(
@@ -99,77 +62,30 @@ const HomeScreen = ({navigation}) => {
     ),
     [currentAlbum],
   )
-
-  const renderPhotos = ({item}) => {
-    // if (!isLoaded) {
-    //   return (
-    //     <Skeleton
-    //       h={width / 2}
-    //       isLoaded={isLoaded}
-    //       width={width / 2}
-    //       borderWidth={1}
-    //     />
-    //   )
-    // }
-    return (
-      <Photo photo={item} onTouchPhoto={onTouchPhoto} isLoaded={isLoaded} />
-    )
-  }
+  const photosStore = []
 
   const onTouchPhoto = photoId => {
     navigation.navigate('PhotoView', {
       photoId,
       albumId: currentAlbum.id,
-      photos: albumPhotos,
-      index: albumPhotos.findIndex(item => item.id === photoId),
+      photos: photosStore,
     })
   }
 
-  const fetchMoreData = async () => {
-    try {
-      console.log('##', totalPhotosCount, totalPhotosCount - PHOTOS.length)
-      const baseUrl =
-        'https://5ab4-2405-201-f003-9220-4803-de67-def9-4673.in.ngrok.io'
-      if (PHOTOS.length === totalPhotosCount) return
-      if (loading) return
-      setLoading(true)
-      const res = await axios.get(
-        `${baseUrl}/api/photo?limit=${limit}&offset=${PHOTOS.length}`,
-      )
-      seTotalPhotosCount(res.data.count)
-      if (res.data.photos.length > 0) {
-        dispatch(
-          fetchMorePhotos({
-            id: currentAlbum.id,
-            photo: res.data.photos,
-            offset: 10,
-          }),
-        )
-        const newImages = res.data.photos.map(item => ({
-          ...item,
-          props: {},
-        }))
-        setAlbumPhotos(items => [...items, ...newImages])
-      }
-
-      setLoading(false)
-      if (!isLoaded) {
-        setIsLoaded(true)
-      }
-    } catch (err) {
-      setLoading(false)
-      if (!isLoaded) {
-        setIsLoaded(true)
-      }
-      toast.show({
-        description: 'Check your connection',
-      })
-    }
+  const storePhotos = data => {
+    dispatch(
+      fetchMorePhotos({
+        id: currentAlbum.id,
+        photo: data,
+      }),
+    )
+    // photosStore.push(...data)
   }
-  const skl = [{id: 1}, {id: 2}, {id: 3}, {id: 4}, {id: 5}, {id: 6}]
-  const dummy = Array.from({length: 6}, () => ({
-    id: '0' + Math.floor(Math.random() * 9),
-  }))
+
+  // Overriding PropType because it doesn't expect a forwardRef response even though that
+  // works without issue
+  // RecyclerListView.propTypes.externalScrollView = PropTypes.object
+
   if (loading) {
     return (
       <Box
@@ -181,98 +97,28 @@ const HomeScreen = ({navigation}) => {
       </Box>
     )
   }
+  console.l
   return (
-    <>
-      <FlatList
-        contentContainerStyle={{paddingBottom: 0}}
-        ListHeaderComponent={
-          <Stack px="4">
-            <Albums
-              albums={albums}
-              renderAlbum={renderAlbum}
-              isLoaded={isLoaded}
-            />
-            <Participants
-              participants={PARTICIPANTS}
-              renderAvatar={renderAvatar}
-              isLoaded={isLoaded}
-            />
-            {/* <Skeleton.Text
-              lines={1}
-              my={margin.MD}
-              size="sm"
-              isLoaded={isLoaded}> */}
-            <Heading size="sm" color={colors.TITLE} my={margin.MD}>
-              Photos
-            </Heading>
-            {/* </Skeleton.Text> */}
-          </Stack>
-        }
-        // data={isLoaded ? PHOTOS : skl}
-        data={PHOTOS}
-        numColumns={2}
-        keyExtractor={item => item.id.toString()}
-        renderItem={renderPhotos}
-        ItemSeparatorComponent={() => (
-          <View style={{height: isLoaded ? 5 : 0}} />
-        )}
-        columnWrapperStyle={{justifyContent: 'space-between'}}
-        onScrollBeginDrag={e => {
-          // if (yOffset.current < yOffset.prev) {
-          //   setShowLabel(true)
-          // } else {
-          //   setShowLabel(false)
-          // }
-          // setYoffset({
-          //   prev: yOffset.current,
-          //   current: e.nativeEvent.contentOffset.y,
-          // })
-          setShowLabel(false)
-        }}
-        onScrollToTop={e => {
-          if (!showLabel) {
-            setShowLabel(true)
-          }
-        }}
-        onScroll={e => {
-          // if (yOffset.current < yOffset.prev) {
-          //   setShowLabel(true)
-          // } else {
-          //   setShowLabel(false)
-          // }
-          // setYoffset({
-          //   prev: yOffset.current,
-          //   current: e.nativeEvent.contentOffset.y,
-          // })
-        }}
-        onEndReachedThreshold={0.5}
-        ListFooterComponent={
-          loading && <Spinner color={colors.PRIMARY} size="lg" />
-          // <ScrollView>
-          //   <View flexDirection="row" flexWrap="wrap">
-          //     {Array.from(
-          //       {length: totalPhotosCount - PHOTOS.length},
-          //       (_, index) => (
-          //         <View
-          //           key={index}
-          //           h={width / 2}
-          //           isLoaded={isLoaded}
-          //           width={width / 2}
-          //           borderWidth={1}
-          //           backgroundColor="rose.900"
-          //         />
-          //       ),
-          //     )}
-          //   </View>
-          // </ScrollView>
-        }
-        onEndReached={fetchMoreData}
-        refreshing={refresh}
-        onRefresh={handleRefresh}
-      />
-      <TouchableOpacity
-        // onPress={toggleBottomNavigationView}
-        style={styles.fab}>
+    <ScrollView ref={ref} {...props}>
+      <Stack px="4">
+        <Albums albums={albums} renderAlbum={renderAlbum} isLoaded={isLoaded} />
+        <Participants
+          participants={PARTICIPANTS}
+          renderAvatar={renderAvatar}
+          isLoaded={isLoaded}
+        />
+        <Heading size="sm" color={colors.TITLE} my={margin.MD}>
+          Photos
+        </Heading>
+        {/* </Skeleton.Text> */}
+      </Stack>
+      {children}
+      {/* <PhotosView
+        scrollViewWithHeader={ScrollViewWithHeader}
+        onTouchPhoto={onTouchPhoto}
+        storePhotos={storePhotos}
+      /> */}
+      <TouchableOpacity onPress={toggleBottomNavigationView} style={styles.fab}>
         <Icon name={'file-upload'} color={colors.BLACK} size={size.ICON_SIZE} />
         {showLabel && (
           <Heading mx={2} size="sm" color="black">
@@ -288,26 +134,9 @@ const HomeScreen = ({navigation}) => {
         headerVisible={false}
         albumId={currentAlbum.id}
       />
-      {/* <ScrollView>
-        <View flexDirection="row" flexWrap="wrap">
-          {Array.from(
-            {length: totalPhotosCount - PHOTOS.length},
-            (_, index) => (
-              <View
-                key={index}
-                h={width / 2}
-                isLoaded={isLoaded}
-                width={width / 2}
-                borderWidth={1}
-                backgroundColor="rose.900"
-              />
-            ),
-          )}
-        </View>
-      </ScrollView> */}
-    </>
+    </ScrollView>
   )
-}
+})
 
 export default HomeScreen
 

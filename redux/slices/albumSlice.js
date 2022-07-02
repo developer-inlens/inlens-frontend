@@ -51,7 +51,6 @@ const initialState = {
       photos: [
         {
           id: 10,
-          aspectRatio: 4248 / 5664,
           photo_thumb_base64:
             'UklGRjABAABXRUJQVlA4TCQBAAAvDYACAE2ISVPMfI3ofxyLiOh/AHZt26qahbvD/8b60MKohPFq4BeSnDFSQFrYcXf3NmBFtu0qanKGK2FX8Y1/E4g4Esh55rqNbVtVFu4SEt5SKJ1S7pB6+P1G7H8XH/8Gk+Hzt7oZTJs+H3etbjEfinyQIcuFOu2TS0JSnJB0cUQJAoBmt3o0JJKYlIcTJwCWiaQEgbkx6redFKQIVClAstkglgTr3n8s5oAAkLRACkBOCHZv3fm0BTPBQEgIIoLggcJq03tthRGBUaiATn8hmrzM1o/bQYJKx8MJuBiw6wM0TSqzfnC8kYfD7qoEgpOHhoZCSHSfz/z+TdICAIAGAAD/3G1xcHgxOBWGlZr0mV6Ypf5m/z9ZVf5NhYGM+uuz32EB',
           photo_semi_quality:
@@ -60,7 +59,6 @@ const initialState = {
         },
         {
           id: 11,
-          aspectRatio: 5664 / 2752,
           photo_thumb_base64:
             'UklGRvoAAABXRUJQVlA4TO0AAAAvBkADAIkeRPQ/FgMSBel/BLexbavK/i64O5z+q/gZBRCRfY9wd9pwHUm2qvQT3OHPTyjkH8WzAHAXN5Jsq0p/3F0y6ubsPyD7O8Ezd4eI1b0dJL9N+hlm/1n+4PsvL71W6wnAATBV+b39/MsUhUe3BeDnn8c/gRhCEz6+P//kD1EAAaZ3ci1CXIQKcOD7SJanZlygQCEOzcNh96+eF5c4gIj3M4T9PG+TjaBAgFiaP+eNz08iijSWYoZZJVvvTGKzGEUIFRrt4aI3lgCQgMeu3B+NCLGZhIJEc1awlqdJu/y9tZnt/q/n7XFdN1MA',
           photo_semi_quality:
@@ -69,7 +67,6 @@ const initialState = {
         },
         {
           id: 12,
-          aspectRatio: 2448 / 3264,
           photo_thumb_base64:
             'UklGRp4AAABXRUJQVlA4TJIAAAAvB0ABAIkqRPQ/FgWJgvQ/wDSybSdHfXIGyzxNh3Tzq0C/Up7E5eA+bbBtJElR3z2z9/bkH9UF8Mz8rCJJatWkLwoP+FeFB16OEecXzj/8XyzsGwiZ/Z35wbIeCk9XGAzA/WVugsAYKgB4Z1/rUDeBOQAIVMbgnsoJTBBhIEhxn6E6kvxsy/Ut3y3+vyv3Q1jPAA==',
           photo_semi_quality:
@@ -78,7 +75,6 @@ const initialState = {
         },
         {
           id: 13,
-          aspectRatio: 2752 / 5664,
           photo_thumb_base64:
             'UklGRu4AAABXRUJQVlA4TOEAAAAvDYABAE1cgCGi/+EiIvofBqexbbvK/uRsURkKoQk8nfIkCpnTUeAYXM5QxPlMJElSVMfM7tT8/1WjzjHzua1t27TWs4349F/FUxEvdPZt/8iDZbweHeP3Mv+ZTx297H61b33vn5owfiuDLkrK/CX+/+nVANtiCALwd/214RgGxQGRAtIEAWAQw6F43ha3LYilSKSnDBTgCAwgoPi2agXviECOZBBIBEUAINKkArwv0mK4zR0HGGwDAsMQS2hCpdk8eF8srnlSSKzC+SmtXqI2atZjfHbV1m1UZdZcJ6b1sHoA',
           photo_semi_quality:
@@ -87,7 +83,6 @@ const initialState = {
         },
         {
           id: 14,
-          aspectRatio: 1588 / 3264,
           photo_thumb_base64:
             'UklGRoQAAABXRUJQVlA4THgAAAAvB8AAAAWTAADTFB0qPjPLJ2BKNDd5jKWokSRls/9jAeffHuPMsY1kq80QeQ8xGUP/ZbgU5L3UgQrof/zQ3zPXdS+khbGUBsbAnoQ7yfz5IqjfJm5elRDWiEoCu7LTXJ70HZy/fACDDXms09a5uTKb0C+WNcfC5AA=',
           photo_semi_quality:
@@ -117,7 +112,6 @@ const initialState = {
       photos: [
         {
           id: 4,
-          aspectRatio: 1824 / 1368,
           photo_thumb_base64:
             'UklGRsgAAABXRUJQVlA4TLwAAAAvBgACAIkbHET0P1oMSByEv//BcFTb1pId3H3E7M3oYrmoQRQykEAD6O+Sw1Uk22rUYQYJkRL/Engl8H4FmNi2reTg7mTWT0yAxGz/tGie+QmXiDJskn8Q3OF1Hm0lV0vzar8XPAACAEjiZ3qOz14gRK/vyE9yJ3EJgBACkJ91VpuC+JluPQAUSeVNK0T8VALQj334cYynzoOtVyPGod+eDEX3TP9YCgWFFGm+aqbNsP2vU71v87ipE/3eAA==',
 
@@ -127,7 +121,6 @@ const initialState = {
         },
         {
           id: 5,
-          aspectRatio: 3648 / 2736,
           photo_thumb_base64:
             'UklGRrIAAABXRUJQVlA4TKUAAAAvBgACAE1kRP9jEQMf/Q/htrZtJboZLiW8mFZpihY8dnd3mOmCcSNJTgrvyT88QuB3HlhHtpXmAHG3Aui/Kv7j7klMgN7X9/AzTUzl0mrm9XLYNqmzfAAEog2m+/93fAAfoIkBzGY9A3/A/9tEM79/e/RYqIZ7k8m+qugNeLM9ekD3P1WOCT5UA+A/lF/VNwdQDZD99Xck1/Wdoyc4TBAD8Yz30d0A',
 
@@ -159,7 +152,6 @@ const initialState = {
       photos: [
         {
           id: 1,
-          aspectRatio: 3 / 4,
           photo_thumb_base64:
             'UklGRswAAABXRUJQVlA4TL8AAAAvCcABAE1kRP9jEYMf/Q/hNrZtVVnvR+6fTBulRlp4IUP0IHMvgm0k201OwnsyCH//3dDBL0FDJC+mkW07OTwayGB/KVg6ZlCUgWKuRuWcIndfqfFq/wN74oHAz5AZXtaqagDwBwAAIAgzdf3AP3R8bLnPAACqKEBRgO7Xf3hbEBHY0kAg3kUPed73U03cVpWgdwMgjiqf7W79ZXnTHSCgIq6/SY4t0OpyJUPug/Efc3Se8mI+F8U7/V3duNdNNQA=',
           photo_semi_quality:
@@ -204,7 +196,29 @@ const initialState = {
       ],
     },
   ],
-  currentAlbumPhotos: [],
+  currentAlbum: {
+    id: '1',
+    count: 2,
+    title: 'Munnar',
+    color: '#ffcdd2',
+    album_lifecycle: 'done',
+    photos: [],
+    participants: [
+      {
+        id: '1',
+        name: 'Athul Krishna',
+      },
+      {
+        id: '2',
+        name: 'Fahad C',
+      },
+      {id: '3', name: 'Jazzeu DM'},
+      {id: '4', name: 'Uzmain Kabir'},
+      {id: '5', name: 'Elson Jose'},
+      {id: '6', name: 'Khalid'},
+    ],
+  },
+  data: [],
 }
 
 export const albumSlice = createSlice({
@@ -219,34 +233,24 @@ export const albumSlice = createSlice({
         state.albums.findIndex(item => item.id === action.payload.id)
       ].photos.unshift(action.payload.photo)
     },
-    // setCuurentAlbumPhotos:(state,action)=>{
-    //   state.currentAlbumPhotos=
-    // },
+    setCurrentAlbum: (state, action) => {
+      state.currentAlbum = action.payload
+    },
     fetchMorePhotos: (state, action) => {
-      // if (action.payload.offset > 0) {
-      //   // New method
-      //   console.log(
-      //     '***********************************',
-      //     action.payload.photo.length,
-      //     typeof action.payload.photo,
-      //   )
-      //   action.payload.photo.map((item, index) => {
-      //     console.log(item)
-      //     state.albums[
-      //       state.albums.findIndex(item => item.id === action.payload.id)
-      //     ].splice(action.payload.offset + index + 1, 1, item)
-      //   })
-
-      //   console.log('###')
-      // } else {
-      state.albums[
-        state.albums.findIndex(item => item.id === action.payload.id)
-      ].photos.push(...action.payload.photo)
-      // }
+      state.currentAlbum.photos.push(...action.payload.photo)
+    },
+    setData: (state, action) => {
+      state.data.push(...action.payload)
     },
   },
 })
 
-export const {createAlbum, addPhoto, fetchMorePhotos} = albumSlice.actions
+export const {
+  setData,
+  createAlbum,
+  addPhoto,
+  fetchMorePhotos,
+  setCurrentAlbum,
+} = albumSlice.actions
 
 export default albumSlice.reducer

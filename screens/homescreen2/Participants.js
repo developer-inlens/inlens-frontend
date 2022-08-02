@@ -15,7 +15,7 @@ const Participants = ({participants, renderAvatar, isLoaded}) => {
       <FlatList
         data={participants}
         renderItem={renderAvatar}
-        keyExtractor={item => item.user_id.toString()}
+        keyExtractor={item => item.id}
         horizontal={true}
         showsHorizontalScrollIndicator={false}
       />

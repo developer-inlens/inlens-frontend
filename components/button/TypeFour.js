@@ -1,16 +1,20 @@
 import React from 'react'
-import {TouchableOpacity, Text} from 'react-native'
+import {TouchableOpacity, Text, ActivityIndicator} from 'react-native'
 import {ScaledSheet} from 'react-native-size-matters'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import {colors, size} from '../../constants/theme'
-const TypeOne = ({onPress, title, disabled}) => {
+const TypeOne = ({onPress, title, disabled, loading}) => {
   return (
     <TouchableOpacity
       style={styles.button}
       onPress={onPress}
       disabled={disabled}>
       <Text style={styles.text}>{title}</Text>
-      <Icon name={'done'} color={colors.LIGHT_GREEN} size={size.ICON_SIZE} />
+      {loading ? (
+        <ActivityIndicator size="large" color={colors.LIGHT_GREEN} />
+      ) : (
+        <Icon name={'done'} color={colors.LIGHT_GREEN} size={size.ICON_SIZE} />
+      )}
     </TouchableOpacity>
   )
 }

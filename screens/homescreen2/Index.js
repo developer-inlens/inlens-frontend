@@ -1,0 +1,186 @@
+import React, {Component} from 'react'
+import {
+  View,
+  StyleSheet,
+  ActivityIndicator,
+  TouchableOpacity,
+} from 'react-native'
+import {RecyclerListView, DataProvider} from 'recyclerlistview'
+import {Heading} from 'native-base'
+import {DataCall} from './utils/DataCall'
+import {LayoutUtil} from './utils/LayoutUtil'
+import {ImageRenderer} from './ImageRenderer'
+import {fetchMorePhotos, fetchAlbums} from '../../redux/slices/albumSlice'
+import {connect} from 'react-redux'
+import PropTypes from 'prop-types'
+import Ext from './ExternalScrollView'
+import Icon from 'react-native-vector-icons/MaterialIcons'
+import {colors, margin, size} from '../../constants/theme'
+import BottomModelSheet from '../../components/bottomSheet/BottomSheet'
+import UploadPhoto from '../../components/bottomSheet/PhotoUpload'
+import ExternalScrollView from './ExternalScrollView'
+import axios from '../../utils/axios'
+
+RecyclerListView.propTypes.externalScrollView = PropTypes.object
+
+class PhotoView extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      dataProvider: new DataProvider((r1, r2) => {
+        return r1 !== r2
+      }),
+      layoutProvider: LayoutUtil.getLayoutProvider(1),
+      chooseUpload: false,
+    }
+    this.inProgressNetworkReq = false
+  }
+  // fetchHomeViewData = async () => {
+  //   console.log('SSS')
+  //   const res = await axios().post('/album/home-view', {
+  //     skip: 0,
+  //     type: 0,
+  //   })
+  //   await this.props.fetchAlbums(res.data.albums)
+  //   this.fetchMoreData()
+  //   console.log('##', res.data)
+  // }
+  componentDidMount() {
+    // this.fetchHomeViewData()
+    this.fetchMoreData()
+  }
+
+  async fetchMoreData() {
+    if (!this.inProgressNetworkReq) {
+      this.inProgressNetworkReq = true
+      const images = await DataCall.get(this.props.album.photos.length, 10)
+      this.inProgressNetworkReq = false
+      this.props.fetchMorePhotos({photo: images})
+      this.setState({
+        dataProvider: this.state.dataProvider.cloneWithRows(
+          this.props.album.photos,
+        ),
+      })
+    }
+  }
+
+  rowRenderer = (type, data) => {
+    return (
+      <ImageRenderer
+        image={data}
+        onTouchPhoto={
+          () => console.log('Photo view')
+          // Implement this during API integration
+          //   this.props.navigation.navigate('PhotoView', {
+          //     photoId: data.id,
+          //     // albumId: currentAlbum.id,
+          //     // photos: photosStore,
+          //   })
+        }
+      />
+    )
+  }
+
+  handleListEnd = () => {
+    this.fetchMoreData()
+    this.setState({}) //test this
+  }
+
+  toggleBottomNavigationView = () => {
+    this.setState({chooseUpload: !this.state.chooseUpload})
+  }
+
+  renderFooter = () => {
+    return this.inProgressNetworkReq ? (
+      <ActivityIndicator style={{margin: 10}} size="large" color={'black'} />
+    ) : (
+      <View style={{height: 60}} />
+    )
+  }
+
+  render() {
+    // this.inProgressNetworkReq &&
+    // if (this.props.test.length === 0) {
+    //   return (
+    //     <ActivityIndicator style={{margin: 10}} size="large" color={'black'} />
+    //   )
+    // }
+    return (
+      <View style={styles.container}>
+        {this.props.album.photos.length > 0 ? (
+          <RecyclerListView
+            style={{flex: 1}}
+            contentContainerStyle={{margin: 3}}
+            onEndReached={this.handleListEnd}
+            dataProvider={this.state.dataProvider}
+            layoutProvider={this.state.layoutProvider}
+            rowRenderer={this.rowRenderer}
+            renderFooter={this.renderFooter}
+            externalScrollView={Ext}
+          />
+        ) : (
+          <ExternalScrollView />
+        )}
+        <TouchableOpacity
+          onPress={this.toggleBottomNavigationView}
+          style={styles.fab}>
+          <Icon
+            name={'file-upload'}
+            color={colors.BLACK}
+            size={size.ICON_SIZE}
+          />
+          {/* {showLabel && ( */}
+          <Heading mx={2} size="sm" color="black">
+            Upload
+          </Heading>
+        </TouchableOpacity>
+        <BottomModelSheet
+          visible={this.state.chooseUpload}
+          setVisible={this.toggleBottomNavigationView}
+          Body={UploadPhoto}
+          title={'New Album'}
+          headerVisible={false}
+          albumId={this.props.album.id}
+        />
+      </View>
+    )
+  }
+}
+
+const mapStateToProps = ({album}) => {
+  return {
+    album: album.currentAlbum,
+    test: album.albums,
+  }
+}
+
+export default connect(mapStateToProps, {fetchMorePhotos, fetchAlbums})(
+  PhotoView,
+)
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: 'stretch',
+    justifyContent: 'space-between',
+  },
+  header: {
+    backgroundColor: 'blue',
+    height: 300,
+  },
+  fab: {
+    borderWidth: 1,
+    borderColor: colors.PRIMARY,
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 10,
+    position: 'absolute',
+    bottom: 10,
+    right: 16,
+    height: 56,
+    minWidth: 56,
+    backgroundColor: colors.PRIMARY,
+    borderRadius: 28,
+    flexDirection: 'row',
+  },
+})

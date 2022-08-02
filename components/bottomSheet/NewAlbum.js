@@ -5,7 +5,7 @@ import Button1 from '../button/Index'
 import {colors, margin} from '../../constants/theme'
 import {useSelector, useDispatch} from 'react-redux'
 import {createAlbum} from '../../redux/slices/albumSlice'
-
+import axios from '../../utils/axios'
 const months = [
   'Jan',
   'Feb',
@@ -25,11 +25,17 @@ const NewAlum = ({setVisible}) => {
   const [count, setCount] = useState(1)
   const [date, setDate] = useState(dayjs().add(1, 'day'))
   const [name, setName] = useState(`album_${dayjs().format('DD-MM-YY')}`)
+  const [loading, setLoading] = useState(false)
 
   const dispatch = useDispatch()
 
-  const onAlbumCreate = () => {
+  const onAlbumCreate = async () => {
     if (name.length === 0) return
+    setLoading(true)
+    const res = await axios().post('/album/create', {
+      album_name: name,
+      no_of_days: count,
+    })
     dispatch(
       createAlbum({
         id: Math.random().toString(),
@@ -39,6 +45,7 @@ const NewAlum = ({setVisible}) => {
         photos: [],
       }),
     )
+    setLoading(false)
     setName('')
     setCount(1)
     setVisible(false)
@@ -115,7 +122,12 @@ const NewAlum = ({setVisible}) => {
         </Box>
       </HStack>
       <Box flexDirection="row" width={'full'} justifyContent={'flex-end'}>
-        <Button1 type={4} title="Create" onPress={onAlbumCreate} />
+        <Button1
+          type={4}
+          title="Create"
+          onPress={onAlbumCreate}
+          loading={loading}
+        />
       </Box>
     </VStack>
   )

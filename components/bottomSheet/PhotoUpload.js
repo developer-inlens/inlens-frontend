@@ -1,4 +1,5 @@
-import React from 'react'
+import React, {useEffect} from 'react'
+import {NativeModules, PermissionsAndroid} from 'react-native'
 import {HStack, VStack, Text} from 'native-base'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import {colors} from '../../constants/theme'
@@ -14,6 +15,36 @@ uploadQueue.pipe(concatMap(({data, processor}) => processor(data))).subscribe()
 
 const PhotoUpload = ({setVisible, albumId}) => {
   const dispatch = useDispatch()
+
+  const {MediaModule} = NativeModules
+  console.log('@@@', MediaModule)
+  // MediaModule.createMediaEvent(res => console.log(res))
+  const test = async () => {
+    try {
+      const per = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
+        PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
+      )
+      console.log('result', per)
+      if (per === 'granted') {
+        console.log('**')
+        MediaModule.createMediaEvent(10, 0, (err, res) => {
+          if (err) return console.log(err)
+          const data = res.map(item => {
+            const res = item.split('~inlens~')
+            return {timestamp: res[0], url: res[1]}
+          })
+          console.log(data)
+        })
+        // console.log('result222', result)
+      }
+    } catch (err) {
+      console.log('err', err)
+    }
+  }
+  useEffect(() => {
+    test()
+  }, [])
 
   const veryIntensiveTask = async taskDataArguments => {
     const {data} = taskDataArguments

@@ -21,6 +21,7 @@ const Index = ({
   name,
   disabled,
   loading,
+  icon = true,
 }) => {
   switch (type) {
     case 1:
@@ -38,6 +39,7 @@ const Index = ({
           onPress={onPress}
           disabled={disabled}
           loading={loading}
+          icon={icon}
         />
       )
     // case 5:

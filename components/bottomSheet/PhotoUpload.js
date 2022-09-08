@@ -114,6 +114,7 @@ const PhotoUpload = ({setVisible, albumId}) => {
       multiple: true,
     })
     console.log('!!result', result)
+    return
     result.forEach(item =>
       uploadQueue.next({
         data: item,

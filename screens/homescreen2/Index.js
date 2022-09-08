@@ -17,7 +17,7 @@ import Ext from './ExternalScrollView'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import {colors, margin, size} from '../../constants/theme'
 import BottomModelSheet from '../../components/bottomSheet/BottomSheet'
-import UploadPhoto from '../../components/bottomSheet/PhotoUpload'
+import UploadPhoto from '../../components/bottomSheet/Upload'
 import ExternalScrollView from './ExternalScrollView'
 import axios from '../../utils/axios'
 
@@ -138,8 +138,8 @@ class PhotoView extends Component {
           visible={this.state.chooseUpload}
           setVisible={this.toggleBottomNavigationView}
           Body={UploadPhoto}
-          title={'New Album'}
-          headerVisible={false}
+          title={'Display Recent Images since...'}
+          headerVisible={true}
           albumId={this.props.album.id}
         />
       </View>

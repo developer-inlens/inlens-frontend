@@ -10,6 +10,8 @@ import HomeScreen from './screens/homescreen2/Index'
 import Header from './components/header/Header'
 import AuthScreen from './screens/authScreen/EnterPhoneScreen'
 import PhotoView from './screens/imageView/ImageView'
+import PhotoUpload from './screens/photoUpload/Index'
+
 const Stack = createNativeStackNavigator()
 
 const AppTheme = {
@@ -49,6 +51,13 @@ const App = () => {
             <Stack.Screen
               name="PhotoView"
               component={PhotoView}
+              options={{
+                headerShown: false,
+              }}
+            />
+            <Stack.Screen
+              name="PhotoUpload"
+              component={PhotoUpload}
               options={{
                 headerShown: false,
               }}

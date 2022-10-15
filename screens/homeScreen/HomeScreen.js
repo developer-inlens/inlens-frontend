@@ -183,93 +183,93 @@
 //   }
 //   return (
 //     <>
-//       <FlatList
-//         contentContainerStyle={{paddingBottom: 0}}
-//         ListHeaderComponent={
-//           <Stack px="4">
-//             <Albums
-//               albums={albums}
-//               renderAlbum={renderAlbum}
-//               isLoaded={isLoaded}
-//             />
-//             <Participants
-//               participants={PARTICIPANTS}
-//               renderAvatar={renderAvatar}
-//               isLoaded={isLoaded}
-//             />
-//             {/* <Skeleton.Text
-//               lines={1}
-//               my={margin.MD}
-//               size="sm"
-//               isLoaded={isLoaded}> */}
-//             <Heading size="sm" color={colors.TITLE} my={margin.MD}>
-//               Photos
-//             </Heading>
-//             {/* </Skeleton.Text> */}
-//           </Stack>
-//         }
-//         // data={isLoaded ? PHOTOS : skl}
-//         data={PHOTOS}
-//         numColumns={2}
-//         keyExtractor={item => item.AlbumId.toString()}
-//         renderItem={renderPhotos}
-//         ItemSeparatorComponent={() => (
-//           <View style={{height: isLoaded ? 5 : 0}} />
-//         )}
-//         columnWrapperStyle={{justifyContent: 'space-between'}}
-//         onScrollBeginDrag={e => {
-//           // if (yOffset.current < yOffset.prev) {
-//           //   setShowLabel(true)
-//           // } else {
-//           //   setShowLabel(false)
-//           // }
-//           // setYoffset({
-//           //   prev: yOffset.current,
-//           //   current: e.nativeEvent.contentOffset.y,
-//           // })
-//           setShowLabel(false)
-//         }}
-//         onScrollToTop={e => {
-//           if (!showLabel) {
-//             setShowLabel(true)
-//           }
-//         }}
-//         onScroll={e => {
-//           // if (yOffset.current < yOffset.prev) {
-//           //   setShowLabel(true)
-//           // } else {
-//           //   setShowLabel(false)
-//           // }
-//           // setYoffset({
-//           //   prev: yOffset.current,
-//           //   current: e.nativeEvent.contentOffset.y,
-//           // })
-//         }}
-//         onEndReachedThreshold={0.5}
-//         ListFooterComponent={
-//           loading && <Spinner color={colors.PRIMARY} size="lg" />
-//           // <ScrollView>
-//           //   <View flexDirection="row" flexWrap="wrap">
-//           //     {Array.from(
-//           //       {length: totalPhotosCount - PHOTOS.length},
-//           //       (_, index) => (
-//           //         <View
-//           //           key={index}
-//           //           h={width / 2}
-//           //           isLoaded={isLoaded}
-//           //           width={width / 2}
-//           //           borderWidth={1}
-//           //           backgroundColor="rose.900"
-//           //         />
-//           //       ),
-//           //     )}
-//           //   </View>
-//           // </ScrollView>
-//         }
-//         onEndReached={fetchMoreData}
-//         refreshing={refresh}
-//         onRefresh={handleRefresh}
-//       />
+    //   <FlatList
+    //     contentContainerStyle={{paddingBottom: 0}}
+    //     ListHeaderComponent={
+    //       <Stack px="4">
+    //         <Albums
+    //           albums={albums}
+    //           renderAlbum={renderAlbum}
+    //           isLoaded={isLoaded}
+    //         />
+    //         <Participants
+    //           participants={PARTICIPANTS}
+    //           renderAvatar={renderAvatar}
+    //           isLoaded={isLoaded}
+    //         />
+    //         {/* <Skeleton.Text
+    //           lines={1}
+    //           my={margin.MD}
+    //           size="sm"
+    //           isLoaded={isLoaded}> */}
+    //         <Heading size="sm" color={colors.TITLE} my={margin.MD}>
+    //           Photos
+    //         </Heading>
+    //         {/* </Skeleton.Text> */}
+    //       </Stack>
+    //     }
+    //     // data={isLoaded ? PHOTOS : skl}
+    //     data={PHOTOS}
+    //     numColumns={2}
+    //     keyExtractor={item => item.AlbumId.toString()}
+    //     renderItem={renderPhotos}
+    //     ItemSeparatorComponent={() => (
+    //       <View style={{height: isLoaded ? 5 : 0}} />
+    //     )}
+    //     columnWrapperStyle={{justifyContent: 'space-between'}}
+    //     onScrollBeginDrag={e => {
+    //       // if (yOffset.current < yOffset.prev) {
+    //       //   setShowLabel(true)
+    //       // } else {
+    //       //   setShowLabel(false)
+    //       // }
+    //       // setYoffset({
+    //       //   prev: yOffset.current,
+    //       //   current: e.nativeEvent.contentOffset.y,
+    //       // })
+    //       setShowLabel(false)
+    //     }}
+    //     onScrollToTop={e => {
+    //       if (!showLabel) {
+    //         setShowLabel(true)
+    //       }
+    //     }}
+    //     onScroll={e => {
+    //       // if (yOffset.current < yOffset.prev) {
+    //       //   setShowLabel(true)
+    //       // } else {
+    //       //   setShowLabel(false)
+    //       // }
+    //       // setYoffset({
+    //       //   prev: yOffset.current,
+    //       //   current: e.nativeEvent.contentOffset.y,
+    //       // })
+    //     }}
+    //     onEndReachedThreshold={0.5}
+    //     ListFooterComponent={
+    //       loading && <Spinner color={colors.PRIMARY} size="lg" />
+    //       // <ScrollView>
+    //       //   <View flexDirection="row" flexWrap="wrap">
+    //       //     {Array.from(
+    //       //       {length: totalPhotosCount - PHOTOS.length},
+    //       //       (_, index) => (
+    //       //         <View
+    //       //           key={index}
+    //       //           h={width / 2}
+    //       //           isLoaded={isLoaded}
+    //       //           width={width / 2}
+    //       //           borderWidth={1}
+    //       //           backgroundColor="rose.900"
+    //       //         />
+    //       //       ),
+    //       //     )}
+    //       //   </View>
+    //       // </ScrollView>
+    //     }
+    //     onEndReached={fetchMoreData}
+    //     refreshing={refresh}
+    //     onRefresh={handleRefresh}
+    //   />
 //       <TouchableOpacity
 //         // onPress={toggleBottomNavigationView}
 //         style={styles.fab}>

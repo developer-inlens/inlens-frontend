@@ -2,7 +2,8 @@ import axios from 'axios'
 // import cookie from "react-cookies";
 
 export default customHeader => {
-  const baseURL = 'http://inlens-api.eastus.azurecontainer.io/api'
+  // const baseURL = 'http://inlens-api.eastus.azurecontainer.io/api'
+  const baseURL = 'https://inlens-api-primary.azurewebsites.net'
 
   //   axios.defaults.xsrfCookieName = "csrftoken";
   //   axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
@@ -10,7 +11,7 @@ export default customHeader => {
   let headers = {
     //     "X-CSRFTOKEN": cookie.load("csrftoken"),
     ...customHeader,
-    Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJpZGVudGl5LW1hbmFnZXIiLCJleHAiOjE2ODc0MDA0NDcsImlhdCI6MTY1MTQwMDQ0NywiaXNzIjoiaHR0cHM6Ly9pbmxlbnMtc2VydmVyLWRldi5oZXJva3VhcHAuY29tIiwic3ViIjoiNjIxMmZkMDJlZmMwZWFiYzcwNTYzZjg1IiwiaW5pdGlhbHMiOiJNRiIsInByb2ZpbGVfcGljdHVyZSI6IiJ9.-UGfaQfBrsJZz7FbygAe3SJpQsVpeCkfmeWvet9rE3A`,
+    // Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJpZGVudGl5LW1hbmFnZXIiLCJleHAiOjE2ODc0MDA0NDcsImlhdCI6MTY1MTQwMDQ0NywiaXNzIjoiaHR0cHM6Ly9pbmxlbnMtc2VydmVyLWRldi5oZXJva3VhcHAuY29tIiwic3ViIjoiNjIxMmZkMDJlZmMwZWFiYzcwNTYzZjg1IiwiaW5pdGlhbHMiOiJNRiIsInByb2ZpbGVfcGljdHVyZSI6IiJ9.-UGfaQfBrsJZz7FbygAe3SJpQsVpeCkfmeWvet9rE3A`,
   }
 
   //   if (localStorage.token) {
@@ -28,6 +29,7 @@ export default customHeader => {
         resolve(response)
       }),
     error => {
+      console.log('****', error.response)
       if (!error.response) {
         return new Promise((resolve, reject) => {
           reject(error)

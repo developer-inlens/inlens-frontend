@@ -9,6 +9,7 @@ import {addPhoto} from '../../redux/slices/albumSlice'
 import BackgroundService from 'react-native-background-actions'
 import {concatMap, Subject} from 'rxjs'
 import axios from '../../utils/axios'
+import mime from 'mime'
 import ImagePicker from 'react-native-image-crop-picker'
 const uploadQueue = new Subject()
 uploadQueue.pipe(concatMap(({data, processor}) => processor(data))).subscribe()
@@ -43,36 +44,51 @@ const PhotoUpload = ({setVisible, albumId}) => {
     }
   }
   useEffect(() => {
-    test()
+    // test()
   }, [])
 
   const veryIntensiveTask = async taskDataArguments => {
     const {data} = taskDataArguments
     try {
+      console.log('##,', data)
+      const newImageUri = 'file:///' + data.path.split('file:/').join('')
+
       let formdata = new FormData()
       formdata.append('file', {
-        uri: data.path,
-        type: data.mime,
-        name: data.filename ?? data.modificationDate,
+        uri: newImageUri,
+        type: mime.getType(newImageUri),
+        name: newImageUri.split('/').pop(),
       })
-      formdata.append('file_name', 'test.png')
-      formdata.append('album_id', '62c061791fd932dea81b6210')
-      console.log('@@@', formdata)
-      const res = await axios({'Content-Type': 'multipart/form-data'}).post(
-        '/photo/upload/',
-        formdata,
-      )
-
-      dispatch(
-        addPhoto({
-          id: albumId,
-          photo: {
-            id: res.data.id,
-            photo_semi_quality: res.data.url,
+      // formdata.append('file_name', 'test.png')
+      // formdata.append('album_id', '62c061791fd932dea81b6210')
+      console.log('@@@', JSON.stringify(formdata))
+      try {
+        let res = await fetch(
+          'https://inlens-api-primary.azurewebsites.net/api/photo/upload',
+          {
+            method: 'post',
+            body: formdata,
+            headers: {
+              'Content-Type': 'multipart/form-data',
+            },
           },
-        }),
-      )
-      setVisible(false)
+        )
+        let responseJson = await res.json()
+        console.log('##', responseJson)
+      } catch (err) {
+        console.log('&&&', JSON.stringify(err))
+      }
+
+      // dispatch(
+      //   addPhoto({
+      //     id: albumId,
+      //     photo: {
+      //       id: res.data.id,
+      //       photo_semi_quality: res.data.url,
+      //     },
+      //   }),
+      // )
+      // setVisible(false)
       await BackgroundService.stop()
     } catch (err) {
       console.log('***', err)
@@ -114,7 +130,7 @@ const PhotoUpload = ({setVisible, albumId}) => {
       multiple: true,
     })
     console.log('!!result', result)
-    return
+    // return
     result.forEach(item =>
       uploadQueue.next({
         data: item,

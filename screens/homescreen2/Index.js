@@ -17,7 +17,7 @@ import Ext from './ExternalScrollView'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import {colors, margin, size} from '../../constants/theme'
 import BottomModelSheet from '../../components/bottomSheet/BottomSheet'
-import UploadPhoto from '../../components/bottomSheet/Upload'
+import UploadPhoto from '../../components/bottomSheet/PhotoUpload'
 import ExternalScrollView from './ExternalScrollView'
 import axios from '../../utils/axios'
 

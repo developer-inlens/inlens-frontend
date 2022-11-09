@@ -9,21 +9,41 @@ import {
   Image,
   FlatList,
 } from 'react-native'
-import {VStack, Text, Heading, Checkbox} from 'native-base'
+import {
+  VStack,
+  Text,
+  Box,
+  Checkbox,
+  useToast,
+  Heading,
+  Alert,
+} from 'native-base'
 import {colors, margin, size} from '../../constants/theme'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import {concatMap, Subject} from 'rxjs'
 import BackgroundService from 'react-native-background-actions'
 import axios from '../../utils/axios'
-import convert from '../../utils/webpConverter'
-
+import mime from 'mime'
+import {uploadPhoto} from '../../redux/actions/album'
+import {useSelector, useDispatch} from 'react-redux'
+import {addPhoto, photoUploadCompleted} from '../../redux/slices/albumSlice'
+import {useNavigation} from '@react-navigation/native'
+import {Toast} from '../../components/toast/Toast'
+// import convert from '../../utils/webpConverter'
+// import {cpus} from 'os'
 const uploadQueue = new Subject()
 uploadQueue.pipe(concatMap(({data, processor}) => processor(data))).subscribe()
 
-const index = () => {
+const Index = () => {
   const [loading, setLoading] = useState(false)
   const [photos, setPhotos] = useState([])
   const [selectedItems, setSelectedItems] = useState([])
+
+  const navigation = useNavigation()
+  const dispatch = useDispatch()
+  const toast = useToast()
+
+  const {albums, currentAlbum} = useSelector(state => state.album)
 
   useEffect(() => {
     fetchMoreData()
@@ -31,47 +51,46 @@ const index = () => {
 
   const veryIntensiveTask = async taskDataArguments => {
     const {data} = taskDataArguments
+    // dispatch(
+    //   addPhoto({
+    //     albumId: currentAlbum.AlbumId,
+    //     photo: {
+    //       id: data.id,
+    //       original_url: data.url,
+    //       semi_original_url: data.url,
+    //       uploading: true,
+    //     },
+    //   }),
+    // )
     try {
       let formdata = new FormData()
-      const temp = await convert(data.url)
-      console.log('******', temp)
-      return
-      formdata.append('productImage', {
-        uri: data.url,
-        type: 'png',
-        name: data.url ?? data.id,
-      })
-      formdata.append('file_name', 'test.png')
-      formdata.append('album_id', '62c061791fd932dea81b6210')
-      console.log('@@@********', formdata)
-      // const res = await axios({'Content-Type': 'multipart/form-data'}).post(
-      //   '/api/v1/user/register',
-      //   formdata,
-      // )
-      // let res = await fetch(
-      //   'https://inlens-api-primary.azurewebsites.net/api/photo/upload',
-      //   {
-      //     method: 'post',
-      //     body: formdata,
-      //     headers: {
-      //       'Content-Type': 'multipart/form-data; ',
-      //     },
-      //   },
-      // )
-      let responseJson = await res.json()
-      // const res = axios().get('/')
 
-      // dispatch(
-      //   addPhoto({
-      //     id: albumId,
-      //     photo: {
-      //       id: res.data.id,
-      //       photo_semi_quality: res.data.url,
-      //     },
-      //   }),
-      // )
-      console.log('&&&&', res.data)
-      setVisible(false)
+      const newImageUri = 'file:///' + data.url.split('file:/').join('')
+      formdata.append('file', {
+        uri: newImageUri,
+        type: mime.getType(newImageUri),
+        name: newImageUri.split('/').pop(),
+      })
+      formdata.append('album_id', '6353cb5a11d6d6720018512f')
+      // await uploadPhoto(formdata)
+
+      // imitate api call
+      // change date based on api response
+      // setTimeout(() => {
+      //   dispatch(
+      //     photoUploadCompleted({
+      //       albumId: currentAlbum.AlbumId,
+      //       photo: {
+      //         loacalId: data.id,
+      //         id: data.id, // replace this with id from backend
+      //         original_url: data.url,
+      //         semi_original_url: data.url,
+      //         uploading: true,
+      //       },
+      //     }),
+      //   )
+      // }, 3000)
+
       await BackgroundService.stop()
     } catch (err) {
       console.log('***', err)
@@ -112,6 +131,29 @@ const index = () => {
         processor: startUpload.bind(this),
       }),
     )
+    // toast.show({
+    //   render: () => {
+    //     return (
+    //       <Box
+    //         bg="#272727"
+    //         px="5"
+    //         py="5"
+    //         rounded="md"
+    //         mb={5}
+    //         flexDir="row"
+    //         justifyContent="center"
+    //         alignItems="center">
+    //         <Alert.Icon color="#FFCC80" />
+    //         <Text marginLeft={5}>
+    //           Photos will be uploaded background. Check notification for
+    //           progress
+    //         </Text>
+    //       </Box>
+    //     )
+    //   },
+    // })
+    Toast(toast)
+    navigation.pop()
   }
 
   const fetchMoreData = async () => {
@@ -235,7 +277,7 @@ const index = () => {
   )
 }
 
-export default index
+export default Index
 
 const styles = StyleSheet.create({
   fab: {

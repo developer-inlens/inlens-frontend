@@ -15,15 +15,15 @@ const ExternalScrollView = React.forwardRef(({children, ...props}, ref) => {
 
   const [showLabel, setShowLabel] = useState(true)
 
-  const PARTICIPANTS = [{id: 0}, ...(currentAlbum.participants ?? [])]
+  const PARTICIPANTS = [{user_id: 0}, ...(currentAlbum?.participants ?? [])]
 
   const renderAvatar = useCallback(
     ({item}) => (
       <Participant
-        id={item.id}
+        id={item.user_id}
         photo={item.photo}
-        color={currentAlbum.color}
-        name={item.name}
+        color={currentAlbum?.color}
+        name={item.initial}
       />
     ),
     [currentAlbum],
@@ -32,10 +32,10 @@ const ExternalScrollView = React.forwardRef(({children, ...props}, ref) => {
   const renderAlbum = useCallback(
     ({item}) => (
       <AlbumCard
-        name={item.title}
+        name={item.album_title}
         color={item.color}
-        isSelected={item.id === currentAlbum?.id}
-        onPress={() => dispatch(setCurrentAlbum(item))}
+        isSelected={item.AlbumId === currentAlbum?.AlbumId}
+        onPress={() => dispatch(setCurrentAlbum({AlbumId: item.AlbumId}))}
       />
     ),
     [currentAlbum],

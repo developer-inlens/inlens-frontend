@@ -1,11 +1,20 @@
 import React, {useState} from 'react'
-import {Box, Text, HStack, VStack, Input, Heading} from 'native-base'
+import {
+  Box,
+  Text,
+  HStack,
+  VStack,
+  Input,
+  Heading,
+  Alert,
+  useToast,
+} from 'native-base'
 import dayjs from 'dayjs'
 import Button1 from '../button/Index'
 import {colors, margin} from '../../constants/theme'
 import {useSelector, useDispatch} from 'react-redux'
-import {createAlbum} from '../../redux/slices/albumSlice'
-import axios from '../../utils/axios'
+import {createAlbum as newAlbum} from '../../redux/slices/albumSlice'
+import {createAlbum} from '../../redux/actions/album'
 const months = [
   'Jan',
   'Feb',
@@ -28,21 +37,45 @@ const NewAlum = ({setVisible}) => {
   const [loading, setLoading] = useState(false)
 
   const dispatch = useDispatch()
+  const toast = useToast()
 
   const onAlbumCreate = async () => {
     if (name.length === 0) return
     setLoading(true)
-    const res = await axios().post('/album/create', {
+    const {res, err} = await createAlbum({
       album_name: name,
       no_of_days: count,
     })
+    console.log('%%', res, err)
+    if (err) {
+      setVisible(false)
+      return toast.show({
+        render: () => {
+          return (
+            <Box
+              bg="#272727"
+              px="5"
+              py="5"
+              rounded="md"
+              mb={5}
+              flexDir="row"
+              justifyContent="center"
+              alignItems="center">
+              <Alert.Icon color="#FFCC80" />
+              <Text marginLeft={5}>{err}</Text>
+            </Box>
+          )
+        },
+      })
+    }
     dispatch(
-      createAlbum({
-        id: Math.random().toString(),
-        title: name,
+      newAlbum({
+        AlbumId: res.id,
+        album_title: name,
         count,
         color: colors.LIGHT_GREEN,
         photos: [],
+        participants: [],
       }),
     )
     setLoading(false)

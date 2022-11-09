@@ -2,7 +2,7 @@ import React from 'react'
 import {VStack, Text} from 'native-base'
 import Button from '../button/Index'
 import {useNavigation} from '@react-navigation/native'
-const Upload = () => {
+const Upload = ({setVisible}) => {
   const navigation = useNavigation()
   return (
     <VStack>
@@ -10,7 +10,10 @@ const Upload = () => {
         type={4}
         title="Yesterday"
         icon={false}
-        onPress={() => navigation.navigate('PhotoUpload')}
+        onPress={() => {
+          setVisible()
+          navigation.navigate('PhotoUpload')
+        }}
         // loading={loading}
       />
       <Button

@@ -62,7 +62,7 @@ const Album = ({albums, renderAlbum, isLoaded}) => {
       <FlatList
         data={albums}
         renderItem={renderAlbum}
-        keyExtractor={item => item.id.toString()}
+        keyExtractor={item => item.AlbumId.toString()}
         horizontal={true}
         showsHorizontalScrollIndicator={false}
       />

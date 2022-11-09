@@ -4,23 +4,28 @@ import {
   StyleSheet,
   ActivityIndicator,
   TouchableOpacity,
+  Text,
 } from 'react-native'
 import {RecyclerListView, DataProvider} from 'recyclerlistview'
-import {Heading} from 'native-base'
+import {Heading, Spinner} from 'native-base'
 import {DataCall} from './utils/DataCall'
 import {LayoutUtil} from './utils/LayoutUtil'
 import {ImageRenderer} from './ImageRenderer'
-import {fetchMorePhotos, fetchAlbums} from '../../redux/slices/albumSlice'
+import {
+  fetchMorePhotos,
+  fetchAlbums,
+  setAlbums,
+} from '../../redux/slices/albumSlice'
 import {connect} from 'react-redux'
 import PropTypes from 'prop-types'
 import Ext from './ExternalScrollView'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import {colors, margin, size} from '../../constants/theme'
 import BottomModelSheet from '../../components/bottomSheet/BottomSheet'
-import UploadPhoto from '../../components/bottomSheet/PhotoUpload'
+import UploadPhoto from '../../components/bottomSheet/Upload'
 import ExternalScrollView from './ExternalScrollView'
 import axios from '../../utils/axios'
-
+import {getHomeView} from '../../redux/actions/album'
 RecyclerListView.propTypes.externalScrollView = PropTypes.object
 
 class PhotoView extends Component {
@@ -32,8 +37,8 @@ class PhotoView extends Component {
       }),
       layoutProvider: LayoutUtil.getLayoutProvider(1),
       chooseUpload: false,
+      loading: false,
     }
-    this.inProgressNetworkReq = false
   }
   // fetchHomeViewData = async () => {
   //   console.log('SSS')
@@ -51,14 +56,34 @@ class PhotoView extends Component {
   }
 
   async fetchMoreData() {
-    if (!this.inProgressNetworkReq) {
-      this.inProgressNetworkReq = true
-      const images = await DataCall.get(this.props.album.photos.length, 10)
-      this.inProgressNetworkReq = false
-      this.props.fetchMorePhotos({photo: images})
+    if (!this.state.loading) {
+      // this.inProgressNetworkReq = true
+      this.setState({loading: true})
+      // const images = await DataCall.get(this.props.album?.photos?.length, 10)
+      const {data, err} = await getHomeView()
+      if (err) {
+        // Show toast
+        this.setState({loading: false})
+        return
+      }
+      // this.inProgressNetworkReq = false
+      this.props.setAlbums(data.albums)
+      // this.props.fetchMorePhotos({photo: images})
       this.setState({
         dataProvider: this.state.dataProvider.cloneWithRows(
-          this.props.album.photos,
+          this.props.currentAlbum?.photos,
+        ),
+        loading: false,
+      })
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps.currentAlbum.photos !== this.props.currentAlbum.photos) {
+      console.log('Hi')
+      this.setState({
+        dataProvider: this.state.dataProvider.cloneWithRows(
+          this.props.currentAlbum?.photos,
         ),
       })
     }
@@ -69,7 +94,7 @@ class PhotoView extends Component {
       <ImageRenderer
         image={data}
         onTouchPhoto={
-          () => console.log('Photo view')
+          id => this.props.navigation.navigate('PhotoView', {id})
           // Implement this during API integration
           //   this.props.navigation.navigate('PhotoView', {
           //     photoId: data.id,
@@ -81,41 +106,48 @@ class PhotoView extends Component {
     )
   }
 
-  handleListEnd = () => {
-    this.fetchMoreData()
-    this.setState({}) //test this
-  }
+  // handleListEnd = () => {
+  //   this.fetchMoreData()
+  //   this.setState({}) //test this
+  // }
 
   toggleBottomNavigationView = () => {
     this.setState({chooseUpload: !this.state.chooseUpload})
   }
 
-  renderFooter = () => {
-    return this.inProgressNetworkReq ? (
-      <ActivityIndicator style={{margin: 10}} size="large" color={'black'} />
-    ) : (
-      <View style={{height: 60}} />
-    )
-  }
+  // renderFooter = () => {
+  //   return this.state.loading ? (
+  //     <ActivityIndicator style={{margin: 10}} size="large" color={'black'} />
+  //   ) : (
+  //     <View style={{height: 60}} />
+  //   )
+  // }
 
   render() {
     // this.inProgressNetworkReq &&
-    // if (this.props.test.length === 0) {
-    //   return (
-    //     <ActivityIndicator style={{margin: 10}} size="large" color={'black'} />
-    //   )
-    // }
+    if (this.state.loading) {
+      return (
+        <ActivityIndicator style={{margin: 10}} size="large" color={'white'} />
+      )
+    }
+    if (this.props.albums?.length < 1) {
+      return (
+        <View>
+          <Text>Create new album or join in new</Text>
+        </View>
+      )
+    }
     return (
       <View style={styles.container}>
-        {this.props.album.photos.length > 0 ? (
+        {this.props.currentAlbum?.photos?.length > 0 ? (
           <RecyclerListView
             style={{flex: 1}}
             contentContainerStyle={{margin: 3}}
-            onEndReached={this.handleListEnd}
+            // onEndReached={this.handleListEnd}
             dataProvider={this.state.dataProvider}
             layoutProvider={this.state.layoutProvider}
             rowRenderer={this.rowRenderer}
-            renderFooter={this.renderFooter}
+            // renderFooter={this.renderFooter}
             externalScrollView={Ext}
           />
         ) : (
@@ -140,7 +172,7 @@ class PhotoView extends Component {
           Body={UploadPhoto}
           title={'Display Recent Images since...'}
           headerVisible={true}
-          albumId={this.props.album.id}
+          albumId={this.props.currentAlbum?.AlbumId}
         />
       </View>
     )
@@ -149,14 +181,17 @@ class PhotoView extends Component {
 
 const mapStateToProps = ({album}) => {
   return {
-    album: album.currentAlbum,
+    albums: album.album,
+    currentAlbum: album.currentAlbum,
     test: album.albums,
   }
 }
 
-export default connect(mapStateToProps, {fetchMorePhotos, fetchAlbums})(
-  PhotoView,
-)
+export default connect(mapStateToProps, {
+  fetchMorePhotos,
+  fetchAlbums,
+  setAlbums,
+})(PhotoView)
 
 const styles = StyleSheet.create({
   container: {

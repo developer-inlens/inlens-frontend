@@ -6,19 +6,20 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native'
-
+import {Spinner} from 'native-base'
 const isIOS = Platform.OS === 'ios'
 
 export class ImageRenderer extends React.Component {
-  // constructor(props) {
-  //   super(props)
-  state = {
-    selected: false,
+  constructor(props) {
+    super(props)
+    this.state = {
+      loading: true,
+    }
   }
-  // }
   shouldComponentUpdate(newProps) {
     return this.props.image !== newProps.image
   }
+
   // componentWillUpdate() {
   //   //On iOS while recycling till the new image is loaded the old one remains visible. This forcefully hides the old image.
   //   //It is then made visible onLoad
@@ -36,7 +37,6 @@ export class ImageRenderer extends React.Component {
   //   }
   // }
   render() {
-    console.log(this.state.selected)
     return (
       <TouchableOpacity
         style={{
@@ -44,19 +44,20 @@ export class ImageRenderer extends React.Component {
           margin: 3,
           backgroundColor: 'lightgrey',
         }}
-        onPress={() => this.props.onTouchPhoto(this.props.image.id)}
-        onLongPress={() => {
-          // this.props.onLongPress(this.props.image)
-          this.setState(
-            {
-              selected: true,
-            },
-            () => console.log(this.state.selected),
-          )
-        }}>
+        onPress={() => this.props.onTouchPhoto(this.props.image.photo_id)}
+        // onLongPress={() => {
+        //   // this.props.onLongPress(this.props.image)
+        //   this.setState(
+        //     {
+        //       selected: true,
+        //     },
+        //     () => console.log(this.state.selected),
+        //   )
+        // }}
+      >
         <ImageBackground
           source={{
-            uri: `data:image/png;base64,${this.props.image.photo_thumb_base64}`,
+            uri: `data:image/png;base64,${this.props.image.base64}`,
             // cache: 'default',
           }}
           style={{
@@ -72,23 +73,26 @@ export class ImageRenderer extends React.Component {
             }}
             // onLoad={this.handleOnLoad}
             source={{
-              uri: this.props.image.photo_semi_quality ?? this.props.image.url,
+              uri:
+                this.props.image.semi_original_url ??
+                this.props.image.original_url,
             }}
             resizeMode="cover"
           />
         </ImageBackground>
-        {this.state.selected && (
-          <View
+        {/* {this.props.image.uploading && this.state.loading && (
+          <Spinner
+            color="emerald.500"
+            size={50}
             style={{
               position: 'absolute',
               top: 0,
               left: 0,
               width: '100%',
               height: '100%',
-              backgroundColor: 'rgba(255,0,0,0.5)',
             }}
           />
-        )}
+        )} */}
       </TouchableOpacity>
     )
   }

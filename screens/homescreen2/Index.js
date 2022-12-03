@@ -26,6 +26,7 @@ import UploadPhoto from '../../components/bottomSheet/Upload'
 import ExternalScrollView from './ExternalScrollView'
 import axios from '../../utils/axios'
 import {getHomeView} from '../../redux/actions/album'
+
 RecyclerListView.propTypes.externalScrollView = PropTypes.object
 
 class PhotoView extends Component {
@@ -130,13 +131,10 @@ class PhotoView extends Component {
         <ActivityIndicator style={{margin: 10}} size="large" color={'white'} />
       )
     }
-    if (this.props.albums?.length < 1) {
-      return (
-        <View>
-          <Text>Create new album or join in new</Text>
-        </View>
-      )
-    }
+    console.log('!', this.props.albums)
+    // if (this.props.albums?.length < 1) {
+    //   this.props.navigation.replace('Welcome')
+    // }
     return (
       <View style={styles.container}>
         {this.props.currentAlbum?.photos?.length > 0 ? (
@@ -181,7 +179,7 @@ class PhotoView extends Component {
 
 const mapStateToProps = ({album}) => {
   return {
-    albums: album.album,
+    albums: album.albums,
     currentAlbum: album.currentAlbum,
     test: album.albums,
   }

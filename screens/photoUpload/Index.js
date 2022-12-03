@@ -8,6 +8,9 @@ import {
   PermissionsAndroid,
   Image,
   FlatList,
+  SafeAreaView,
+  SectionList,
+  StatusBar,
 } from 'react-native'
 import {
   VStack,
@@ -29,6 +32,7 @@ import {useSelector, useDispatch} from 'react-redux'
 import {addPhoto, photoUploadCompleted} from '../../redux/slices/albumSlice'
 import {useNavigation} from '@react-navigation/native'
 import {Toast} from '../../components/toast/Toast'
+import dayjs from 'dayjs'
 // import convert from '../../utils/webpConverter'
 // import {cpus} from 'os'
 const uploadQueue = new Subject()
@@ -37,6 +41,9 @@ uploadQueue.pipe(concatMap(({data, processor}) => processor(data))).subscribe()
 const Index = () => {
   const [loading, setLoading] = useState(false)
   const [photos, setPhotos] = useState([])
+  const [photoCount, setPhotoCount] = useState(0)
+  const [tempPhotos, setTempPhotos] = useState({})
+  const [final, setFinal] = useState([])
   const [selectedItems, setSelectedItems] = useState([])
 
   const navigation = useNavigation()
@@ -156,7 +163,10 @@ const Index = () => {
     navigation.pop()
   }
 
+  const formatDate = date => dayjs.unix(date).format('MM-DD-YYYY')
+
   const fetchMoreData = async () => {
+    let temp = {}
     if (!loading) {
       setLoading(true)
       const {MediaModule} = NativeModules
@@ -166,18 +176,51 @@ const Index = () => {
           PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
         )
         if (per === 'granted') {
-          MediaModule.createMediaEvent(10, photos.length, async (err, res) => {
+          MediaModule.createMediaEvent(10, photoCount, async (err, res) => {
             if (err) return console.log(err)
+            console.log('###', temp, final.length)
+            temp = {...tempPhotos}
+            console.log('$$$', temp)
+            const tempFinal = []
 
             const data = res.map((item, index) => {
               const res = item.split('~inlens~')
+              const formattedDate = formatDate(res[0])
+              console.log('##', res[0], formattedDate)
+              if (temp[formattedDate]) {
+                temp[formattedDate].push({
+                  id: (index + Math.random()) * res[0],
+                  timestamp: res[0],
+                  url: 'file://' + res[1],
+                })
+              } else {
+                temp[formattedDate] = [
+                  {
+                    id: (index + Math.random()) * res[0],
+                    timestamp: res[0],
+                    url: 'file://' + res[1],
+                  },
+                ]
+              }
+
               return {
                 id: (index + Math.random()) * res[0],
                 timestamp: res[0],
                 url: 'file://' + res[1],
               }
             })
+            // console.log('$$$', temp)
+            for (let key in temp) {
+              tempFinal.push({title: key, data: [{key: key, list: temp[key]}]})
+            }
             setPhotos(phts => [...phts, ...data])
+            setTempPhotos(temp)
+            console.log('&&&', photos.length)
+            setFinal(tempFinal)
+            setPhotoCount(ct => ct + res.length)
+            // console.log('##', JSON.stringify(temp))
+            // console.log('*****', JSON.stringify(tempFinal))
+            // setPhotoCount()
             //   this.setState({photos: [...this.state.photos, ...data]}, () =>
             //     this.setState({
             //       dataProvider: this.state.dataProvider.cloneWithRows(
@@ -248,22 +291,64 @@ const Index = () => {
     )
   }
 
-  return (
-    <VStack>
-      <FlatList
-        // contentContainerStyle={{paddingBottom: 0}}
-        // data={isLoaded ? PHOTOS : skl}
-        // data={photos}
-        numColumns={2}
-        // renderItem={renderPhotos}
+  // return (
+  //   <VStack>
+  //     <FlatList
+  //       // contentContainerStyle={{paddingBottom: 0}}
+  //       // data={isLoaded ? PHOTOS : skl}
+  //       // data={photos}
+  //       numColumns={2}
+  //       // renderItem={renderPhotos}
 
-        data={photos}
+  //       data={photos}
+  //       renderItem={renderItem}
+  //       keyExtractor={item => item.id}
+  //       // extraData={selectedId}
+  //       onEndReached={fetchMoreData}
+  //       // refreshing={refresh}
+  //       // onRefresh={handleRefresh}
+  //     />
+  // <TouchableOpacity onPress={handleUpload} style={styles.fab}>
+  //   <Icon name={'file-upload'} color={colors.BLACK} size={size.ICON_SIZE} />
+  //   {selectedItems.length > 0 && (
+  //     <View style={styles.chip}>
+  //       <Text>{selectedItems.length}</Text>
+  //     </View>
+  //   )}
+  // </TouchableOpacity>
+  //   </VStack>
+  // )
+
+  const Item = ({title}) => {
+    return (
+      <View style={styles.item}>
+        <Text style={styles.title}>{title.timestamp}</Text>
+      </View>
+    )
+  }
+
+  const renderSection = ({item}) => {
+    return (
+      <FlatList
+        data={item.list}
+        numColumns={2}
         renderItem={renderItem}
-        keyExtractor={item => item.id}
-        // extraData={selectedId}
+        keyExtractor={(item, index) => item + index}
+      />
+    )
+  }
+
+  return (
+    // <SafeAreaView style={styles.container}>
+    <VStack style={styles.container}>
+      <SectionList
+        sections={final}
+        keyExtractor={(item, index) => item + index}
+        renderItem={renderSection}
+        renderSectionHeader={({section: {title}}) => {
+          return <Text style={styles.header}>{title}</Text>
+        }}
         onEndReached={fetchMoreData}
-        // refreshing={refresh}
-        // onRefresh={handleRefresh}
       />
       <TouchableOpacity onPress={handleUpload} style={styles.fab}>
         <Icon name={'file-upload'} color={colors.BLACK} size={size.ICON_SIZE} />
@@ -274,12 +359,17 @@ const Index = () => {
         )}
       </TouchableOpacity>
     </VStack>
+    // </SafeAreaView>
   )
 }
 
 export default Index
 
 const styles = StyleSheet.create({
+  container: {
+    // backgroundColor: 'red',
+    height: '100%',
+  },
   fab: {
     borderWidth: 1,
     borderColor: colors.PRIMARY,

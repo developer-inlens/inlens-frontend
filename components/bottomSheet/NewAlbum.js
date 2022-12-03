@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import {
   Box,
   Text,
@@ -9,6 +9,7 @@ import {
   Alert,
   useToast,
 } from 'native-base'
+import {Keyboard} from 'react-native'
 import dayjs from 'dayjs'
 import Button1 from '../button/Index'
 import {colors, margin} from '../../constants/theme'
@@ -42,11 +43,11 @@ const NewAlum = ({setVisible}) => {
   const onAlbumCreate = async () => {
     if (name.length === 0) return
     setLoading(true)
-    const {res, err} = await createAlbum({
+    const {data, err} = await createAlbum({
       album_name: name,
-      no_of_days: count,
+      // no_of_days: count,
     })
-    console.log('%%', res, err)
+    console.log('%%', data, err)
     if (err) {
       setVisible(false)
       return toast.show({
@@ -70,7 +71,7 @@ const NewAlum = ({setVisible}) => {
     }
     dispatch(
       newAlbum({
-        AlbumId: res.id,
+        AlbumId: data.id,
         album_title: name,
         count,
         color: colors.LIGHT_GREEN,
@@ -111,7 +112,7 @@ const NewAlum = ({setVisible}) => {
         defaultValue={name}
         selectTextOnFocus={true}
       />
-      <Text
+      {/* <Text
         fontSize="lg"
         opacity={0.6}
         color={colors.WHITE}
@@ -153,7 +154,7 @@ const NewAlum = ({setVisible}) => {
             uploaded to your album...
           </Text>
         </Box>
-      </HStack>
+      </HStack> */}
       <Box flexDirection="row" width={'full'} justifyContent={'flex-end'}>
         <Button1
           type={4}

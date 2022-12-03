@@ -11,6 +11,7 @@ import Header from './components/header/Header'
 import AuthScreen from './screens/authScreen/EnterPhoneScreen'
 import PhotoView from './screens/imageView/ImageView'
 import PhotoUpload from './screens/photoUpload/Index'
+import Welcome from './screens/welcomScreen/WelcomeScreen'
 
 const Stack = createNativeStackNavigator()
 
@@ -32,7 +33,8 @@ const App = () => {
       <NavigationContainer theme={AppTheme}>
         <NativeBaseProvider>
           <Stack.Navigator>
-            <Stack.Screen name="Auth" component={AuthScreen} />
+            {/* <Stack.Screen name="Auth" component={AuthScreen} /> */}
+
             <Stack.Screen
               name="Home"
               component={HomeScreen}
@@ -46,6 +48,13 @@ const App = () => {
                   padding: 0,
                   margin: 0,
                 },
+              }}
+            />
+            <Stack.Screen
+              name="Welcome"
+              component={Welcome}
+              options={{
+                headerShown: false,
               }}
             />
             <Stack.Screen

@@ -7,14 +7,16 @@ const ImageView = ({route}) => {
   // Need Id of photo along with home view api
   console.log(
     '!!',
-    route.params,
-    currentAlbum.photos,
-    currentAlbum.photos.map(item => item.id).indexOf(route.params.id),
+    route.params.id,
+    // currentAlbum.photos,
+    currentAlbum.photos.map(item => item.photo_id).indexOf(route.params.id),
   )
   return (
     <ImageViewer
-      imageUrls={currentAlbum.photos.map(item => ({url: item.original_url}))}
-      index={0}
+      imageUrls={currentAlbum.photos.map(item => ({url: item.url}))}
+      index={currentAlbum.photos
+        .map(item => item.photo_id)
+        .indexOf(route.params.id)}
     />
   )
 }

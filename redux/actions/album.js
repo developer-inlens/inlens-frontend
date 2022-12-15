@@ -42,3 +42,23 @@ export const uploadPhoto = async data => {
     console.log('@@@', err)
   }
 }
+
+export const getAlbumDetails = async id => {
+  try {
+    const res = await axios().post('/album/details', {
+      album_id: id,
+    })
+    const data = {...res.data}
+    // data.albums[0] = {
+    //   // ...data.albums[0],
+    //   participants: data.participants,
+    //   photos: data.photos ?? [],
+    // }
+    return {data, err: null}
+  } catch (err) {
+    return {
+      data: null,
+      err: err.response?.data?.message ?? 'Something went wrong',
+    }
+  }
+}

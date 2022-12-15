@@ -1,9 +1,10 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import {Box, Heading, Pressable, Text} from 'native-base'
 import {TouchableOpacity} from 'react-native'
 import {colors} from '../../constants/theme'
+import {getAlbumDetails} from '../../redux/actions/album'
 
-const AlbumCard = ({name, color, isSelected, onPress}) => {
+const AlbumCard = ({id, name, color, isSelected, onPress}) => {
   return (
     <TouchableOpacity>
       <Box

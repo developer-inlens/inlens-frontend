@@ -231,7 +231,7 @@ export const albumSlice = createSlice({
       // state.albums[
       //   state.albums.findIndex(item => item.id === action.payload.id)
       // ].photos.unshift(action.payload.photo)
-      console.log('@@@@', action)
+      // console.log('@@@@', action)
       state.currentAlbum.photos.unshift(action.payload.photo)
     },
     photoUploadCompleted: (state, action) => {
@@ -252,8 +252,8 @@ export const albumSlice = createSlice({
       )
       state.currentAlbum = {
         ...album,
-        photos: album.photos ?? [],
-        participants: album.participants ?? [],
+        photos: action.payload.photos ?? [],
+        participants: action.payload.participants ?? [],
       }
     },
     setAlbums: (state, action) => {

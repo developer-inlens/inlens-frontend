@@ -1,6 +1,6 @@
 import React from 'react'
 import {TouchableOpacity, FlatList} from 'react-native'
-import {HStack, Heading, Menu, Box, Skeleton} from 'native-base'
+import {HStack, Heading, Menu, Box, Skeleton, Text} from 'native-base'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import {colors, margin, size} from '../../constants/theme'
 
@@ -13,9 +13,9 @@ const Album = ({albums, renderAlbum, isLoaded}) => {
         alignItems="center"
         mb={margin.MD}>
         {/* <Skeleton.Text lines={1} my={margin.MD} size="sm" isLoaded={isLoaded}> */}
-        <Heading size="sm" color={colors.TITLE}>
+        <Text fontSize="md" color={colors.TITLE}>
           Recent
-        </Heading>
+        </Text>
         {/* </Skeleton.Text> */}
         <Box flexDirection="row" alignItems="center" justifyContent="center">
           <TouchableOpacity style={{marginRight: 10}}>

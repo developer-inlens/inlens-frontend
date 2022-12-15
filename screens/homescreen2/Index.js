@@ -113,7 +113,8 @@ class PhotoView extends Component {
   // }
 
   toggleBottomNavigationView = () => {
-    this.setState({chooseUpload: !this.state.chooseUpload})
+    // this.setState({chooseUpload: !this.state.chooseUpload})
+    this.props.navigation.navigate('PhotoUpload')
   }
 
   // renderFooter = () => {
@@ -131,7 +132,7 @@ class PhotoView extends Component {
         <ActivityIndicator style={{margin: 10}} size="large" color={'white'} />
       )
     }
-    console.log('!', this.props.albums)
+    // console.log('!', this.props.currentAlbum)
     // if (this.props.albums?.length < 1) {
     //   this.props.navigation.replace('Welcome')
     // }
@@ -164,14 +165,14 @@ class PhotoView extends Component {
             Upload
           </Heading>
         </TouchableOpacity>
-        <BottomModelSheet
+        {/* <BottomModelSheet
           visible={this.state.chooseUpload}
           setVisible={this.toggleBottomNavigationView}
           Body={UploadPhoto}
           title={'Display Recent Images since...'}
           headerVisible={true}
           albumId={this.props.currentAlbum?.AlbumId}
-        />
+        /> */}
       </View>
     )
   }

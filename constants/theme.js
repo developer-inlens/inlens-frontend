@@ -3,7 +3,7 @@ export const colors = {
   BACKGROUND: '#121212',
   PRIMARY: '#64B5F6',
   SECONDARY: '#272727',
-  TITLE: '#ffffffde',
+  TITLE: '#BABABA',
   LIGHT_GREEN: '#A5D6A7',
   PINK: '#EF9A9A',
   WHITE: '#fff',

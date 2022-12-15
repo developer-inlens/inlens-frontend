@@ -29,7 +29,6 @@ import {useSelector, useDispatch} from 'react-redux'
 import {addPhoto, photoUploadCompleted} from '../../redux/slices/albumSlice'
 import {useNavigation} from '@react-navigation/native'
 import {Toast} from '../../components/toast/Toast'
-import dayjs from 'dayjs'
 // import convert from '../../utils/webpConverter'
 // import {cpus} from 'os'
 const uploadQueue = new Subject()
@@ -39,7 +38,6 @@ const Index = () => {
   const [loading, setLoading] = useState(false)
   const [photos, setPhotos] = useState([])
   const [selectedItems, setSelectedItems] = useState([])
-  const [dates, setDates] = useState([])
 
   const navigation = useNavigation()
   const dispatch = useDispatch()
@@ -157,7 +155,6 @@ const Index = () => {
     Toast(toast)
     navigation.pop()
   }
-  const formatDate = date => dayjs.unix(date).format('DD-MM-YYYY')
 
   const fetchMoreData = async () => {
     if (!loading) {
@@ -169,55 +166,26 @@ const Index = () => {
           PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
         )
         if (per === 'granted') {
-          MediaModule.createMediaEvent(
-            10,
-            photos.length - dates.length,
-            async (err, res) => {
-              if (err) return console.log(err)
-              console.log('$$', res)
-              const data = []
-              const availbaleDates = []
-              res.forEach((item, index) => {
-                const res = item.split('~inlens~')
-                if (!availbaleDates.includes(formatDate(res[0]))) {
-                  availbaleDates.push(formatDate(res[0]))
-                  data.push(
-                    {
-                      id:
-                        index +
-                        Math.floor(1000 + Math.random() * 9000) +
-                        res[0],
-                      title: formatDate(res[0]),
-                    },
-                    {
-                      id:
-                        index +
-                        Math.floor(1000 + Math.random() * 9000) +
-                        res[0] +
-                        2212,
-                      title: '',
-                    },
-                  )
-                }
-                data.push({
-                  id: index + Math.floor(1000 + Math.random() * 9000),
-                  timestamp: res[0],
-                  url: 'file://' + res[1],
-                })
-              })
-              setPhotos(phts => [...phts, ...data])
-              console.log('*****', dates, availbaleDates)
-              // setDates(dd => [...dd, ...availbaleDates])
+          MediaModule.createMediaEvent(10, photos.length, async (err, res) => {
+            if (err) return console.log(err)
 
-              //   this.setState({photos: [...this.state.photos, ...data]}, () =>
-              //     this.setState({
-              //       dataProvider: this.state.dataProvider.cloneWithRows(
-              //         this.state.photos,
-              //       ),
-              //     }),
-              //   )
-            },
-          )
+            const data = res.map((item, index) => {
+              const res = item.split('~inlens~')
+              return {
+                id: (index + Math.random()) * res[0],
+                timestamp: res[0],
+                url: 'file://' + res[1],
+              }
+            })
+            setPhotos(phts => [...phts, ...data])
+            //   this.setState({photos: [...this.state.photos, ...data]}, () =>
+            //     this.setState({
+            //       dataProvider: this.state.dataProvider.cloneWithRows(
+            //         this.state.photos,
+            //       ),
+            //     }),
+            //   )
+          })
         }
       } catch (err) {
         console.log('err', err)
@@ -238,53 +206,50 @@ const Index = () => {
   }
 
   const renderItem = ({item}) => {
-    if (item.url) {
-      return (
-        <TouchableOpacity
-          onPress={selectedItems.length > 0 ? () => selectItems(item) : null}
-          onLongPress={() => selectItems(item)}
+    return (
+      <TouchableOpacity
+        onPress={selectedItems.length > 0 ? () => selectItems(item) : null}
+        onLongPress={() => selectItems(item)}
+        style={{
+          flex: 1,
+          margin: 3,
+          backgroundColor: 'lightgrey',
+          height: 200,
+          width: 200,
+        }}>
+        <Image
           style={{
             flex: 1,
-            margin: 3,
-            backgroundColor: 'lightgrey',
-            height: 200,
-            width: 200,
-          }}>
-          <Image
+          }}
+          // onLoad={this.handleOnLoad}
+          resizeMode="cover"
+          source={{
+            uri: item.url,
+          }}
+        />
+        {selectedItems.includes(item.id) && (
+          <View
             style={{
-              flex: 1,
-            }}
-            // onLoad={this.handleOnLoad}
-            resizeMode="cover"
-            source={{
-              uri: item.url,
-            }}
-          />
-          {selectedItems.includes(item.id) && (
-            <View
-              style={{
-                position: 'absolute',
-                top: 10,
-                right: 10,
-              }}>
-              <Checkbox
-                isChecked
-                // colorScheme="green"
-                // backgroundColor="#03DAC5"
-                // bgColor="#03DAC5"
-                // color="white"
-                accessibilityLabel={item.id.toString()}
-              />
-            </View>
-          )}
-        </TouchableOpacity>
-      )
-    }
-    return <Text color="red.900">{item.title}</Text>
+              position: 'absolute',
+              top: 10,
+              right: 10,
+            }}>
+            <Checkbox
+              isChecked
+              // colorScheme="green"
+              // backgroundColor="#03DAC5"
+              // bgColor="#03DAC5"
+              // color="white"
+              accessibilityLabel={item.id.toString()}
+            />
+          </View>
+        )}
+      </TouchableOpacity>
+    )
   }
 
   return (
-    <VStack height="100%">
+    <VStack>
       <FlatList
         // contentContainerStyle={{paddingBottom: 0}}
         // data={isLoaded ? PHOTOS : skl}

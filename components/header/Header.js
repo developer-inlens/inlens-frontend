@@ -19,22 +19,23 @@ const Header = ({title}) => {
       alignItems="center"
       width="full"
       direction="row"
-      justifyContent="space-between"
-      paddingRight="4">
+      justifyContent="space-between">
       <Participant photo="https://i.ibb.co/LZhy0xw/1634143707923.jpg" />
       <Heading size="md" color={colors.TITLE}>
         {title}
       </Heading>
       <TouchableOpacity onPress={toggleBottomNavigationView}>
         <Icon
-          name="add-circle-outline"
+          name="add"
           color={colors.PRIMARY}
           size={size.ICON_SIZE}
           style={styles.icon}
         />
       </TouchableOpacity>
       <TouchableOpacity onPress={() => console.log('join')}>
-        <Text style={styles.join}>JOIN</Text>
+        <Text fontSize="lg" color={colors.PRIMARY}>
+          Join
+        </Text>
       </TouchableOpacity>
       <BottomModelSheet
         visible={visible}
@@ -54,6 +55,6 @@ const styles = ScaledSheet.create({
     lineHeight: '24@s',
     fontWeight: '500',
     color: colors.PRIMARY,
-    marginRight: '5@s',
+    // marginRight: '3@s',
   },
 })

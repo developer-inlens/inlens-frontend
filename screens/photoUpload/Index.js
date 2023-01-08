@@ -30,6 +30,7 @@ import {addPhoto, photoUploadCompleted} from '../../redux/slices/albumSlice'
 import {useNavigation} from '@react-navigation/native'
 import {Toast} from '../../components/toast/Toast'
 import dayjs from 'dayjs'
+import uuid from 'react-native-uuid'
 // import convert from '../../utils/webpConverter'
 // import {cpus} from 'os'
 const uploadQueue = new Subject()
@@ -40,6 +41,7 @@ const Index = () => {
   const [photos, setPhotos] = useState([])
   const [selectedItems, setSelectedItems] = useState([])
   const [dates, setDates] = useState([])
+  const [count, setCount] = useState(0)
 
   const navigation = useNavigation()
   const dispatch = useDispatch()
@@ -169,55 +171,56 @@ const Index = () => {
           PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
         )
         if (per === 'granted') {
-          MediaModule.createMediaEvent(
-            10,
-            photos.length - dates.length,
-            async (err, res) => {
-              if (err) return console.log(err)
-              console.log('$$', res)
-              const data = []
-              const availbaleDates = []
-              res.forEach((item, index) => {
-                const res = item.split('~inlens~')
-                if (!availbaleDates.includes(formatDate(res[0]))) {
-                  availbaleDates.push(formatDate(res[0]))
-                  data.push(
-                    {
-                      id:
-                        index +
-                        Math.floor(1000 + Math.random() * 9000) +
-                        res[0],
-                      title: formatDate(res[0]),
-                    },
-                    {
-                      id:
-                        index +
-                        Math.floor(1000 + Math.random() * 9000) +
-                        res[0] +
-                        2212,
-                      title: '',
-                    },
-                  )
-                }
-                data.push({
-                  id: index + Math.floor(1000 + Math.random() * 9000),
-                  timestamp: res[0],
-                  url: 'file://' + res[1],
-                })
-              })
-              setPhotos(phts => [...phts, ...data])
-              console.log('*****', dates, availbaleDates)
-              // setDates(dd => [...dd, ...availbaleDates])
+          MediaModule.createMediaEvent(10, count, async (err, res) => {
+            if (err) return console.log(err)
+            // console.log('$$', res)
+            const data = []
+            const availbaleDates = [...dates]
+            res.forEach((item, index) => {
+              const res = item.split('~inlens~')
+              if (!availbaleDates.includes(formatDate(res[0]))) {
+                availbaleDates.push(formatDate(res[0]))
 
-              //   this.setState({photos: [...this.state.photos, ...data]}, () =>
-              //     this.setState({
-              //       dataProvider: this.state.dataProvider.cloneWithRows(
-              //         this.state.photos,
-              //       ),
-              //     }),
-              //   )
-            },
-          )
+                if (
+                  photos.length > 0 &&
+                  photos[photos.length - 1].index % 2 !== 0
+                ) {
+                  data.push({
+                    id: uuid.v4(),
+                    title: '',
+                  })
+                }
+                data.push(
+                  {
+                    id: uuid.v4(),
+                    title: formatDate(res[0]),
+                  },
+                  {
+                    id: uuid.v4(),
+                    title: '',
+                  },
+                )
+              }
+              data.push({
+                id: uuid.v4(),
+                timestamp: res[0],
+                url: 'file://' + res[1],
+                index: index + count,
+              })
+            })
+            setPhotos(phts => [...phts, ...data])
+            setCount(ct => ct + res.length)
+            // console.log('*****', dates, availbaleDates)
+            setDates(dd => [...new Set([...dd, ...availbaleDates])])
+
+            //   this.setState({photos: [...this.state.photos, ...data]}, () =>
+            //     this.setState({
+            //       dataProvider: this.state.dataProvider.cloneWithRows(
+            //         this.state.photos,
+            //       ),
+            //     }),
+            //   )
+          })
         }
       } catch (err) {
         console.log('err', err)
@@ -280,7 +283,16 @@ const Index = () => {
         </TouchableOpacity>
       )
     }
-    return <Text color="red.900">{item.title}</Text>
+    return (
+      <Text
+        pl={5}
+        py={4}
+        color={colors.WHITE_PRIMARY}
+        bold={true}
+        style={{flex: 1}}>
+        {item.title}
+      </Text>
+    )
   }
 
   return (
@@ -296,6 +308,7 @@ const Index = () => {
         renderItem={renderItem}
         keyExtractor={item => item.id}
         // extraData={selectedId}
+        onEndReachedThreshold={0.5}
         onEndReached={fetchMoreData}
         // refreshing={refresh}
         // onRefresh={handleRefresh}

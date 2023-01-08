@@ -25,7 +25,7 @@ import BottomModelSheet from '../../components/bottomSheet/BottomSheet'
 import UploadPhoto from '../../components/bottomSheet/Upload'
 import ExternalScrollView from './ExternalScrollView'
 import axios from '../../utils/axios'
-import {getHomeView} from '../../redux/actions/album'
+import {getHomeView, getPhotos} from '../../redux/actions/album'
 
 RecyclerListView.propTypes.externalScrollView = PropTypes.object
 
@@ -39,6 +39,7 @@ class PhotoView extends Component {
       layoutProvider: LayoutUtil.getLayoutProvider(1),
       chooseUpload: false,
       loading: false,
+      loadMore: false,
     }
   }
   // fetchHomeViewData = async () => {
@@ -107,23 +108,38 @@ class PhotoView extends Component {
     )
   }
 
-  // handleListEnd = () => {
-  //   this.fetchMoreData()
-  //   this.setState({}) //test this
-  // }
+  handleListEnd = async () => {
+    this.setState({loadMore: true})
+    console.log('***loadmore', this.state.loadMore)
+    const {data, err} = await getPhotos(
+      this.props.currentAlbum?.AlbumId,
+      parseInt(this.props.currentAlbum?.photos.length / 7),
+    )
+    if (err) {
+      // Show toast
+      this.setState({loadMore: false})
+      return
+    }
+    if (data?.length > 0) {
+      this.props.fetchMorePhotos({photo: data})
+    }
+    this.setState({loadMore: false})
+
+    //this.setState({}) //test this
+  }
 
   toggleBottomNavigationView = () => {
     // this.setState({chooseUpload: !this.state.chooseUpload})
     this.props.navigation.navigate('PhotoUpload')
   }
 
-  // renderFooter = () => {
-  //   return this.state.loading ? (
-  //     <ActivityIndicator style={{margin: 10}} size="large" color={'black'} />
-  //   ) : (
-  //     <View style={{height: 60}} />
-  //   )
-  // }
+  renderFooter = () => {
+    return this.state.loadMore ? (
+      <ActivityIndicator style={{margin: 10}} size="large" color={'black'} />
+    ) : (
+      <View style={{height: 60}} />
+    )
+  }
 
   render() {
     // this.inProgressNetworkReq &&
@@ -142,11 +158,11 @@ class PhotoView extends Component {
           <RecyclerListView
             style={{flex: 1}}
             contentContainerStyle={{margin: 3}}
-            // onEndReached={this.handleListEnd}
+            onEndReached={this.handleListEnd}
             dataProvider={this.state.dataProvider}
             layoutProvider={this.state.layoutProvider}
             rowRenderer={this.rowRenderer}
-            // renderFooter={this.renderFooter}
+            renderFooter={this.renderFooter}
             externalScrollView={Ext}
           />
         ) : (

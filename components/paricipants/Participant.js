@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react'
 import {TouchableOpacity} from 'react-native'
-import {Pressable, Text, Avatar, Box, Popover, Button} from 'native-base'
+import {Pressable, Text, Avatar, Box, Button, Popover} from 'native-base'
 import {colors} from '../../constants/theme'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 
@@ -54,6 +54,7 @@ const Participant = ({id, photo, name, color, onPress}) => {
             <TouchableOpacity onPress={openPopover}>
               <Avatar size="sm" bg={colors.SECONDARY} position="relative">
                 <Popover
+                  // placement="top"
                   trigger={triggerProps => {
                     return (
                       <TouchableOpacity {...triggerProps} onPress={openPopover}>
@@ -65,8 +66,8 @@ const Participant = ({id, photo, name, color, onPress}) => {
                   }}
                   isOpen={isOpen}
                   onClose={closePopover}>
-                  <Popover.Content borderColor={color} borderWidth={0}>
-                    <Popover.Arrow borderColor={color} color={color} />
+                  <Popover.Content borderColor={color} borderWidth={0} top={10}>
+                    {/* <Popover.Arrow borderColor={color} color={color} /> */}
                     <Popover.Body backgroundColor={color} color="white">
                       {name}
                     </Popover.Body>

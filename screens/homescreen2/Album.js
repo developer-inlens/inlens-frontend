@@ -3,8 +3,32 @@ import {TouchableOpacity, FlatList} from 'react-native'
 import {HStack, Heading, Menu, Box, Skeleton, Text} from 'native-base'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import {colors, margin, size} from '../../constants/theme'
+import {setAlbums} from '../../redux/slices/albumSlice'
+import {getHomeView} from '../../redux/actions/album'
+import {useDispatch} from 'react-redux'
 
 const Album = ({albums, renderAlbum, isLoaded}) => {
+  const dispatch = useDispatch()
+
+  const fetchMoreData = async () => {
+    console.log('####callig')
+    if (albums.length % 7 !== 0) {
+      return
+    }
+    const {data, err} = await getHomeView(albums.length / 7)
+    if (err) {
+      // Show toast
+      // this.setState({loading: false})
+      console.log('&&&&err', err)
+      return
+    }
+    console.log('******', data)
+    // this.inProgressNetworkReq = false
+    if (data.albums) {
+      dispatch(setAlbums(data.albums))
+    }
+  }
+
   return (
     <>
       <HStack
@@ -65,6 +89,8 @@ const Album = ({albums, renderAlbum, isLoaded}) => {
         keyExtractor={item => item.AlbumId.toString()}
         horizontal={true}
         showsHorizontalScrollIndicator={false}
+        onEndReachedThreshold={0.5}
+        onEndReached={fetchMoreData}
       />
       {/* </Skeleton> */}
     </>

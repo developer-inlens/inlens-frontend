@@ -18,7 +18,7 @@ const PhotoUpload = ({setVisible, albumId}) => {
   const dispatch = useDispatch()
 
   const {MediaModule} = NativeModules
-  console.log('@@@', MediaModule)
+  // console.log('@@@', MediaModule)
   // MediaModule.createMediaEvent(res => console.log(res))
   const test = async () => {
     try {
@@ -61,7 +61,7 @@ const PhotoUpload = ({setVisible, albumId}) => {
       })
       // formdata.append('file_name', 'test.png')
       // formdata.append('album_id', '62c061791fd932dea81b6210')
-      console.log('@@@', JSON.stringify(formdata))
+      // console.log('@@@', JSON.stringify(formdata))
       try {
         let res = await fetch(
           'https://inlens-api-primary.azurewebsites.net/api/photo/upload',

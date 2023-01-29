@@ -64,9 +64,7 @@ const ExternalScrollView = React.forwardRef(({children, ...props}, ref) => {
         },
       })
     }
-    console.log('@@@@@@@######', data)
     setLoading(false)
-
     dispatch(
       setCurrentAlbum({
         AlbumId: id,

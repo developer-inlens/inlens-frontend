@@ -16,7 +16,7 @@ const Participant = ({id, photo, name, color, onPress}) => {
       // setIsOpen(false)
     }, 2000)
   }, [isOpen])
-  console.log('@@@', name)
+  // console.log('@@@', name)
   return (
     <Pressable mr="2" onPress={onPress}>
       {photo && photo.length > 0 ? (

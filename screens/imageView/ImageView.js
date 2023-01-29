@@ -9,7 +9,9 @@ const ImageView = ({route}) => {
     '!!',
     route.params.id,
     // currentAlbum.photos,
-    currentAlbum.photos.map(item => item.photo_id).indexOf(route.params.id),
+    currentAlbum.photos.filter(t => t.photo_id === route.params.id),
+    // .map(item => item.photo_id)
+    // .indexOf(route.params.id),
   )
   return (
     <ImageViewer

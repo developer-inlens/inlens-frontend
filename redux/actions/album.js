@@ -11,10 +11,10 @@ export const createAlbum = async data => {
     }
   }
 }
-export const getHomeView = async () => {
+export const getHomeView = async (page = 0) => {
   try {
     const res = await axios().post('/album/home-view', {
-      skip: 0,
+      skip: page,
       type: 0,
     })
     const data = {...res.data}
@@ -55,6 +55,24 @@ export const getAlbumDetails = async id => {
     //   photos: data.photos ?? [],
     // }
     return {data, err: null}
+  } catch (err) {
+    return {
+      data: null,
+      err: err.response?.data?.message ?? 'Something went wrong',
+    }
+  }
+}
+
+export const getPhotos = async (album_id, page = 0) => {
+  console.log('&&&', page)
+  try {
+    const res = await axios().post('/photo/home-view', {
+      album_id,
+      skip: page,
+    })
+    // const data = {...res.data}
+    console.log('^^^^^^', res.data)
+    return {data: res.data, err: null}
   } catch (err) {
     return {
       data: null,

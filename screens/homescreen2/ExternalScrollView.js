@@ -1,5 +1,13 @@
 import React, {useCallback, useState} from 'react'
-import {Stack, Box, Alert, useToast, ScrollView, Text} from 'native-base'
+import {
+  Stack,
+  Box,
+  Alert,
+  useToast,
+  ScrollView,
+  Text,
+  Spinner,
+} from 'native-base'
 import {useSelector, useDispatch} from 'react-redux'
 import {colors, margin} from '../../constants/theme'
 import AlbumCard from '../../components/albumCard/AlbumCard'
@@ -38,6 +46,8 @@ const ExternalScrollView = React.forwardRef(({children, ...props}, ref) => {
     // dispatch(
     //   setCurrentAlbum({
     //     AlbumId: id,
+    //     participants: [],
+    //     photos: [],
     //   }),
     // )
     const {data, err} = await getAlbumDetails(id)
@@ -102,7 +112,11 @@ const ExternalScrollView = React.forwardRef(({children, ...props}, ref) => {
           Photos
         </Text>
       </Stack>
-      {loading ? <Text color="white">Loading</Text> : children}
+      {loading ? (
+        <Spinner color={currentAlbum?.color || 'emerald.500'} />
+      ) : (
+        children
+      )}
     </ScrollView>
   )
 })

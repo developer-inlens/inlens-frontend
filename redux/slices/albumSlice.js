@@ -257,9 +257,11 @@ export const albumSlice = createSlice({
       }
     },
     setAlbums: (state, action) => {
-      console.log('*&&&', action.payload)
+      console.log('*&&&', action.payload, state.currentAlbum)
       state.albums.push(...action.payload)
-      state.currentAlbum = action.payload[0]
+      if (Object.keys(state.currentAlbum).length === 0) {
+        state.currentAlbum = action.payload[0]
+      }
     },
     fetchMorePhotos: (state, action) => {
       state.currentAlbum.photos.push(...action.payload.photo)

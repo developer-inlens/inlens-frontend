@@ -41,7 +41,7 @@ const Index = () => {
   const [photos, setPhotos] = useState([])
   const [selectedItems, setSelectedItems] = useState([])
   const [dates, setDates] = useState([])
-  const [count, setCount] = useState(0)
+  const [count, setCount] = useState({dummy: 0, photos: 0})
 
   const navigation = useNavigation()
   const dispatch = useDispatch()
@@ -171,25 +171,30 @@ const Index = () => {
           PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
         )
         if (per === 'granted') {
-          MediaModule.createMediaEvent(10, count, async (err, res) => {
+          MediaModule.createMediaEvent(9, count.photos, async (err, res) => {
             if (err) return console.log(err)
             // console.log('$$', res)
             const data = []
             const availbaleDates = [...dates]
+            let blank = 0
             res.forEach((item, index) => {
               const res = item.split('~inlens~')
               if (!availbaleDates.includes(formatDate(res[0]))) {
                 availbaleDates.push(formatDate(res[0]))
-
-                if (
-                  photos.length > 0 &&
-                  photos[photos.length - 1].index % 2 !== 0
-                ) {
+                if (count.photos > 0 && (data.length - count.dummy) % 2 !== 0) {
                   data.push({
                     id: uuid.v4(),
                     title: '',
                   })
+                  blank += 1
                 }
+
+                // if (
+                //   photos.length > 0 &&
+                //   photos[photos.length - 1].index % 2 !== 0
+                // ) {
+
+                // }
                 data.push(
                   {
                     id: uuid.v4(),
@@ -200,16 +205,20 @@ const Index = () => {
                     title: '',
                   },
                 )
+                blank += 2
               }
               data.push({
                 id: uuid.v4(),
                 timestamp: res[0],
                 url: 'file://' + res[1],
-                index: index + count,
+                // index: index + count,
               })
             })
             setPhotos(phts => [...phts, ...data])
-            setCount(ct => ct + res.length)
+            setCount(ct => ({
+              photos: ct.photos + res.length,
+              dummy: ct.dummy + blank,
+            }))
             // console.log('*****', dates, availbaleDates)
             setDates(dd => [...new Set([...dd, ...availbaleDates])])
 

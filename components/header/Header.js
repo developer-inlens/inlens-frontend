@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
-import {TouchableOpacity} from 'react-native'
-import {Heading, Text, HStack} from 'native-base'
+import {TouchableOpacity, View} from 'react-native'
+import {Heading, Text, HStack, Box} from 'native-base'
 import {colors, size} from '../../constants/theme'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import BottomModelSheet from '../bottomSheet/BottomSheet'
@@ -16,27 +16,36 @@ const Header = ({title}) => {
 
   return (
     <HStack
+      width="100%"
+      justifyContent="space-between"
       alignItems="center"
-      width="full"
-      direction="row"
-      justifyContent="space-between">
-      <Participant photo="https://i.ibb.co/LZhy0xw/1634143707923.jpg" />
+      position="relative"
+      paddingRight="100">
+      <Participant photo="https://images.unsplash.com/photo-1591154669695-5f2a8d20c089?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80" />
       <Heading size="md" color={colors.TITLE}>
         {title}
       </Heading>
-      <TouchableOpacity onPress={toggleBottomNavigationView}>
-        <Icon
-          name="add"
-          color={colors.PRIMARY}
-          size={size.ICON_SIZE}
-          style={styles.icon}
-        />
-      </TouchableOpacity>
-      <TouchableOpacity onPress={() => console.log('join')}>
-        <Text fontSize="lg" color={colors.PRIMARY}>
-          Join
-        </Text>
-      </TouchableOpacity>
+      <Box
+        flexDirection="row"
+        alignItems="center"
+        position="absolute"
+        right="8">
+        <TouchableOpacity
+          onPress={toggleBottomNavigationView}
+          style={styles.add}>
+          <Icon
+            name="add"
+            color={colors.PRIMARY}
+            size={size.ICON_SIZE}
+            style={styles.icon}
+          />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => console.log('join')}>
+          <Text fontSize="lg" color={colors.PRIMARY}>
+            Join
+          </Text>
+        </TouchableOpacity>
+      </Box>
       <BottomModelSheet
         visible={visible}
         setVisible={toggleBottomNavigationView}
@@ -56,5 +65,11 @@ const styles = ScaledSheet.create({
     fontWeight: '500',
     color: colors.PRIMARY,
     // marginRight: '3@s',
+  },
+  add: {
+    marginRight: '16@s',
+  },
+  header: {
+    flexDirection: 'row',
   },
 })

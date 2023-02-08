@@ -1,14 +1,14 @@
 // COLOR
 export const colors = {
   BACKGROUND: '#121212',
-  PRIMARY: '#64B5F6',
+  PRIMARY: '#90caf9',
   SECONDARY: '#272727',
   TITLE: '#BABABA',
   LIGHT_GREEN: '#A5D6A7',
   PINK: '#EF9A9A',
   WHITE: '#fff',
   WHITE_PRIMARY: '#FAFAFA',
-  BLACK: '#000',
+  BLACK: '#121212',
 }
 
 // FONT SIZE

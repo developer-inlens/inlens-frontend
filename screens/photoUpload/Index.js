@@ -13,11 +13,12 @@ import {
   VStack,
   Text,
   Box,
-  Checkbox,
+  // Checkbox,
   useToast,
   Heading,
   Alert,
 } from 'native-base'
+import CheckBox from '@react-native-community/checkbox'
 import {colors, margin, size} from '../../constants/theme'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import {concatMap, Subject} from 'rxjs'
@@ -159,7 +160,20 @@ const Index = () => {
     Toast(toast)
     navigation.pop()
   }
-  const formatDate = date => dayjs.unix(date).format('DD-MM-YYYY')
+  const formatDate = date => {
+    if (
+      dayjs().format('DD-MM-YYYY') === dayjs.unix(date).format('DD-MM-YYYY')
+    ) {
+      return 'Today'
+    }
+    if (
+      dayjs().subtract(1, 'day').format('DD-MM-YYYY') ===
+      dayjs.unix(date).format('DD-MM-YYYY')
+    ) {
+      return 'Yesterday'
+    }
+    return dayjs.unix(date).format('DD-MM-YYYY')
+  }
 
   const fetchMoreData = async () => {
     if (!loading) {
@@ -171,7 +185,7 @@ const Index = () => {
           PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
         )
         if (per === 'granted') {
-          MediaModule.createMediaEvent(9, count.photos, async (err, res) => {
+          MediaModule.createMediaEvent(29, count.photos, async (err, res) => {
             if (err) return console.log(err)
             // console.log('$$', res)
             const data = []
@@ -202,7 +216,7 @@ const Index = () => {
                   },
                   {
                     id: uuid.v4(),
-                    title: '',
+                    title: '0',
                   },
                 )
                 blank += 2
@@ -239,10 +253,12 @@ const Index = () => {
   }
 
   const selectItems = item => {
+    console.log('###', selectedItems.length, item.id)
     if (selectedItems.includes(item.id)) {
       const newListItems = selectedItems.filter(
         listItem => listItem !== item.id,
       )
+      console.log('$$', newListItems.length)
       return setSelectedItems([...newListItems])
     }
     setSelectedItems(items => [...items, item.id])
@@ -253,8 +269,11 @@ const Index = () => {
     if (item.url) {
       return (
         <TouchableOpacity
-          onPress={selectedItems.length > 0 ? () => selectItems(item) : null}
-          onLongPress={() => selectItems(item)}
+          onPress={() => {
+            console.log('*8*******')
+            selectItems(item)
+          }}
+          // onLongPress={() => selectItems(item)}
           style={{
             flex: 1,
             margin: 3,
@@ -279,33 +298,45 @@ const Index = () => {
                 top: 10,
                 right: 10,
               }}>
-              <Checkbox
-                isChecked
-                // colorScheme="green"
-                // backgroundColor="#03DAC5"
-                // bgColor="#03DAC5"
-                // color="white"
-                accessibilityLabel={item.id.toString()}
+              <CheckBox
+                disabled={false}
+                value={true}
+                onValueChange={newValue => selectItems(item)}
               />
             </View>
           )}
         </TouchableOpacity>
       )
     }
-    return (
-      <Text
-        pl={5}
-        py={4}
-        color={colors.WHITE_PRIMARY}
-        bold={true}
-        style={{flex: 1}}>
+    return item.title.length > 0 || item.title === '0' ? (
+      <Box backgroundColor="#272727" width="full" flex={1}>
+        <Text pl={5} py={4} color={colors.WHITE_PRIMARY} bold={true}>
+          {item.title !== '0' && item.title}
+        </Text>
+      </Box>
+    ) : (
+      <Text pl={5} py={4} color={colors.WHITE_PRIMARY} bold={true} flex={1}>
         {item.title}
       </Text>
     )
   }
 
+  const unselectAll = () => setSelectedItems([])
+
   return (
     <VStack height="100%">
+      {selectedItems.length > 0 && (
+        <Box
+          justifyContent="flex-end"
+          alignItems="center"
+          flexDirection="row"
+          pr={10}
+          py={2}>
+          <TouchableOpacity onPress={unselectAll}>
+            <Text>Unselect All</Text>
+          </TouchableOpacity>
+        </Box>
+      )}
       <FlatList
         // contentContainerStyle={{paddingBottom: 0}}
         // data={isLoaded ? PHOTOS : skl}
@@ -322,14 +353,20 @@ const Index = () => {
         // refreshing={refresh}
         // onRefresh={handleRefresh}
       />
-      <TouchableOpacity onPress={handleUpload} style={styles.fab}>
-        <Icon name={'file-upload'} color={colors.BLACK} size={size.ICON_SIZE} />
-        {selectedItems.length > 0 && (
-          <View style={styles.chip}>
-            <Text>{selectedItems.length}</Text>
-          </View>
-        )}
-      </TouchableOpacity>
+      {selectedItems.length > 0 && (
+        <TouchableOpacity onPress={handleUpload} style={styles.fab}>
+          <Icon
+            name={'file-upload'}
+            color={colors.BLACK}
+            size={size.ICON_SIZE}
+          />
+          {selectedItems.length > 0 && (
+            <View style={styles.chip}>
+              <Text>{selectedItems.length}</Text>
+            </View>
+          )}
+        </TouchableOpacity>
+      )}
     </VStack>
   )
 }
@@ -354,7 +391,7 @@ const styles = StyleSheet.create({
     // position: 'relative',
   },
   chip: {
-    backgroundColor: '#EF9A9A',
+    backgroundColor: '#FF6060',
     height: 25,
     width: 25,
     alignItems: 'center',

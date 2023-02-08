@@ -17,6 +17,8 @@ target 'Inlens' do
 
   pod 'RNFS', :path => '../node_modules/react-native-fs'
 
+  pod 'RNCCheckbox', :path => '../node_modules/@react-native-community/checkbox'
+
   target 'InlensTests' do
     inherit! :complete
     # Pods for testing
